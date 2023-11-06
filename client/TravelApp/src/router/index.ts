@@ -1,39 +1,46 @@
-import { createRouter, createWebHistory } from '@ionic/vue-router';
-import { RouteRecordRaw } from 'vue-router';
-import TabsPage from '../views/TabsPage.vue'
+import { createRouter, createWebHistory } from "@ionic/vue-router";
+import { RouteRecordRaw } from "vue-router";
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '/',
-    redirect: '/tabs/tab1'
+    path: "/",
+    redirect: "/login",
   },
   {
-    path: '/tabs/',
-    component: TabsPage,
+    path: "/",
+    component: () => import("@/views/TabsPage.vue"),
     children: [
       {
-        path: '',
-        redirect: '/tabs/tab1'
+        path: "login",
+        component: () => import("@/views/LoginPage.vue"),
       },
       {
-        path: 'tab1',
-        component: () => import('@/views/Tab1Page.vue')
+        path: "map",
+        component: () => import("@/views/MapPage.vue"),
       },
       {
-        path: 'tab2',
-        component: () => import('@/views/Tab2Page.vue')
+        path: "country",
+        component: () => import("@/views/CountryPage.vue"),
       },
       {
-        path: 'tab3',
-        component: () => import('@/views/Tab3Page.vue')
-      }
-    ]
-  }
-]
+        path: "wishlist",
+        component: () => import("@/views/WishlistPage.vue"),
+      },
+      {
+        path: "profile",
+        component: () => import("@/views/ProfilePage.vue"),
+      },
+      {
+        path: "myGallery",
+        component: () => import("@/views/MyGalleryPage.vue"),
+      },
+    ],
+  },
+];
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;
