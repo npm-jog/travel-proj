@@ -15,6 +15,8 @@ const reviewSchema = new Schema(
     },
     pictures: [String],
     country: { type: String, required: true },
+    reported_count: { type: Number, default: 0 },
+    user_interactions: [{ username: String, reported: { type: Boolean, default: false } }],
   },
   { minimize: false }
 );

@@ -12,7 +12,7 @@ const questionSchema = new Schema(
     country: { type: String, required: true },
     created_at: { type: Date, default: Date.now },
     reported_count: { type: Number, default: 0 },
-    user_interactions: [{ username: String, vote: Number, reported: Boolean }],
+    user_interactions: [{ username: String, vote: { type: Number, default: 0 }, reported: { type: Boolean, default: false } }],
   },
   { minimize: false }
 );
