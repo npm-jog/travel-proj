@@ -1,7 +1,7 @@
 <template>
-  <ion-header content-id="main-content">
+  <ion-header>
     <ion-toolbar>
-      <ion-buttons slot="start">
+      <ion-buttons slot="start" @click="logger('Button works')">
         <ion-menu-button></ion-menu-button>
       </ion-buttons>
       <ion-title>Menu</ion-title>
@@ -18,6 +18,10 @@ import {
   IonToolbar,
 } from "@ionic/vue";
 
+function logger(msg: string): void {
+  console.log(msg);
+}
+
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -28,6 +32,7 @@ export default defineComponent({
     IonTitle,
     IonToolbar,
   },
+  methods: { logger },
 });
 </script>
 

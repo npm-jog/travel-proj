@@ -1,9 +1,9 @@
 <template>
-  <side-menu />
-  <Ion-page>
+  <ion-page>
+    <side-menu />
     <nav-bar />
-    <ion-content :fullscreen="true">Map</ion-content>
-  </Ion-page>
+    <ion-content :fullscreen="true" id="main-content">Map</ion-content>
+  </ion-page>
 </template>
 
 <script setup lang="ts">

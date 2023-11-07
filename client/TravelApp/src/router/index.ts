@@ -1,5 +1,9 @@
 import { createRouter, createWebHistory } from "@ionic/vue-router";
 import { RouteRecordRaw } from "vue-router";
+import MapPage from "@/views/MapPage.vue";
+import CountryPage from "@/views/CountryPage.vue";
+import WishList from "@/views/WishlistPage.vue";
+import TabsPage from "@/views/TabsPage.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -8,7 +12,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/",
-    component: () => import("@/views/TabsPage.vue"),
+    component: TabsPage,
     children: [
       {
         path: "login",
@@ -16,15 +20,15 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: "map",
-        component: () => import("@/views/MapPage.vue"),
+        component: MapPage,
       },
       {
         path: "country",
-        component: () => import("@/views/CountryPage.vue"),
+        component: CountryPage,
       },
       {
         path: "wishlist",
-        component: () => import("@/views/WishlistPage.vue"),
+        component: WishList,
       },
       {
         path: "profile",

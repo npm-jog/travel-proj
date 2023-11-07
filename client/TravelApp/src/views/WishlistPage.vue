@@ -1,19 +1,11 @@
 <template>
   <ion-page>
-    <nav-bar></nav-bar>
-    <ion-content> Wishlist </ion-content>
+    <side-menu />
+    <nav-bar />
+    <ion-content :fullscreen="true" id="main-content">Wishlist</ion-content>
   </ion-page>
 </template>
 
 <script setup lang="ts">
-import {
-  IonPage,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonContent,
-  IonButtons,
-  IonMenuButton,
-} from "@ionic/vue";
-import NavBar from "@/components/NavBar.vue";
+import { IonPage, IonContent } from "@ionic/vue";
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <ion-menu content-id="main-content">
+  <ion-menu content-id="main-content" side="start">
     <ion-header>
       <ion-toolbar>
         <ion-title>Menu Content</ion-title>
