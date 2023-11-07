@@ -7,19 +7,22 @@ import seed from "./../../../Database/db/seed/seed";
 import testData from "./../../../Database/db/data/test-data";
 import mongoose from "mongoose";
 
-/*beforeAll(() => connectDB());
+beforeAll(() => connectDB());
 beforeEach(() => seed(testData));
 afterAll(() => {
   mongoose.disconnect();
   console.log("MongoDB disconnected successfully");
-});*/
+});
 //JAVASCRIPT
 
 describe("GET user", () => {
   test("returns status 200", () => {
-    return request(app).get("/users/1").expect(200).then(x => {
-        console.log('kkkkkkkkkk')
-    })
+    return request(app)
+      .get("/users/1")
+      .expect(200)
+      .then((x) => {
+        console.log("kkkkkkkkkk");
+      });
   });
   /*test("returns status 400", () => {
     return request(app).get("/users/9999").expect(400);

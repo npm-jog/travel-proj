@@ -18,6 +18,7 @@ function fetchUserById() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const user = yield user_1.default.findById("654a18a6ced4e391e30cbb0b");
+            console.log(user);
             return user;
         }
         catch (err) {
