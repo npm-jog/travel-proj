@@ -1,5 +1,5 @@
 import express, { Application } from "express";
-import { usersRouter, wishlistRouter } from "./routes";
+import { usersRouter, wishlistRouter, reviewsRouter } from "./routes";
 import dotenv from "dotenv";
 import handleErrors from "./error.controllers.ts/errors";
 
@@ -10,6 +10,8 @@ const app: Application = express();
 app.use("/api/users", usersRouter);
 
 app.use("/api/wishlist", wishlistRouter);
+
+app.use("/reviews", reviewsRouter);
 
 app.use(handleErrors);
 
