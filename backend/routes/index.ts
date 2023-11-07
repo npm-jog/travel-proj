@@ -1,3 +1,4 @@
-import usersRouter from './usersRouter';
+import usersRouter from "./usersRouter";
+import wishlistRouter from "./wishlistRouter";
 
-export {usersRouter};
+export { usersRouter, wishlistRouter };
