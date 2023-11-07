@@ -1,10 +1,6 @@
 <template>
   <ion-page>
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Travel App</ion-title>
-      </ion-toolbar>
-    </ion-header>
+    <NavBar />
     <ion-content :fullscreen="true">CountryPage</ion-content>
   </ion-page>
 </template>
@@ -16,5 +12,8 @@ import {
   IonToolbar,
   IonTitle,
   IonContent,
+  IonButtons,
+  IonMenuButton,
 } from "@ionic/vue";
+import NavBar from "@/components/NavBar.vue";
 </script>

@@ -1,20 +1,11 @@
 <template>
-  <ion-page>
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Travel App</ion-title>
-      </ion-toolbar>
-    </ion-header>
+  <side-menu />
+  <Ion-page>
+    <nav-bar />
     <ion-content :fullscreen="true">Map</ion-content>
-  </ion-page>
+  </Ion-page>
 </template>
 
 <script setup lang="ts">
-import {
-  IonPage,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonContent,
-} from "@ionic/vue";
+import { IonPage, IonContent } from "@ionic/vue";
 </script>

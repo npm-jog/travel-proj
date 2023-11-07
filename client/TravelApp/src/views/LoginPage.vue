@@ -5,7 +5,7 @@
         <ion-title>Travel App</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content :fullscreen="true">Log in Page </ion-content>
+    <ion-content class="ion-padding">Log in Page </ion-content>
   </ion-page>
 </template>
 
