@@ -13,8 +13,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const dotenv_1 = __importDefault(require("dotenv"));
 const routes_1 = require("./routes");
+const dotenv_1 = __importDefault(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const errors_1 = __importDefault(require("./error.controllers.ts/errors"));
@@ -38,5 +38,6 @@ app.get("/test", (req, res) => {
     res.status(200).send({ test: "test" });
 });
 app.use("/users", routes_1.usersRouter);
+app.use("/reviews", routes_1.reviewsRouter);
 app.use(errors_1.default);
 exports.default = app;

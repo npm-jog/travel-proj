@@ -1,3 +1,4 @@
-import usersRouter from './usersRouter';
+import usersRouter from "./usersRouter";
+import reviewsRouter from "./reviewsRouter";
 
-export {usersRouter};
+export { usersRouter, reviewsRouter };

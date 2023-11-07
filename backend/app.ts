@@ -1,6 +1,6 @@
 import express, { Express, Request, Response } from "express";
+import { usersRouter, reviewsRouter } from "./routes";
 import dotenv from "dotenv";
-import { usersRouter } from "./routes";
 import cors from "cors";
 import mongoose from "mongoose";
 import handleErrors from "./error.controllers.ts/errors";
@@ -29,6 +29,8 @@ app.get("/test", (req, res) => {
 });
 
 app.use("/users", usersRouter);
+
+app.use("/reviews", reviewsRouter);
 
 app.use(handleErrors);
 
