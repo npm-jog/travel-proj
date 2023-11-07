@@ -14,8 +14,6 @@ const seedDatabase = async ({ commentData, questionData, reviewData, userData, c
     await Question.deleteMany({});
     await Comment.deleteMany({});
 
-    console.log("Database emptied successfully");
-
     //seed with data
     await User.create(userData);
     await Review.create(reviewData);
@@ -41,7 +39,6 @@ const seedDatabase = async ({ commentData, questionData, reviewData, userData, c
 
     await Comment.create(commentData);
 
-    console.log("Database seeded successfully");
   } catch (err) {
     console.error(err);
   }
