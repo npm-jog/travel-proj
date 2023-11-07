@@ -1,8 +1,8 @@
 <template>
   <ion-page>
-    <side-menu />
-    <nav-bar />
-    <ion-content :fullscreen="true" id="main-content">Wishlist</ion-content>
+    <ion-content :fullscreen="true" id="main-content" ion-padding
+      >Wishlist</ion-content
+    >
   </ion-page>
 </template>
 
