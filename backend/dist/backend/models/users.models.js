@@ -14,15 +14,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.fetchUserById = void 0;
 const user_1 = __importDefault(require("./../../Database/models/user"));
-function fetchUserById() {
+//async function fetchUserById(id: Types.ObjectId): Promise<User | Error> to do when db files are in ts
+function fetchUserById(id) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const user = yield user_1.default.findById("654a18a6ced4e391e30cbb0b");
-            console.log(user);
-            return user;
+            const userId = yield user_1.default.findById(id).exec();
+            return userId;
         }
         catch (err) {
-            console.log(err);
+            return err;
         }
     });
 }

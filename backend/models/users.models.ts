@@ -1,13 +1,45 @@
 import User from "./../../Database/models/user";
+import { Types, Document } from "mongoose";
 
-async function fetchUserById() {
+//async function fetchUserById(id: Types.ObjectId): Promise<User | Error> to do when db files are in ts
+
+async function fetchUserById(id: Types.ObjectId) {
   try {
-    const user = await User.findById("654a18a6ced4e391e30cbb0b");
-    console.log(user);
-    return user;
+    const userId = await User.findById(id).exec();
+
+    return userId;
   } catch (err) {
-    console.log(err);
+    return err;
   }
 }
 
-export { fetchUserById };
+async function updateUserById(id: Types.ObjectId, user: Document) {
+  try {
+    const updatedUser = await User.findByIdAndUpdate(id, user).exec();
+
+    return updatedUser;
+  } catch (err) {
+    return err;
+  }
+}
+
+async function removeUserById(id: Types.ObjectId) {
+  try {
+    const deletedUser = await User.findByIdAndDelete(id).exec();
+
+    return deletedUser;
+  } catch (err) {
+    return err;
+  }
+}
+async function insertUser(user: Document) {
+  try {
+    const newUser = await User.create(user);
+
+    return newUser;
+  } catch (err) {
+    return err;
+  }
+}
+
+export { fetchUserById, updateUserById, removeUserById, insertUser };
