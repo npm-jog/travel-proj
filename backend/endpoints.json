@@ -1,0 +1,62 @@
+{
+    "GET /api":{},
+    "GET /api/users/:user_id": {
+        "description": "",
+        "queries": [],
+        "exampleResponse": {}
+    },
+    "POST /api/users": {
+        "description": "Adds a user to the database",
+        "queries": [],
+        "exampleResponse": {}
+    },
+    "DELETE /api/users/:user_id": {
+        "description": "Removes a user from the database",
+        "queries": [],
+        "exampleResponse": {}
+    }
+    ,
+    "PATCH /api/users/:user_id": {
+        "description": "Updates a users details",
+        "queries": [],
+        "exampleResponse": {}
+    }
+    ,
+    "GET /api/wishlist/:user_id": {
+        "description": "",
+        "queries": [],
+        "exampleResponse": {}
+    }
+    ,
+    "POST /api/wishlist/:user_id": {
+        "description": "",
+        "queries": [],
+        "exampleResponse": {}
+    }
+    ,
+    "DELETE /api/wishlist/:user_id/:country_name": {
+        "description": "",
+        "queries": [],
+        "exampleResponse": {}
+    },
+    "GET /api/reviews/:location": {
+        "description": "",
+        "queries": [],
+        "exampleResponse": {}
+    },
+    "POST /api/reviews/:location": {
+        "description": "",
+        "queries": [],
+        "exampleResponse": {}
+    },
+    "PATCH /api/reviews/:user_id": {
+        "description": "",
+        "queries": [],
+        "exampleResponse": {}
+    },
+    "DELETE /api/reviews/user_id": {
+        "description": "",
+        "queries": [],
+        "exampleResponse": {}
+    }
+}

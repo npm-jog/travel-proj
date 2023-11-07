@@ -8,10 +8,8 @@ dotenv.config();
 const app: Application = express();
 
 app.use("/api/users", usersRouter);
-
 app.use("/api/wishlist", wishlistRouter);
-
-app.use("/reviews", reviewsRouter);
+app.use("/api/reviews", reviewsRouter);
 
 app.use(handleErrors);
 
