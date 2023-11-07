@@ -1,5 +1,10 @@
 import express, { Request, Response } from "express";
-import {getUserById, postUser, deleteUserById, patchUserById} from '../controllers/users.controller';
+import {
+  getUserById,
+  postUser,
+  deleteUserById,
+  patchUserById,
+} from "../controllers/users.controller";
 
 const usersRouter = express.Router();
 
