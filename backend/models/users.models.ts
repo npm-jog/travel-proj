@@ -1,8 +1,12 @@
-function fetchUserById() {
-     const myPromise: Promise<string> = new Promise((resolve, reject) => {
-        resolve('hello' + 'world')
-      });
-      return myPromise;
+import User from "./../../Database/models/user";
+
+async function fetchUserById() {
+  try {
+    const user = await User.findById("654a18a6ced4e391e30cbb0b");
+    return user;
+  } catch (err) {
+    console.log(err);
+  }
 }
 
-export {fetchUserById};
+export { fetchUserById };

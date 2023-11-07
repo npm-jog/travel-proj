@@ -1,13 +1,14 @@
-import {Request, Response, NextFunction} from 'express';
-import {fetchUserById} from '../models/users.models';
+import { Request, Response, NextFunction } from "express";
+import { fetchUserById } from "../models/users.models";
 
 function getUserById(req: Request, res: Response, next: NextFunction) {
-  fetchUserById().then(x => {
-    res.status(200).send()
-  })
-  .catch((err: Error) => {
-    next(err);
-  })
+  fetchUserById()
+    .then((x) => {
+      res.status(200).send(x);
+    })
+    .catch((err: Error) => {
+      next(err);
+    });
 }
 
 function postUser(req: Request, res: Response, next: NextFunction) {
@@ -19,7 +20,7 @@ function deleteUserById(req: Request, res: Response, next: NextFunction) {
 }
 
 function patchUserById(req: Request, res: Response, next: NextFunction) {
-res.status(200).send();
+  res.status(200).send();
 }
 
-  export { getUserById, postUser, deleteUserById, patchUserById };
+export { getUserById, postUser, deleteUserById, patchUserById };
