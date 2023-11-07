@@ -6,7 +6,7 @@ const reviewSchema = new Schema(
   {
     username: { type: String, required: true },
     body: { type: String, required: true },
-    rate: {
+    ratings: {
       safety: { type: Number, required: true },
       food: { type: Number, required: true },
       activities: { type: Number, required: true },
