@@ -1,12 +1,12 @@
 {
     "GET /api":{},
     "GET /api/users/:user_id": {
-        "description": "",
+        "description": "Returns a specified user by their id",
         "queries": [],
         "exampleResponse": {}
     },
     "POST /api/users": {
-        "description": "Adds a user to the database",
+        "description": "Adds a user to the database and returns the added user",
         "queries": [],
         "exampleResponse": {}
     },
@@ -17,45 +17,45 @@
     }
     ,
     "PATCH /api/users/:user_id": {
-        "description": "Updates a users details",
+        "description": "Updates a users details and returns the updated user",
         "queries": [],
         "exampleResponse": {}
     }
     ,
     "GET /api/wishlist/:user_id": {
-        "description": "",
+        "description": "Returns a specified users wishlist by their user_id",
         "queries": [],
         "exampleResponse": {}
     }
     ,
     "POST /api/wishlist/:user_id": {
-        "description": "",
+        "description": "Adds a country to a users wishlist and returns their wishlist",
         "queries": [],
         "exampleResponse": {}
     }
     ,
     "DELETE /api/wishlist/:user_id/:country_name": {
-        "description": "",
+        "description": "Removes a location from a users wishlist",
         "queries": [],
         "exampleResponse": {}
     },
     "GET /api/reviews/:location": {
-        "description": "",
+        "description": "Returns a list of reviews for a location",
         "queries": [],
         "exampleResponse": {}
     },
     "POST /api/reviews/:location": {
-        "description": "",
+        "description": "Adds a review to a location and returns the added review",
         "queries": [],
         "exampleResponse": {}
     },
-    "PATCH /api/reviews/:user_id": {
-        "description": "",
+    "PATCH /api/reviews/:review_id": {
+        "description": "Updates a review by the users id and rerturns the updated review",
         "queries": [],
         "exampleResponse": {}
     },
-    "DELETE /api/reviews/user_id": {
-        "description": "",
+    "DELETE /api/reviews/:review_id": {
+        "description": "Removes a review ",
         "queries": [],
         "exampleResponse": {}
     }
