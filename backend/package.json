@@ -4,7 +4,7 @@
   "description": "",
   "main": "listen.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --runInBand",
     "build": "npx tsc",
     "start": "node dist/backend/listen.js",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/backend/listen.js\""

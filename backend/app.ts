@@ -1,5 +1,6 @@
 import express, { Express, Request, Response } from "express";
 import { usersRouter, reviewsRouter } from "./routes";
+
 import dotenv from "dotenv";
 import cors from "cors";
 import mongoose from "mongoose";
@@ -28,9 +29,9 @@ app.get("/test", (req, res) => {
   res.status(200).send({ test: "test" });
 });
 
-app.use("/users", usersRouter);
-
-app.use("/reviews", reviewsRouter);
+app.use("/api/users", usersRouter);
+app.use("/api/wishlist", wishlistRouter);
+app.use("/api/reviews", reviewsRouter);
 
 app.use(handleErrors);
 

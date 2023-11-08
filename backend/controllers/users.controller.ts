@@ -45,6 +45,7 @@ function patchUserById(req: Request, res: Response, next: NextFunction) {
     .catch((err: Error) => {
       next(err);
     });
+
 }
 
 export { getUserById, postUser, deleteUserById, patchUserById };

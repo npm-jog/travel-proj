@@ -1,4 +1,6 @@
 import usersRouter from "./usersRouter";
-import reviewsRouter from "./reviewsRouter";
+import wishlistRouter from "./wishlistRouter";
+import reviewsRouter from './reviewsRouter'
 
-export { usersRouter, reviewsRouter };
+export { usersRouter, wishlistRouter, reviewsRouter };
+
