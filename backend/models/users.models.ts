@@ -13,13 +13,8 @@ async function fetchUserById(id: Types.ObjectId) {
 
 async function insertUser(user: Document) {
   try {
-    const options = {
-      new: true,
-    };
-    const updatedUser = await User.findByIdAndUpdate(id, user, options);
-
-    return updatedUser;
-
+    const newUser = await User.create(user);
+    return newUser;
   } catch (err) {
     return err;
   }
@@ -37,9 +32,12 @@ async function removeUserById(id: Types.ObjectId) {
 
 async function updateUserById(id: Types.ObjectId, user: Document) {
   try {
-    const previousUser = await User.findByIdAndUpdate(id, user).exec();
+    const options = {
+      new: true,
+    };
+    const updatedUser = await User.findByIdAndUpdate(id, user, options);
 
-    return previousUser;
+    return updatedUser;
   } catch (err) {
     return err;
   }
