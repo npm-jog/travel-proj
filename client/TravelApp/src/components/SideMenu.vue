@@ -9,63 +9,90 @@
 			</ion-toolbar>
 		</ion-header>
 		<ion-content class="ion-padding">
-			<ion-button expand="block">
+			<ion-button
+				class="ion-padding"
+				expand="block"
+			>
 				Home
 				<ion-icon
 					slot="end"
 					:icon="home"
 				></ion-icon>
 			</ion-button>
-			<ion-button expand="block">
+			<ion-button
+				class="ion-padding"
+				expand="block"
+			>
 				Profile
 				<ion-icon
 					slot="end"
 					:icon="personOutline"
 				></ion-icon>
 			</ion-button>
-			<ion-button expand="block">
+			<ion-button
+				class="ion-padding"
+				expand="block"
+			>
 				Create Account
 				<ion-icon
 					slot="end"
 					:icon="personAddOutline"
 				></ion-icon>
 			</ion-button>
-			<ion-button expand="block">
+			<ion-button
+				class="ion-padding"
+				expand="block"
+			>
 				Sign In
 				<ion-icon
 					slot="end"
 					:icon="logInOutline"
 				></ion-icon>
 			</ion-button>
-			<ion-button expand="block">
+			<ion-button
+				class="ion-padding"
+				expand="block"
+			>
 				Sign Out
 				<ion-icon
 					slot="end"
 					:icon="logOutOutline"
 				></ion-icon>
 			</ion-button>
-			<ion-button expand="block">
+			<ion-button
+				class="ion-padding"
+				expand="block"
+			>
 				Gallery
 				<ion-icon
 					slot="end"
 					:icon="imageOutline"
 				></ion-icon>
 			</ion-button>
-			<ion-button expand="block">
+			<ion-button
+				class="ion-padding"
+				expand="block"
+			>
 				My Reviews
 				<ion-icon
 					slot="end"
 					:icon="starHalfOutline"
 				></ion-icon>
 			</ion-button>
-			<ion-button expand="block">
+			<ion-button
+				class="ion-padding"
+				expand="block"
+			>
 				Conversations
 				<ion-icon
 					slot="end"
 					:icon="chatboxEllipsesOutline"
 				></ion-icon>
 			</ion-button>
-			<ion-button expand="block">
+			<ion-button
+				class="ion-padding"
+				expand="block"
+			>
 				Wishlist
 				<ion-icon
 					slot="end"
