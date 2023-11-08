@@ -1,5 +1,5 @@
 import usersRouter from "./usersRouter";
-import reviewsRouter from './reviewsRouter'
+import reviewsRouter from "./reviewsRouter";
+import countriesRouter from "./countriesRouter";
 
-export { usersRouter, reviewsRouter };
-
+export { usersRouter, reviewsRouter, countriesRouter };
