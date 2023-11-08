@@ -3,8 +3,8 @@ import { getReviewsByLocation, postReviewToLocation, patchReviewById, deleteRevi
 
 const reviewsRouter = express.Router();
 
-reviewsRouter.get("/:location", getReviewsByLocation);
-reviewsRouter.post("/:location", postReviewToLocation);
+reviewsRouter.get("/:country_name", getReviewsByLocation);
+reviewsRouter.post("/:country_name", postReviewToLocation);
 reviewsRouter.patch("/:review_id", patchReviewById);
 reviewsRouter.delete("/:review_id", deleteReviewById);
 

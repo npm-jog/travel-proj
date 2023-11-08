@@ -29,12 +29,8 @@ exports.fetchUserById = fetchUserById;
 function insertUser(user) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-
-            const options = {
-                new: true,
-            };
-            const updatedUser = yield user_1.default.findByIdAndUpdate(id, user, options);
-            return updatedUser;
+            const newUser = yield user_1.default.create(user);
+            return newUser;
         }
         catch (err) {
             return err;
@@ -57,8 +53,11 @@ exports.removeUserById = removeUserById;
 function updateUserById(id, user) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const previousUser = yield user_1.default.findByIdAndUpdate(id, user).exec();
-            return previousUser;
+            const options = {
+                new: true,
+            };
+            const updatedUser = yield user_1.default.findByIdAndUpdate(id, user, options);
+            return updatedUser;
         }
         catch (err) {
             return err;

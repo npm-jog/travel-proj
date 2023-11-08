@@ -39,12 +39,12 @@
         "queries": [],
         "exampleResponse": {}
     },
-    "GET /api/reviews/:location": {
+    "GET /api/reviews/:country_name": {
         "description": "Returns a list of reviews for a location",
         "queries": [],
         "exampleResponse": {}
     },
-    "POST /api/reviews/:location": {
+    "POST /api/reviews/:country_name": {
         "description": "Adds a review to a location and returns the added review",
         "queries": [],
         "exampleResponse": {}

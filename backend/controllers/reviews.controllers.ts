@@ -5,11 +5,13 @@ import {
 	removeReviewFromDb,
 	editReviewInDb,
 } from "../models/reviews.models";
+import { Types } from "mongoose";
 
 function getReviewsByLocation(req: Request, res: Response, next: NextFunction) {
-	fetchReviewsByLocation()
-		.then((x) => {
-			res.status(200).send();
+	const reviewLocation: string | undefined = req.params.country_name as string | undefined
+	fetchReviewsByLocation(reviewLocation)
+		.then((reviews: any) => {
+			res.status(200).send({reviews});
 		})
 		.catch((err: Error) => {
 			next(err);
@@ -17,13 +19,15 @@ function getReviewsByLocation(req: Request, res: Response, next: NextFunction) {
 }
 
 function postReviewToLocation(req: Request, res: Response, next: NextFunction) {
-	addReviewToDb()
+	const reviewLocation: string | undefined = req.params.country_name as string | undefined
+	res.status(201).send();
+	/*addReviewToDb()
 		.then((x) => {
 			res.status(201).send();
 		})
 		.catch((err: Error) => {
 			next(err);
-		});
+		});*/
 }
 
 function deleteReviewById(req: Request, res: Response, next: NextFunction) {
