@@ -1,5 +1,7 @@
 import express, { Express, Request, Response } from "express";
-import { usersRouter, reviewsRouter, wishlistRouter } from "./routes";
+
+import { usersRouter, reviewsRouter, countriesRouter, wishlistRouter  } from "./routes";
+
 
 import dotenv from "dotenv";
 import cors from "cors";
@@ -27,9 +29,11 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.use("/api/users", usersRouter);
-app.use("/api/wishlist", wishlistRouter);
 app.use("/api/reviews", reviewsRouter);
 app.use("/api/questions", questionsRouter);
+
+app.use("/api/countries", countriesRouter);
+
 
 app.use(handleErrors);
 

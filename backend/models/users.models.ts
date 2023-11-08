@@ -11,7 +11,7 @@ async function fetchUserById(id: Types.ObjectId) {
   }
 }
 
-async function updateUserById(id: Types.ObjectId, user: Document) {
+async function insertUser(user: Document) {
   try {
     const options = {
       new: true,
@@ -19,6 +19,7 @@ async function updateUserById(id: Types.ObjectId, user: Document) {
     const updatedUser = await User.findByIdAndUpdate(id, user, options);
 
     return updatedUser;
+
   } catch (err) {
     return err;
   }
@@ -33,11 +34,12 @@ async function removeUserById(id: Types.ObjectId) {
     return err;
   }
 }
-async function insertUser(user: Document) {
-  try {
-    const newUser = await User.create(user);
 
-    return newUser;
+async function updateUserById(id: Types.ObjectId, user: Document) {
+  try {
+    const previousUser = await User.findByIdAndUpdate(id, user).exec();
+
+    return previousUser;
   } catch (err) {
     return err;
   }

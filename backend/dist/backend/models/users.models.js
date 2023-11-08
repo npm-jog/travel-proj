@@ -26,9 +26,10 @@ function fetchUserById(id) {
     });
 }
 exports.fetchUserById = fetchUserById;
-function updateUserById(id, user) {
+function insertUser(user) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+
             const options = {
                 new: true,
             };
@@ -40,7 +41,7 @@ function updateUserById(id, user) {
         }
     });
 }
-exports.updateUserById = updateUserById;
+exports.insertUser = insertUser;
 function removeUserById(id) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -53,15 +54,15 @@ function removeUserById(id) {
     });
 }
 exports.removeUserById = removeUserById;
-function insertUser(user) {
+function updateUserById(id, user) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const newUser = yield user_1.default.create(user);
-            return newUser;
+            const previousUser = yield user_1.default.findByIdAndUpdate(id, user).exec();
+            return previousUser;
         }
         catch (err) {
             return err;
         }
     });
 }
-exports.insertUser = insertUser;
+exports.updateUserById = updateUserById;
