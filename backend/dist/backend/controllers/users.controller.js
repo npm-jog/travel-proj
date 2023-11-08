@@ -15,14 +15,36 @@ function getUserById(req, res, next) {
 }
 exports.getUserById = getUserById;
 function postUser(req, res, next) {
-    res.status(201).send();
+    const newUser = req.body;
+    (0, users_models_1.insertUser)(newUser)
+        .then((user) => {
+        res.status(201).send(user);
+    })
+        .catch((err) => {
+        next(err);
+    });
 }
 exports.postUser = postUser;
 function deleteUserById(req, res, next) {
-    res.status(204).send();
+    const id = new mongoose_1.Types.ObjectId(req.params.user_id);
+    (0, users_models_1.removeUserById)(id)
+        .then((user) => {
+        res.status(204).send(user);
+    })
+        .catch((err) => {
+        next(err);
+    });
 }
 exports.deleteUserById = deleteUserById;
 function patchUserById(req, res, next) {
-    res.status(200).send();
+    const id = new mongoose_1.Types.ObjectId(req.params.user_id);
+    const updatedUser = req.body;
+    (0, users_models_1.updateUserById)(id, updatedUser)
+        .then((user) => {
+        res.status(200).send(user);
+    })
+        .catch((err) => {
+        next(err);
+    });
 }
 exports.patchUserById = patchUserById;

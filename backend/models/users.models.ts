@@ -15,9 +15,9 @@ async function fetchUserById(id: Types.ObjectId) {
 
 async function updateUserById(id: Types.ObjectId, user: Document) {
   try {
-    const updatedUser = await User.findByIdAndUpdate(id, user).exec();
+    const previousUser = await User.findByIdAndUpdate(id, user).exec();
 
-    return updatedUser;
+    return previousUser;
   } catch (err) {
     return err;
   }
