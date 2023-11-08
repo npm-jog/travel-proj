@@ -37,7 +37,7 @@ app.get("/", (req, res) => {
 app.get("/test", (req, res) => {
     res.status(200).send({ test: "test" });
 });
-app.use("/users", routes_1.usersRouter);
-app.use("/reviews", routes_1.reviewsRouter);
+app.use("/api/users", routes_1.usersRouter);
+app.use("/api/reviews", routes_1.reviewsRouter);
 app.use(errors_1.default);
 exports.default = app;

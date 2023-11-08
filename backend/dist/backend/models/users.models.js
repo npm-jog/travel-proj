@@ -27,30 +27,6 @@ function fetchUserById(id) {
     });
 }
 exports.fetchUserById = fetchUserById;
-function updateUserById(id, user) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const previousUser = yield user_1.default.findByIdAndUpdate(id, user).exec();
-            return previousUser;
-        }
-        catch (err) {
-            return err;
-        }
-    });
-}
-exports.updateUserById = updateUserById;
-function removeUserById(id) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const deletedUser = yield user_1.default.findByIdAndDelete(id).exec();
-            return deletedUser;
-        }
-        catch (err) {
-            return err;
-        }
-    });
-}
-exports.removeUserById = removeUserById;
 function insertUser(user) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -63,3 +39,27 @@ function insertUser(user) {
     });
 }
 exports.insertUser = insertUser;
+function removeUserById(id) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const deletedUser = yield user_1.default.findByIdAndDelete(id).exec();
+            return deletedUser;
+        }
+        catch (err) {
+            return err;
+        }
+    });
+}
+exports.removeUserById = removeUserById;
+function updateUserById(id, user) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const previousUser = yield user_1.default.findByIdAndUpdate(id, user).exec();
+            return previousUser;
+        }
+        catch (err) {
+            return err;
+        }
+    });
+}
+exports.updateUserById = updateUserById;

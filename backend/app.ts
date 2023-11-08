@@ -30,7 +30,6 @@ app.get("/test", (req, res) => {
 });
 
 app.use("/api/users", usersRouter);
-app.use("/api/wishlist", wishlistRouter);
 app.use("/api/reviews", reviewsRouter);
 
 app.use(handleErrors);

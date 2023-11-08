@@ -8,6 +8,6 @@ const reviews_controllers_1 = require("../controllers/reviews.controllers");
 const reviewsRouter = express_1.default.Router();
 reviewsRouter.get("/:location", reviews_controllers_1.getReviewsByLocation);
 reviewsRouter.post("/:location", reviews_controllers_1.postReviewToLocation);
-reviewsRouter.patch("/:id", reviews_controllers_1.patchReviewById);
-reviewsRouter.delete("/:id", reviews_controllers_1.deleteReviewById);
+reviewsRouter.patch("/:review_id", reviews_controllers_1.patchReviewById);
+reviewsRouter.delete("/:review_id", reviews_controllers_1.deleteReviewById);
 exports.default = reviewsRouter;
