@@ -14,14 +14,14 @@
 						<!-- Full-width images with number and caption text -->
 						<div
 							class="fade"
-							v-bind:class="slides[0].className"
+							v-if="slides[0].className.value"
 						>
 							<div class="numbertext">1 / 3</div>
 						</div>
 
 						<div
 							class="fade"
-							v-bind:class="slides[1].className"
+							v-if="slides[1].className.value"
 						>
 							<div class="numbertext">2 / 3</div>
 						</div>
@@ -29,7 +29,7 @@
 						<div class="fade">
 							<div
 								class="numbertext"
-								v-bind:class="slides[2].className"
+								v-if="slides[2].className.value"
 							>
 								3 / 3
 							</div>
@@ -84,13 +84,14 @@
 </template>
 
 <script setup lang="ts">
+	import { ref } from "vue";
 	import { IonPage, IonContent } from "@ionic/vue";
 
 	let slideIndex = 1;
 	const slides = [
-		{ className: "hideSlide" },
-		{ className: "hideSlide" },
-		{ className: "hideSlide" },
+		{ className: ref(true) },
+		{ className: ref(false) },
+		{ className: ref(false) },
 	];
 	const dots = [{ className: "" }, { className: "" }, { className: "" }];
 	showSlides(slideIndex);
@@ -115,14 +116,13 @@
 			slideIndex = slides.length;
 		}
 		for (i = 0; i < slides.length; i++) {
-			slides[i].className = "hideSlide";
+			slides[i].className.value = false;
 		}
 		for (i = 0; i < dots.length; i++) {
 			dots[i].className = "";
 		}
-		slides[slideIndex - 1].className = "showSlide";
+		slides[slideIndex - 1].className.value = true;
 		dots[slideIndex - 1].className = "active";
-		console.log(slideIndex);
 	}
 </script>
 
