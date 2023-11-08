@@ -27,12 +27,13 @@
 
 <style scoped>
 	main {
-		margin-top: 60px;
+		margin-top: 1rem;
 		display: grid;
-		grid-gap: 2rem;
+		grid-gap: 1rem;
 		grid-template-columns: 100%;
-		grid-template-rows: 4rem 25rem 10rem 4rem 4rem;
-		height: 100%;
+		grid-template-rows: 4rem 17rem 7rem 4rem 4rem;
+		height: 90vh;
+		height: 90dvh;
 		padding: 3rem;
 		background-color: blue;
 	}
