@@ -16,22 +16,35 @@
 							class="fade"
 							v-if="slides[0].className.value"
 						>
-							<div class="numbertext">1 / 3</div>
+							<div class="image-div">
+								<img
+									class="carousel-image"
+									src="https://images.pexels.com/photos/461755/pexels-photo-461755.jpeg?auto=compress&cs=tinysrgb&w=400"
+								/>
+							</div>
 						</div>
 
 						<div
 							class="fade"
 							v-if="slides[1].className.value"
 						>
-							<div class="numbertext">2 / 3</div>
+							<div class="image-div">
+								<img
+									class="carousel-image"
+									src="https://images.pexels.com/photos/206648/pexels-photo-206648.jpeg?auto=compress&cs=tinysrgb&w=400"
+								/>
+							</div>
 						</div>
 
 						<div class="fade">
 							<div
-								class="numbertext"
+								class="image-div"
 								v-if="slides[2].className.value"
 							>
-								3 / 3
+								<img
+									class="carousel-image"
+									src="https://images.pexels.com/photos/440731/pexels-photo-440731.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+								/>
 							</div>
 						</div>
 
@@ -129,14 +142,13 @@
 <style scoped>
 	main {
 		margin-top: 1rem;
+		padding: 3rem 1rem 1rem !important;
 		display: grid;
 		grid-gap: 1rem;
 		grid-template-columns: 100%;
 		grid-template-rows: 4rem 19rem 5rem 4rem 4rem;
 		height: 90vh;
 		height: 90dvh;
-		padding: 3rem;
-		background-color: blue;
 	}
 	* {
 		box-sizing: border-box;
@@ -201,15 +213,19 @@
 	}
 
 	/* Number text (1/3 etc) */
-	.numbertext {
+	.image-div {
 		color: #f2f2f2;
 		height: 100%;
 		width: 100%;
-		background-color: red;
 		font-size: 12px;
 		padding: 8px 12px;
 		position: absolute;
 		top: 0;
+	}
+
+	.carousel-image {
+		height: 100%;
+		object-fit: cover;
 	}
 
 	.dot-div {
