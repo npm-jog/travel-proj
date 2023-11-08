@@ -3,8 +3,8 @@ import { fetchUserById, insertUser, removeUserById, updateUserById } from "../mo
 import { Types, Document } from "mongoose";
 
 function getUserById(req: Request, res: Response, next: NextFunction) {
-  const id: Types.ObjectId = new Types.ObjectId(req.params.user_id);
-  fetchUserById(id)
+  const user_id: Types.ObjectId = new Types.ObjectId(req.params.user_id);
+  fetchUserById(user_id)
     .then((user) => {
       res.status(200).send(user);
     })
@@ -25,10 +25,10 @@ function postUser(req: Request, res: Response, next: NextFunction) {
 }
 
 function deleteUserById(req: Request, res: Response, next: NextFunction) {
-  const id: Types.ObjectId = new Types.ObjectId(req.params.user_id);
-  removeUserById(id)
-    .then((user) => {
-      res.status(204).send(user);
+  const user_id: Types.ObjectId = new Types.ObjectId(req.params.user_id);
+  removeUserById(user_id)
+    .then(() => {
+      res.status(204).send();
     })
     .catch((err: Error) => {
       next(err);
@@ -36,16 +36,15 @@ function deleteUserById(req: Request, res: Response, next: NextFunction) {
 }
 
 function patchUserById(req: Request, res: Response, next: NextFunction) {
-  const id: Types.ObjectId = new Types.ObjectId(req.params.user_id);
+  const user_id: Types.ObjectId = new Types.ObjectId(req.params.user_id);
   const updatedUser: Document = req.body;
-  updateUserById(id, updatedUser)
+  updateUserById(user_id, updatedUser)
     .then((user) => {
       res.status(200).send(user);
     })
     .catch((err: Error) => {
       next(err);
     });
-
 }
 
 export { getUserById, postUser, deleteUserById, patchUserById };

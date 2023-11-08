@@ -4,8 +4,8 @@ exports.patchUserById = exports.deleteUserById = exports.postUser = exports.getU
 const users_models_1 = require("../models/users.models");
 const mongoose_1 = require("mongoose");
 function getUserById(req, res, next) {
-    const id = new mongoose_1.Types.ObjectId(req.params.user_id);
-    (0, users_models_1.fetchUserById)(id)
+    const user_id = new mongoose_1.Types.ObjectId(req.params.user_id);
+    (0, users_models_1.fetchUserById)(user_id)
         .then((user) => {
         res.status(200).send(user);
     })
@@ -26,10 +26,10 @@ function postUser(req, res, next) {
 }
 exports.postUser = postUser;
 function deleteUserById(req, res, next) {
-    const id = new mongoose_1.Types.ObjectId(req.params.user_id);
-    (0, users_models_1.removeUserById)(id)
-        .then((user) => {
-        res.status(204).send(user);
+    const user_id = new mongoose_1.Types.ObjectId(req.params.user_id);
+    (0, users_models_1.removeUserById)(user_id)
+        .then(() => {
+        res.status(204).send();
     })
         .catch((err) => {
         next(err);
@@ -37,9 +37,9 @@ function deleteUserById(req, res, next) {
 }
 exports.deleteUserById = deleteUserById;
 function patchUserById(req, res, next) {
-    const id = new mongoose_1.Types.ObjectId(req.params.user_id);
+    const user_id = new mongoose_1.Types.ObjectId(req.params.user_id);
     const updatedUser = req.body;
-    (0, users_models_1.updateUserById)(id, updatedUser)
+    (0, users_models_1.updateUserById)(user_id, updatedUser)
         .then((user) => {
         res.status(200).send(user);
     })

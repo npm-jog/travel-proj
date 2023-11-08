@@ -1,10 +1,13 @@
 import express, { Express, Request, Response } from "express";
-import { usersRouter, reviewsRouter, countriesRouter } from "./routes";
+
+import { usersRouter, reviewsRouter, countriesRouter, wishlistRouter  } from "./routes";
+
 
 import dotenv from "dotenv";
 import cors from "cors";
 import mongoose from "mongoose";
 import handleErrors from "./error.controllers.ts/errors";
+import questionsRouter from "./routes/questionsRouter";
 
 dotenv.config();
 
@@ -27,7 +30,10 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use("/api/users", usersRouter);
 app.use("/api/reviews", reviewsRouter);
+app.use("/api/questions", questionsRouter);
+
 app.use("/api/countries", countriesRouter);
+
 
 app.use(handleErrors);
 

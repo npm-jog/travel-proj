@@ -12,57 +12,62 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.insertUser = exports.removeUserById = exports.updateUserById = exports.fetchUserById = void 0;
-const user_1 = __importDefault(require("./../../Database/models/user"));
-function fetchUserById(id) {
+exports.insertQuestion = exports.removeQuestionById = exports.updateQuestionById = exports.fetchQuestions = void 0;
+const question_1 = __importDefault(require("../../Database/models/question"));
+function fetchQuestions(country) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const userId = yield user_1.default.findById(id);
-            return userId;
+            if (!country) {
+                const questions = yield question_1.default.find({});
+                return questions;
+            }
+            else {
+                const questions = yield question_1.default.find({ country: country });
+                return questions;
+            }
         }
         catch (err) {
             return err;
         }
     });
 }
-exports.fetchUserById = fetchUserById;
-function insertUser(user) {
+exports.fetchQuestions = fetchQuestions;
+function updateQuestionById(id, question) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-
             const options = {
                 new: true,
             };
-            const updatedUser = yield user_1.default.findByIdAndUpdate(id, user, options);
-            return updatedUser;
+            const updatedQuestion = yield question_1.default.findByIdAndUpdate(id, question, options);
+            return updatedQuestion;
         }
         catch (err) {
             return err;
         }
     });
 }
-exports.insertUser = insertUser;
-function removeUserById(id) {
+exports.updateQuestionById = updateQuestionById;
+function removeQuestionById(question_id) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const deletedUser = yield user_1.default.findByIdAndDelete(id);
-            return deletedUser;
+            const deletedQuestion = yield question_1.default.findByIdAndDelete(question_id);
+            return deletedQuestion;
         }
         catch (err) {
             return err;
         }
     });
 }
-exports.removeUserById = removeUserById;
-function updateUserById(id, user) {
+exports.removeQuestionById = removeQuestionById;
+function insertQuestion(question) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const previousUser = yield user_1.default.findByIdAndUpdate(id, user).exec();
-            return previousUser;
+            const newQuestion = yield question_1.default.create(question);
+            return newQuestion;
         }
         catch (err) {
             return err;
         }
     });
 }
-exports.updateUserById = updateUserById;
+exports.insertQuestion = insertQuestion;
