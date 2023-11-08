@@ -4,13 +4,11 @@
       <my-map
         :markerData="markerData"
         @onMapClicked="mapClicked"
-        @onMarkerClicked="markerClicked"
-      ></my-map>
+        @onMarkerClicked="markerClicked"></my-map>
       <ion-popover
         :is-open="markerIsOpen"
         size="cover"
-        @did-dismiss="markerIsOpen = false"
-      >
+        @did-dismiss="markerIsOpen = false">
         <ion-content class="ion-padding">
           <div>{{ markerInfo?.title }}</div>
         </ion-content>
@@ -32,21 +30,21 @@ const markerIsOpen = ref<boolean>(false);
 
 // sample data for the map
 const markerData = [
-  {
-    coordinate: { lat: 37.769, lng: -122.446 },
-    title: "title one",
-    snippet: "title one snippet content will be presented here",
-  },
-  {
-    coordinate: { lat: 37.774, lng: -122.434 },
-    title: "title two",
-    snippet: "title two snippet content will be presented here",
-  },
-  {
-    coordinate: { lat: 37.783, lng: -122.408 },
-    title: "title three",
-    snippet: "title three snippet content will be presented here",
-  },
+  // {
+  //   coordinate: { lat: 37.769, lng: -122.446 },
+  //   title: "title one",
+  //   snippet: "title one snippet content will be presented here",
+  // },
+  // {
+  //   coordinate: { lat: 37.774, lng: -122.434 },
+  //   title: "title two",
+  //   snippet: "title two snippet content will be presented here",
+  // },
+  // {
+  //   coordinate: { lat: 37.783, lng: -122.408 },
+  //   title: "title three",
+  //   snippet: "title three snippet content will be presented here",
+  // },
   // Add more points as needed
 ];
 

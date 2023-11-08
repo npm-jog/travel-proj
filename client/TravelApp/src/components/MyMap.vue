@@ -65,10 +65,11 @@ async function createMap() {
     apiKey: apiKey.mapsKey,
     config: {
       center: {
-        lat: 37.783,
-        lng: -122.408,
+        lat: 30,
+
+        lng: 0,
       },
-      zoom: 12,
+      zoom: 2.5,
     },
   });
 

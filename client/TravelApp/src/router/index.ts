@@ -21,6 +21,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "map",
         component: MapPage,
+        name: "map",
       },
       {
         path: "country",
