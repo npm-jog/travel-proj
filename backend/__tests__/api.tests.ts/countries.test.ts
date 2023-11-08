@@ -12,7 +12,6 @@ beforeAll(() => connectDB());
 beforeEach(() => seed(testData));
 afterAll(() => {
   mongoose.disconnect();
-  console.log("MongoDB disconnected successfully");
 });
 //JAVASCRIPT
 

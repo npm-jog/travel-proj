@@ -14,7 +14,6 @@ beforeAll(() => (0, connection_1.default)());
 beforeEach(() => (0, seed_1.default)(test_data_1.default));
 afterAll(() => {
     mongoose_1.default.disconnect();
-    console.log("MongoDB disconnected successfully");
 });
 //JAVASCRIPT
 describe("GET fetchUserById", () => {

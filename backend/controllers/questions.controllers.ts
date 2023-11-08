@@ -1,6 +1,13 @@
 import { Request, Response, NextFunction } from "express";
 import { Types, Document } from "mongoose";
-import { fetchQuestions, insertQuestion, removeQuestionById, updateQuestionById } from "../models/questions.models";
+import {
+  fetchCommentsByQuestionId,
+  fetchQuestions,
+  insertCommentByQuestionId,
+  insertQuestion,
+  removeQuestionById,
+  updateQuestionById,
+} from "../models/questions.models";
 
 function getQuestions(req: Request, res: Response, next: NextFunction) {
   const country: string | undefined = req.query.country as string | undefined;
@@ -47,4 +54,27 @@ function patchQuestion(req: Request, res: Response, next: NextFunction) {
     });
 }
 
-export { getQuestions, postQuestion, deleteQuestion, patchQuestion };
+function getCommentsByQuestionId(req: Request, res: Response, next: NextFunction) {
+  const question_id: Types.ObjectId = new Types.ObjectId(req.params.question_id);
+  fetchCommentsByQuestionId(question_id)
+    .then((comments) => {
+      res.status(200).send(comments);
+    })
+    .catch((err: Error) => {
+      next(err);
+    });
+}
+
+function postCommentsByQuestionId(req: Request, res: Response, next: NextFunction) {
+  const question_id: Types.ObjectId = new Types.ObjectId(req.params.question_id);
+  const newComment: Document = req.body;
+  insertCommentByQuestionId(question_id, newComment)
+    .then((newComment) => {
+      res.status(200).send(newComment);
+    })
+    .catch((err: Error) => {
+      next(err);
+    });
+}
+
+export { getQuestions, postQuestion, deleteQuestion, patchQuestion, getCommentsByQuestionId, postCommentsByQuestionId };
