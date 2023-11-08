@@ -10,7 +10,7 @@ const reviewsRouter = express.Router();
 
 reviewsRouter.get("/:location", getReviewsByLocation);
 reviewsRouter.post("/:location", postReviewToLocation);
-reviewsRouter.patch("/:id", patchReviewById);
-reviewsRouter.delete("/:id", deleteReviewById);
+reviewsRouter.patch("/:review_id", patchReviewById);
+reviewsRouter.delete("/:review_id", deleteReviewById);
 
 export default reviewsRouter;
