@@ -17,31 +17,29 @@ afterAll(() => {
     console.log("MongoDB disconnected successfully");
 });
 //JAVASCRIPT
-describe("GET user", () => {
-    test("returns status 200", () => {
+describe("GET fetchUserById", () => {
+    test("200: /api/users/:user_id", () => {
         return (0, supertest_1.default)(app_1.default)
-            .get("/users/1")
+            .get("/api/users/1")
             .expect(200)
-            .then((x) => {
-            console.log("kkkkkkkkkk");
-        });
+            .then((x) => { });
     });
     /*test("returns status 400", () => {
       return request(app).get("/users/9999").expect(400);
     });*/
 });
-describe("POST user", () => {
-    test("returns status 201", () => {
-        return (0, supertest_1.default)(app_1.default).post("/users").send({}).expect(201);
+describe("POST createUser", () => {
+    test("201: /api/users", () => {
+        return (0, supertest_1.default)(app_1.default).post("/api/users").send({}).expect(201);
     });
 });
-describe("DELETE user", () => {
-    test("return status 204", () => {
-        return (0, supertest_1.default)(app_1.default).delete("/users/1").expect(204);
+describe("DELETE removeUserById", () => {
+    test("204: /api/users/:user_id", () => {
+        return (0, supertest_1.default)(app_1.default).delete("/api/users/1").expect(204);
     });
 });
-describe("PATCH user", () => {
-    test("return status 200", () => {
+describe("PATCH updateUserById", () => {
+    test("200: /api/users/:user_id", () => {
         return (0, supertest_1.default)(app_1.default).patch("/users/1").expect(200);
     });
 });

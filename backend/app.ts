@@ -1,10 +1,11 @@
 import express, { Express, Request, Response } from "express";
-import { usersRouter, reviewsRouter } from "./routes";
+import { usersRouter, reviewsRouter, wishlistRouter } from "./routes";
 
 import dotenv from "dotenv";
 import cors from "cors";
 import mongoose from "mongoose";
 import handleErrors from "./error.controllers.ts/errors";
+import questionsRouter from "./routes/questionsRouter";
 
 dotenv.config();
 
@@ -25,13 +26,10 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server");
 });
 
-app.get("/test", (req, res) => {
-  res.status(200).send({ test: "test" });
-});
-
 app.use("/api/users", usersRouter);
 app.use("/api/wishlist", wishlistRouter);
 app.use("/api/reviews", reviewsRouter);
+app.use("/api/questions", questionsRouter);
 
 app.use(handleErrors);
 
