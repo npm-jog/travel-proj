@@ -35,11 +35,9 @@ app.use(express_1.default.json());
 app.get("/", (req, res) => {
     res.send("Express + TypeScript Server");
 });
-
 app.use("/api/users", routes_1.usersRouter);
-app.use("/api/wishlist", routes_1.wishlistRouter);
 app.use("/api/reviews", routes_1.reviewsRouter);
 app.use("/api/questions", questionsRouter_1.default);
-
+app.use("/api/countries", routes_1.countriesRouter);
 app.use(errors_1.default);
 exports.default = app;
