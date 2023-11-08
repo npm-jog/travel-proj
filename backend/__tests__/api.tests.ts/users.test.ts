@@ -7,13 +7,14 @@ import seed from "./../../../Database/db/seed/seed";
 import testData from "./../../../Database/db/data/test-data";
 import mongoose from "mongoose";
 
-/*beforeAll(() => connectDB());
+beforeAll(() => connectDB());
 beforeEach(() => seed(testData));
 afterAll(() => {
   mongoose.disconnect();
   console.log("MongoDB disconnected successfully");
-});*/
+});
 //JAVASCRIPT
+
 
 describe("GET fetchUserById", () => {
   test("200: /api/users/:user_id", () => {
