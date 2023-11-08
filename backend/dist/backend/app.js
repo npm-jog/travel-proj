@@ -39,5 +39,6 @@ app.use("/api/users", routes_1.usersRouter);
 app.use("/api/reviews", routes_1.reviewsRouter);
 app.use("/api/questions", questionsRouter_1.default);
 app.use("/api/countries", routes_1.countriesRouter);
+app.use("/api", routes_1.apiRouter);
 app.use(errors_1.default);
 exports.default = app;
