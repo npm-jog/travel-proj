@@ -24,7 +24,7 @@ function updateCommentById(comment_id, comment) {
             return updatedComment;
         }
         catch (err) {
-            return err;
+            return Promise.reject(err);
         }
     });
 }
@@ -36,7 +36,7 @@ function removeCommentById(comment_id) {
             return deletedComment;
         }
         catch (err) {
-            return err;
+            return Promise.reject(err);
         }
     });
 }

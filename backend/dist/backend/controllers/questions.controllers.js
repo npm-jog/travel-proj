@@ -7,7 +7,7 @@ function getQuestions(req, res, next) {
     const country = req.query.country;
     (0, questions_models_1.fetchQuestions)(country)
         .then((questions) => {
-        res.status(200).send(questions);
+        res.status(200).send({ questions });
     })
         .catch((err) => {
         next(err);
@@ -18,7 +18,7 @@ function postQuestion(req, res, next) {
     const newQuestion = req.body;
     (0, questions_models_1.insertQuestion)(newQuestion)
         .then((question) => {
-        res.status(201).send(question);
+        res.status(201).send({ question });
     })
         .catch((err) => {
         next(err);
@@ -26,6 +26,9 @@ function postQuestion(req, res, next) {
 }
 exports.postQuestion = postQuestion;
 function deleteQuestion(req, res, next) {
+    if (!mongoose_1.Types.ObjectId.isValid(req.params.user_id)) {
+        next({ status: 404, msg: "invalid Id" });
+    }
     const question_id = new mongoose_1.Types.ObjectId(req.params.question_id);
     (0, questions_models_1.removeQuestionById)(question_id)
         .then(() => {
@@ -37,11 +40,14 @@ function deleteQuestion(req, res, next) {
 }
 exports.deleteQuestion = deleteQuestion;
 function patchQuestion(req, res, next) {
+    if (!mongoose_1.Types.ObjectId.isValid(req.params.user_id)) {
+        next({ status: 404, msg: "invalid Id" });
+    }
     const question_id = new mongoose_1.Types.ObjectId(req.params.question_id);
     const updatedQuestion = req.body;
     (0, questions_models_1.updateQuestionById)(question_id, updatedQuestion)
         .then((question) => {
-        res.status(200).send(question);
+        res.status(200).send({ question });
     })
         .catch((err) => {
         next(err);
@@ -49,10 +55,13 @@ function patchQuestion(req, res, next) {
 }
 exports.patchQuestion = patchQuestion;
 function getCommentsByQuestionId(req, res, next) {
+    if (!mongoose_1.Types.ObjectId.isValid(req.params.user_id)) {
+        next({ status: 404, msg: "invalid Id" });
+    }
     const question_id = new mongoose_1.Types.ObjectId(req.params.question_id);
     (0, questions_models_1.fetchCommentsByQuestionId)(question_id)
         .then((comments) => {
-        res.status(200).send(comments);
+        res.status(200).send({ comments });
     })
         .catch((err) => {
         next(err);
@@ -60,11 +69,14 @@ function getCommentsByQuestionId(req, res, next) {
 }
 exports.getCommentsByQuestionId = getCommentsByQuestionId;
 function postCommentsByQuestionId(req, res, next) {
+    if (!mongoose_1.Types.ObjectId.isValid(req.params.user_id)) {
+        next({ status: 404, msg: "invalid Id" });
+    }
     const question_id = new mongoose_1.Types.ObjectId(req.params.question_id);
     const newComment = req.body;
     (0, questions_models_1.insertCommentByQuestionId)(question_id, newComment)
-        .then((newComment) => {
-        res.status(200).send(newComment);
+        .then((comment) => {
+        res.status(200).send({ comment });
     })
         .catch((err) => {
         next(err);

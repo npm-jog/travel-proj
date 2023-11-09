@@ -6,5 +6,5 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const countries_controllers_1 = require("../controllers/countries.controllers");
 const countriesRouter = express_1.default.Router();
-countriesRouter.get("/", countries_controllers_1.getAllCountries);
+countriesRouter.route("/").get(countries_controllers_1.getAllCountries);
 exports.default = countriesRouter;
