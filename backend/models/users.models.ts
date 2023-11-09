@@ -6,7 +6,7 @@ async function fetchUserById(id: Types.ObjectId) {
     const userId = await User.findById(id);
     return userId;
   } catch (err) {
-    return err;
+    return Promise.reject(err);
   }
 }
 
@@ -15,7 +15,7 @@ async function insertUser(user: Document) {
     const newUser = await User.create(user);
     return newUser;
   } catch (err) {
-    return err;
+    return Promise.reject(err);
   }
 }
 
@@ -24,7 +24,7 @@ async function removeUserById(id: Types.ObjectId) {
     const deletedUser = await User.findByIdAndDelete(id);
     return deletedUser;
   } catch (err) {
-    return err;
+    return Promise.reject(err);
   }
 }
 
@@ -36,7 +36,7 @@ async function updateUserById(id: Types.ObjectId, user: Document) {
     const updatedUser = await User.findByIdAndUpdate(id, user, options);
     return updatedUser;
   } catch (err) {
-    return err;
+    return Promise.reject(err);
   }
 }
 
