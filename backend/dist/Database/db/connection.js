@@ -21,6 +21,8 @@ function connectDB() {
         try {
             yield mongoose.connect(process.env.DATABASE_URL);
             console.log(`MongoDB connected successfully to ${ENV} DB`);
+            console.log(process.env.NODE_ENV);
+            console.log(process.env.DATABASE_URL);
         }
         catch (err) {
             console.error("MongoDB connection failed:", err);
