@@ -5,41 +5,43 @@ import {
 	removeReviewFromDb,
 	editReviewInDb,
 } from "../models/reviews.models";
+import { Types } from "mongoose";
 
 function getReviewsByLocation(req: Request, res: Response, next: NextFunction) {
-	fetchReviewsByLocation()
-		.then((x) => {
-			res.status(200).send();
+	const reviewLocation: string | undefined = req.params.country_name as string | undefined
+	fetchReviewsByLocation(reviewLocation)
+		.then((reviews: any) => {
+			res.status(200).send({reviews});
 		})
-		.catch((err: Error) => {
+		.catch((err) => {
 			next(err);
 		});
 }
 
-function postReviewToLocation(req: Request, res: Response, next: NextFunction) {
-	addReviewToDb()
-		.then((x) => {
-			res.status(201).send();
+function postReview(req: Request, res: Response, next: NextFunction) {
+	addReviewToDb(req.body)
+		.then((postedReview) => {
+			res.status(201).send({postedReview});
 		})
-		.catch((err: Error) => {
+		.catch((err) => {
 			next(err);
 		});
 }
 
 function deleteReviewById(req: Request, res: Response, next: NextFunction) {
-	removeReviewFromDb()
+	removeReviewFromDb(req.params.review_id)
 		.then((x) => {
-			res.status(204).send();
+			res.status(204).send(x);
 		})
-		.catch((err: Error) => {
+		.catch((err) => {
 			next(err);
 		});
 }
 
 function patchReviewById(req: Request, res: Response, next: NextFunction) {
-	editReviewInDb()
-		.then((x) => {
-			res.status(200).send();
+	editReviewInDb(req.params.review_id, req.body)
+		.then((review) => {
+			res.status(200).send({review});
 		})
 		.catch((err: Error) => {
 			next(err);
@@ -48,7 +50,7 @@ function patchReviewById(req: Request, res: Response, next: NextFunction) {
 
 export {
 	getReviewsByLocation,
-	postReviewToLocation,
+	postReview,
 	deleteReviewById,
 	patchReviewById,
 };
