@@ -21,7 +21,7 @@ function fetchUserById(id) {
             return userId;
         }
         catch (err) {
-            return err;
+            return Promise.reject(err);
         }
     });
 }
@@ -33,7 +33,7 @@ function insertUser(user) {
             return newUser;
         }
         catch (err) {
-            return err;
+            return Promise.reject(err);
         }
     });
 }
@@ -45,7 +45,7 @@ function removeUserById(id) {
             return deletedUser;
         }
         catch (err) {
-            return err;
+            return Promise.reject(err);
         }
     });
 }
@@ -57,11 +57,10 @@ function updateUserById(id, user) {
                 new: true,
             };
             const updatedUser = yield user_1.default.findByIdAndUpdate(id, user, options);
-            console.log("test", updatedUser);
             return updatedUser;
         }
         catch (err) {
-            return err;
+            return Promise.reject(err);
         }
     });
 }
