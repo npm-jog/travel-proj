@@ -180,7 +180,7 @@
 
 	import { addOutline, trashOutline } from "ionicons/icons";
 
-	import { ref, defineComponent } from "vue";
+	import { ref } from "vue";
 
 	let slideIndex = 1;
 

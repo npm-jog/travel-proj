@@ -9,13 +9,15 @@
 </template>
 
 <script setup lang="ts">
-	import { onMounted, nextTick, ref, onUnmounted } from "vue";
+	import { onMounted, nextTick, ref, onUnmounted, defineComponent } from "vue";
 	import { GoogleMap } from "@capacitor/google-maps";
 	import apiKey from "@/components/APIKey.js";
 
 	const props = defineProps<{
 		markerData: { coordinate: any; title: string; snippet: string }[];
+		filteredCountries: any;
 	}>();
+
 	// EVENTS
 	const emits = defineEmits<{
 		(event: "onMarkerClicked", info: any): void;
