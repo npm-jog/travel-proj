@@ -9,7 +9,8 @@
         placeholder="Search for country"
         v-if="path"
         v-model="searchQuery"
-        @ionInput="handleSearch()"></ion-searchbar>
+        @ionInput="handleSearch(countries, filteredCountries)"
+      ></ion-searchbar>
     </ion-toolbar>
   </ion-header>
 </template>
@@ -24,10 +25,9 @@ import {
   IonHeader,
   IonInput,
 } from "@ionic/vue";
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 
 import { countries } from "../../API.js";
-console.log(countries());
 
 export default defineComponent({
   components: {
@@ -44,6 +44,7 @@ export default defineComponent({
       path: this.$route.path === "/map",
       searchQuery: "",
       countries: countries(),
+      filteredCountries: ref(),
     };
   },
   methods: {
@@ -51,17 +52,14 @@ export default defineComponent({
       console.log(msg);
     },
 
-    handleSearch() {
-      const filteredCountries = this.countries.filter((country) =>
+    handleSearch(arr: any, filteredArr: any) {
+      filteredArr = arr.filter((country: any) =>
         country.name.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
-      console.log(filteredCountries[0].name);
-      if (filteredCountries.length === 1) {
-        const coordinates = filteredCountries[0].coordinates;
-      }
+      let selectedCountry = filteredArr[0];
+      return selectedCountry;
     },
   },
-
   watch: {
     $route(to, from) {
       this.path = to.path === "/map";
