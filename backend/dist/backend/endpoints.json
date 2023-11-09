@@ -1,5 +1,7 @@
 {
-    "GET /api": {},
+    "GET /api": {
+        "description": "serves up a json representation of all the available endpoints of the api"
+    },
     "GET /api/users/:user_id": {
         "description": "Returns a specified user by their id",
         "queries": [],
