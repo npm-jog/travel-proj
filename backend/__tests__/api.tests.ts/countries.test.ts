@@ -21,7 +21,6 @@ describe("GET fetchAllCountries", () => {
       .get("/api/countries")
       .expect(200)
       .then(({ body: { countries } }) => {
-        console.log(countries);
         expect(countries).toHaveLength(18);
         countries.forEach((country: Document) => {
           expect(country).toEqual(
