@@ -12,6 +12,7 @@ async function fetchQuestions(country: string | undefined) {
       return questions;
     }
   } catch (err) {
+    console.log('model err')
     return Promise.reject({ status: 400, msg: "Bad request: model validation failed" });
   }
 }
