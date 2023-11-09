@@ -3,47 +3,40 @@ import { RouteRecordRaw } from "vue-router";
 import MapPage from "@/views/MapPage.vue";
 import CountryPage from "@/views/CountryPage.vue";
 import WishList from "@/views/WishlistPage.vue";
-import TabsPage from "@/views/TabsPage.vue";
 
 const routes: Array<RouteRecordRaw> = [
 	{
 		path: "/",
-		redirect: "/login",
+		redirect: "/home",
 	},
 	{
-		path: "/",
-		component: TabsPage,
-		children: [
-			{
-				path: "login",
-				component: () => import("@/views/LoginPage.vue"),
-			},
-			{
-				path: "home",
-				component: MapPage,
-				name: "home",
-			},
-			{
-				path: "country",
-				component: CountryPage,
-			},
-			{
-				path: "wishlist",
-				component: WishList,
-			},
-			{
-				path: "profile",
-				component: () => import("@/views/ProfilePage.vue"),
-			},
-			{
-				path: "mygallery",
-				component: () => import("@/views/MyGalleryPage.vue"),
-			},
-			{
-				path: "conversations",
-				component: () => import("@/views/Conversations.vue"),
-			},
-		],
+		path: "/login",
+		component: () => import("@/views/LoginPage.vue"),
+	},
+	{
+		path: "/home",
+		component: MapPage,
+		name: "home",
+	},
+	{
+		path: "/country",
+		component: CountryPage,
+	},
+	{
+		path: "/wishlist",
+		component: WishList,
+	},
+	{
+		path: "/profile",
+		component: () => import("@/views/ProfilePage.vue"),
+	},
+	{
+		path: "/mygallery",
+		component: () => import("@/views/MyGalleryPage.vue"),
+	},
+	{
+		path: "/conversations",
+		component: () => import("@/views/Conversations.vue"),
 	},
 ];
 
