@@ -12,7 +12,7 @@ async function fetchQuestions(country: string | undefined) {
       return questions;
     }
   } catch (err) {
-    return err;
+    return Promise.reject(err);
   }
 }
 
@@ -24,7 +24,7 @@ async function updateQuestionById(question_id: Types.ObjectId, question: Documen
     const updatedQuestion = await Question.findByIdAndUpdate(question_id, question, options);
     return updatedQuestion;
   } catch (err) {
-    return err;
+    return Promise.reject(err);
   }
 }
 
@@ -34,7 +34,7 @@ async function removeQuestionById(question_id: Types.ObjectId) {
 
     return deletedQuestion;
   } catch (err) {
-    return err;
+    return Promise.reject(err);
   }
 }
 
@@ -43,7 +43,7 @@ async function insertQuestion(question: Document) {
     const newQuestion = await Question.create(question);
     return newQuestion;
   } catch (err) {
-    return err;
+    return Promise.reject(err);
   }
 }
 async function fetchCommentsByQuestionId(question_id: Types.ObjectId) {
@@ -51,7 +51,7 @@ async function fetchCommentsByQuestionId(question_id: Types.ObjectId) {
     const comments = await Comment.find({ question_id: question_id });
     return comments;
   } catch (err) {
-    return err;
+    return Promise.reject(err);
   }
 }
 
@@ -60,7 +60,7 @@ async function insertCommentByQuestionId(question_id: Types.ObjectId, comment: D
     const newComment = await Comment.create(comment);
     return newComment;
   } catch (err) {
-    return err;
+    return Promise.reject(err);
   }
 }
 

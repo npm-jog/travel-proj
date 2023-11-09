@@ -18,8 +18,8 @@ beforeEach(async () => {
   const users = await User.find({});
   userId = users[0]._id;
 });
-afterAll(() => {
-  mongoose.disconnect();
+afterAll(async () => {
+  await mongoose.disconnect();
 });
 //JAVASCRIPT
 

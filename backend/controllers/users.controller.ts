@@ -1,14 +1,13 @@
 import { Request, Response, NextFunction } from "express";
-import {
-  fetchUserById,
-  insertUser,
-  removeUserById,
-  updateUserById,
-} from "../models/users.models";
+import { fetchUserById, insertUser, removeUserById, updateUserById } from "../models/users.models";
 import { Types, Document } from "mongoose";
 
 function getUserById(req: Request, res: Response, next: NextFunction) {
+  if (!Types.ObjectId.isValid(req.params.user_id)) {
+    next({ status: 404, msg: "invalid Id" });
+  }
   const user_id: Types.ObjectId = new Types.ObjectId(req.params.user_id);
+
   fetchUserById(user_id)
     .then((user) => {
       res.status(200).send({ user });
@@ -30,6 +29,9 @@ function postUser(req: Request, res: Response, next: NextFunction) {
 }
 
 function deleteUserById(req: Request, res: Response, next: NextFunction) {
+  if (!Types.ObjectId.isValid(req.params.user_id)) {
+    next({ status: 404, msg: "invalid Id" });
+  }
   const user_id: Types.ObjectId = new Types.ObjectId(req.params.user_id);
   removeUserById(user_id)
     .then(() => {
@@ -41,6 +43,9 @@ function deleteUserById(req: Request, res: Response, next: NextFunction) {
 }
 
 function patchUserById(req: Request, res: Response, next: NextFunction) {
+  if (!Types.ObjectId.isValid(req.params.user_id)) {
+    next({ status: 404, msg: "invalid Id" });
+  }
   const user_id: Types.ObjectId = new Types.ObjectId(req.params.user_id);
   const updatedUser: Document = req.body;
   updateUserById(user_id, updatedUser)

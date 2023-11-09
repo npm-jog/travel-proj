@@ -32,6 +32,9 @@ function postQuestion(req: Request, res: Response, next: NextFunction) {
 }
 
 function deleteQuestion(req: Request, res: Response, next: NextFunction) {
+  if (!Types.ObjectId.isValid(req.params.user_id)) {
+    next({ status: 404, msg: "invalid Id" });
+  }
   const question_id: Types.ObjectId = new Types.ObjectId(req.params.question_id);
   removeQuestionById(question_id)
     .then(() => {
@@ -43,6 +46,9 @@ function deleteQuestion(req: Request, res: Response, next: NextFunction) {
 }
 
 function patchQuestion(req: Request, res: Response, next: NextFunction) {
+  if (!Types.ObjectId.isValid(req.params.user_id)) {
+    next({ status: 404, msg: "invalid Id" });
+  }
   const question_id: Types.ObjectId = new Types.ObjectId(req.params.question_id);
   const updatedQuestion: Document = req.body;
   updateQuestionById(question_id, updatedQuestion)
@@ -55,6 +61,9 @@ function patchQuestion(req: Request, res: Response, next: NextFunction) {
 }
 
 function getCommentsByQuestionId(req: Request, res: Response, next: NextFunction) {
+  if (!Types.ObjectId.isValid(req.params.user_id)) {
+    next({ status: 404, msg: "invalid Id" });
+  }
   const question_id: Types.ObjectId = new Types.ObjectId(req.params.question_id);
   fetchCommentsByQuestionId(question_id)
     .then((comments) => {
@@ -66,6 +75,9 @@ function getCommentsByQuestionId(req: Request, res: Response, next: NextFunction
 }
 
 function postCommentsByQuestionId(req: Request, res: Response, next: NextFunction) {
+  if (!Types.ObjectId.isValid(req.params.user_id)) {
+    next({ status: 404, msg: "invalid Id" });
+  }
   const question_id: Types.ObjectId = new Types.ObjectId(req.params.question_id);
   const newComment: Document = req.body;
   insertCommentByQuestionId(question_id, newComment)
