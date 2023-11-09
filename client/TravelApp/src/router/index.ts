@@ -6,46 +6,50 @@ import WishList from "@/views/WishlistPage.vue";
 import TabsPage from "@/views/TabsPage.vue";
 
 const routes: Array<RouteRecordRaw> = [
-  {
-    path: "/",
-    redirect: "/login",
-  },
-  {
-    path: "/",
-    component: TabsPage,
-    children: [
-      {
-        path: "login",
-        component: () => import("@/views/LoginPage.vue"),
-      },
-      {
-        path: "map",
-        component: MapPage,
-        name: "map",
-      },
-      {
-        path: "country",
-        component: CountryPage,
-      },
-      {
-        path: "wishlist",
-        component: WishList,
-      },
-      {
-        path: "profile",
-        component: () => import("@/views/ProfilePage.vue"),
-      },
-      {
-        path: "myGallery",
-        component: () => import("@/views/MyGalleryPage.vue"),
-      },
-    ],
-  },
+	{
+		path: "/",
+		redirect: "/login",
+	},
+	{
+		path: "/",
+		component: TabsPage,
+		children: [
+			{
+				path: "login",
+				component: () => import("@/views/LoginPage.vue"),
+			},
+			{
+				path: "home",
+				component: MapPage,
+				name: "home",
+			},
+			{
+				path: "country",
+				component: CountryPage,
+			},
+			{
+				path: "wishlist",
+				component: WishList,
+			},
+			{
+				path: "profile",
+				component: () => import("@/views/ProfilePage.vue"),
+			},
+			{
+				path: "mygallery",
+				component: () => import("@/views/MyGalleryPage.vue"),
+			},
+			{
+				path: "conversations",
+				component: () => import("@/views/Conversations.vue"),
+			},
+		],
+	},
 ];
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes,
+	history: createWebHistory(import.meta.env.BASE_URL),
+	routes,
 });
 
 export default router;
