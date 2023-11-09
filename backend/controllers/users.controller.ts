@@ -1,5 +1,10 @@
 import { Request, Response, NextFunction } from "express";
-import { fetchUserById, insertUser, removeUserById, updateUserById } from "../models/users.models";
+import {
+  fetchUserById,
+  insertUser,
+  removeUserById,
+  updateUserById,
+} from "../models/users.models";
 import { Types, Document } from "mongoose";
 
 function getUserById(req: Request, res: Response, next: NextFunction) {
