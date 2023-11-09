@@ -1,54 +1,56 @@
 import { Request, Response, NextFunction } from "express";
-import {
-	fetchReviewsByLocation,
-	addReviewToDb,
-	removeReviewFromDb,
-	editReviewInDb,
-} from "../models/reviews.models";
+import { fetchReviewsByLocation, addReviewToDb, removeReviewFromDb, editReviewInDb } from "../models/reviews.models";
+import { Types, Document } from "mongoose";
 
 function getReviewsByLocation(req: Request, res: Response, next: NextFunction) {
-	fetchReviewsByLocation()
-		.then((x) => {
-			res.status(200).send();
-		})
-		.catch((err: Error) => {
-			next(err);
-		});
+  const reviewLocation: string | undefined = req.params.country_name as string | undefined;
+  fetchReviewsByLocation(reviewLocation)
+    .then((reviews: any) => {
+      res.status(200).send({ reviews });
+    })
+    .catch((err) => {
+      next(err);
+    });
 }
 
-function postReviewToLocation(req: Request, res: Response, next: NextFunction) {
-	addReviewToDb()
-		.then((x) => {
-			res.status(201).send();
-		})
-		.catch((err: Error) => {
-			next(err);
-		});
+function postReview(req: Request, res: Response, next: NextFunction) {
+  const newReview: Document = req.body;
+  addReviewToDb(newReview)
+    .then((postedReview) => {
+      res.status(201).send({ postedReview });
+    })
+    .catch((err) => {
+      next(err);
+    });
 }
 
 function deleteReviewById(req: Request, res: Response, next: NextFunction) {
-	removeReviewFromDb()
-		.then((x) => {
-			res.status(204).send();
-		})
-		.catch((err: Error) => {
-			next(err);
-		});
+  if (!Types.ObjectId.isValid(req.params.review_id)) {
+    next({ status: 404, msg: "invalid Id" });
+  }
+  const review_id: Types.ObjectId = new Types.ObjectId(req.params.review_id);
+  removeReviewFromDb(review_id)
+    .then((x) => {
+      res.status(204).send(x);
+    })
+    .catch((err) => {
+      next(err);
+    });
 }
 
 function patchReviewById(req: Request, res: Response, next: NextFunction) {
-	editReviewInDb()
-		.then((x) => {
-			res.status(200).send();
-		})
-		.catch((err: Error) => {
-			next(err);
-		});
+  if (!Types.ObjectId.isValid(req.params.review_id)) {
+    next({ status: 404, msg: "invalid Id" });
+  }
+  const review_id: Types.ObjectId = new Types.ObjectId(req.params.review_id);
+  const updatedReview: Document = req.body;
+  editReviewInDb(review_id, updatedReview)
+    .then((review) => {
+      res.status(200).send({ review });
+    })
+    .catch((err: Error) => {
+      next(err);
+    });
 }
 
-export {
-	getReviewsByLocation,
-	postReviewToLocation,
-	deleteReviewById,
-	patchReviewById,
-};
+export { getReviewsByLocation, postReview, deleteReviewById, patchReviewById };

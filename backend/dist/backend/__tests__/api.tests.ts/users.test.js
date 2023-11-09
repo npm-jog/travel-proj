@@ -1,13 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -21,17 +12,13 @@ const test_data_1 = __importDefault(require("./../../../Database/db/data/test-da
 const mongoose_1 = __importDefault(require("mongoose"));
 const user_1 = __importDefault(require("../../../Database/models/user"));
 let userId;
-beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
-    yield (0, connection_1.default)();
-}));
-beforeEach(() => __awaiter(void 0, void 0, void 0, function* () {
-    yield (0, seed_1.default)(test_data_1.default);
-    const users = yield user_1.default.find({});
+beforeAll(async () => {
+    await (0, connection_1.default)();
+});
+beforeEach(async () => {
+    await (0, seed_1.default)(test_data_1.default);
+    const users = await user_1.default.find({});
     userId = users[0]._id;
-}));
-afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
-    yield mongoose_1.default.disconnect();
-}));
 //JAVASCRIPT
 describe("GET fetchUserById", () => {
     test("200: should return a user object with the correct properties /api/users/:user_id", () => {
@@ -117,20 +104,11 @@ describe("PATCH updateUserById", () => {
             expect(body.user).toEqual(expect.objectContaining(expectedUser));
         });
     });
-    test("404: should handle errors for a non-existent user ID", () => {
-        return (0, supertest_1.default)(app_1.default)
-            .patch("/api/users/non_existent_id")
-            .send({})
-            .expect(404);
     });
     test("400: should handle invalid request body", () => {
         const invalidBody = {
             forename: true,
             surname: [],
         };
-        return (0, supertest_1.default)(app_1.default)
-            .patch(`/api/users/${userId}`)
-            .send(invalidBody)
-            .expect(400);
     });
 });

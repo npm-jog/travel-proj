@@ -6,7 +6,7 @@ async function fetchAllCountries() {
 
     return countries;
   } catch (err) {
-    return Promise.reject(err);
+    return Promise.reject({ status: 400, msg: "unexpected error" });
   }
 }
 
