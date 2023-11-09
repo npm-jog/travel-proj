@@ -1,6 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 import { Types, Document } from "mongoose";
-import { removeCommentById, updateCommentById } from "../models/comments.models";
+import {
+  removeCommentById,
+  updateCommentById,
+} from "../models/comments.models";
 
 function deleteComment(req: Request, res: Response, next: NextFunction) {
   if (!Types.ObjectId.isValid(req.params.comment_id)) {

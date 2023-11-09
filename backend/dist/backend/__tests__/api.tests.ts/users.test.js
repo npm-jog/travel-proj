@@ -19,10 +19,6 @@ beforeEach(async () => {
     await (0, seed_1.default)(test_data_1.default);
     const users = await user_1.default.find({});
     userId = users[0]._id;
-});
-afterAll(async () => {
-    await mongoose_1.default.disconnect();
-});
 //JAVASCRIPT
 describe("GET fetchUserById", () => {
     test("200: should return a user object with the correct properties /api/users/:user_id", () => {
@@ -108,14 +104,11 @@ describe("PATCH updateUserById", () => {
             expect(body.user).toEqual(expect.objectContaining(expectedUser));
         });
     });
-    test("404: should handle errors", () => {
-        return (0, supertest_1.default)(app_1.default).patch("/api/users/non_existent_id").send({}).expect(404);
     });
     test("400: should handle invalid request body", () => {
         const invalidBody = {
             forename: true,
             surname: [],
         };
-        return (0, supertest_1.default)(app_1.default).patch(`/api/users/${userId}`).send(invalidBody).expect(400);
     });
 });

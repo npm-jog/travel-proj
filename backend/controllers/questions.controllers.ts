@@ -35,7 +35,9 @@ function deleteQuestion(req: Request, res: Response, next: NextFunction) {
   if (!Types.ObjectId.isValid(req.params.question_id)) {
     next({ status: 404, msg: "invalid Id" });
   }
-  const question_id: Types.ObjectId = new Types.ObjectId(req.params.question_id);
+  const question_id: Types.ObjectId = new Types.ObjectId(
+    req.params.question_id
+  );
   removeQuestionById(question_id)
     .then(() => {
       res.status(204).send();
@@ -49,7 +51,9 @@ function patchQuestion(req: Request, res: Response, next: NextFunction) {
   if (!Types.ObjectId.isValid(req.params.question_id)) {
     next({ status: 404, msg: "invalid Id" });
   }
-  const question_id: Types.ObjectId = new Types.ObjectId(req.params.question_id);
+  const question_id: Types.ObjectId = new Types.ObjectId(
+    req.params.question_id
+  );
   const updatedQuestion: Document = req.body;
   updateQuestionById(question_id, updatedQuestion)
     .then((question) => {
@@ -60,11 +64,12 @@ function patchQuestion(req: Request, res: Response, next: NextFunction) {
     });
 }
 
-function getCommentsByQuestionId(req: Request, res: Response, next: NextFunction) {
   if (!Types.ObjectId.isValid(req.params.question_id)) {
     next({ status: 404, msg: "invalid Id" });
   }
-  const question_id: Types.ObjectId = new Types.ObjectId(req.params.question_id);
+  const question_id: Types.ObjectId = new Types.ObjectId(
+    req.params.question_id
+  );
   fetchCommentsByQuestionId(question_id)
     .then((comments) => {
       res.status(200).send({ comments });
@@ -74,11 +79,12 @@ function getCommentsByQuestionId(req: Request, res: Response, next: NextFunction
     });
 }
 
-function postCommentsByQuestionId(req: Request, res: Response, next: NextFunction) {
   if (!Types.ObjectId.isValid(req.params.question_id)) {
     next({ status: 404, msg: "invalid Id" });
   }
-  const question_id: Types.ObjectId = new Types.ObjectId(req.params.question_id);
+  const question_id: Types.ObjectId = new Types.ObjectId(
+    req.params.question_id
+  );
   const newComment: Document = req.body;
   insertCommentByQuestionId(question_id, newComment)
     .then((comment) => {
@@ -89,4 +95,11 @@ function postCommentsByQuestionId(req: Request, res: Response, next: NextFunctio
     });
 }
 
-export { getQuestions, postQuestion, deleteQuestion, patchQuestion, getCommentsByQuestionId, postCommentsByQuestionId };
+export {
+  getQuestions,
+  postQuestion,
+  deleteQuestion,
+  patchQuestion,
+  getCommentsByQuestionId,
+  postCommentsByQuestionId,
+};
