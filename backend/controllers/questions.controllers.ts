@@ -64,6 +64,11 @@ function patchQuestion(req: Request, res: Response, next: NextFunction) {
     });
 }
 
+function getCommentsByQuestionId(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   if (!Types.ObjectId.isValid(req.params.question_id)) {
     next({ status: 404, msg: "invalid Id" });
   }
@@ -79,6 +84,11 @@ function patchQuestion(req: Request, res: Response, next: NextFunction) {
     });
 }
 
+function postCommentsByQuestionId(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   if (!Types.ObjectId.isValid(req.params.question_id)) {
     next({ status: 404, msg: "invalid Id" });
   }
