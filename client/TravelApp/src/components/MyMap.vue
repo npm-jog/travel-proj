@@ -52,9 +52,6 @@ const addSomeMarkers = async (newMap: GoogleMap) => {
   markerIds.value = await newMap.addMarkers(markers);
 };
 
-/**
- *
- */
 async function createMap() {
   if (!mapRef.value) return;
 
