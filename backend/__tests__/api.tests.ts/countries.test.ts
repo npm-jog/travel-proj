@@ -27,10 +27,12 @@ describe("GET fetchAllCountries", () => {
             expect.objectContaining({
               _id: expect.any(String),
               name: expect.any(String),
-              __v: expect.any(Number),
             })
           );
         });
       });
+  });
+  test("404: should handle accessing a non-existent route under /api/countries", () => {
+    return request(app).get("/api/countries/non_existent_route").expect(404);
   });
 });

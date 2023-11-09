@@ -28,7 +28,7 @@ function fetchQuestions(country) {
             }
         }
         catch (err) {
-            return err;
+            return Promise.reject(err);
         }
     });
 }
@@ -43,7 +43,7 @@ function updateQuestionById(question_id, question) {
             return updatedQuestion;
         }
         catch (err) {
-            return err;
+            return Promise.reject(err);
         }
     });
 }
@@ -55,7 +55,7 @@ function removeQuestionById(question_id) {
             return deletedQuestion;
         }
         catch (err) {
-            return err;
+            return Promise.reject(err);
         }
     });
 }
@@ -67,7 +67,7 @@ function insertQuestion(question) {
             return newQuestion;
         }
         catch (err) {
-            return err;
+            return Promise.reject(err);
         }
     });
 }
@@ -79,7 +79,7 @@ function fetchCommentsByQuestionId(question_id) {
             return comments;
         }
         catch (err) {
-            return err;
+            return Promise.reject(err);
         }
     });
 }
@@ -91,7 +91,7 @@ function insertCommentByQuestionId(question_id, comment) {
             return newComment;
         }
         catch (err) {
-            return err;
+            return Promise.reject(err);
         }
     });
 }

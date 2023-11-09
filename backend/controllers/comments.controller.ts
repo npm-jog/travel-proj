@@ -1,9 +1,12 @@
 import { Request, Response, NextFunction } from "express";
 import { Types, Document } from "mongoose";
-import { removeCommentById, updateCommentById } from "../models/comments.models";
+import {
+  removeCommentById,
+  updateCommentById,
+} from "../models/comments.models";
 
 function deleteComment(req: Request, res: Response, next: NextFunction) {
-  if (!Types.ObjectId.isValid(req.params.user_id)) {
+  if (!Types.ObjectId.isValid(req.params.comment_id)) {
     next({ status: 404, msg: "invalid Id" });
   }
   const comment_id: Types.ObjectId = new Types.ObjectId(req.params.comment_id);
@@ -17,7 +20,7 @@ function deleteComment(req: Request, res: Response, next: NextFunction) {
 }
 
 function patchComment(req: Request, res: Response, next: NextFunction) {
-  if (!Types.ObjectId.isValid(req.params.user_id)) {
+  if (!Types.ObjectId.isValid(req.params.comment_id)) {
     next({ status: 404, msg: "invalid Id" });
   }
   const comment_id: Types.ObjectId = new Types.ObjectId(req.params.comment_id);

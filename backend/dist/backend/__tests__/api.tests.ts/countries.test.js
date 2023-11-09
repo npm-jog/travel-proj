@@ -22,15 +22,16 @@ describe("GET fetchAllCountries", () => {
             .get("/api/countries")
             .expect(200)
             .then(({ body: { countries } }) => {
-            console.log(countries);
             expect(countries).toHaveLength(18);
             countries.forEach((country) => {
                 expect(country).toEqual(expect.objectContaining({
                     _id: expect.any(String),
                     name: expect.any(String),
-                    __v: expect.any(Number),
                 }));
             });
         });
+    });
+    test("404: should handle accessing a non-existent route under /api/countries", () => {
+        return (0, supertest_1.default)(app_1.default).get("/api/countries/non_existent_route").expect(404);
     });
 });

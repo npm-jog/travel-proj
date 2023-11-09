@@ -29,17 +29,17 @@ beforeEach(() => __awaiter(void 0, void 0, void 0, function* () {
     const users = yield user_1.default.find({});
     userId = users[0]._id;
 }));
-afterAll(() => {
-    mongoose_1.default.disconnect();
-});
+afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
+    yield mongoose_1.default.disconnect();
+}));
 //JAVASCRIPT
 describe("GET fetchUserById", () => {
     test("200: should return a user object with the correct properties /api/users/:user_id", () => {
         return (0, supertest_1.default)(app_1.default)
             .get(`/api/users/${userId}`)
             .expect(200)
-            .then((response) => {
-            const user = response.body;
+            .then(({ body }) => {
+            const user = body.user;
             expect(typeof user._id).toBe("string");
             expect(typeof user.forename).toBe("string");
             expect(typeof user.surname).toBe("string");
@@ -50,9 +50,9 @@ describe("GET fetchUserById", () => {
             expect(typeof user.__v).toBe("number");
         });
     });
-    /*test("returns status 400", () => {
-      return request(app).get("/users/9999").expect(400);
-    });*/
+    test("404: can't fetch a non-existent user", () => {
+        return (0, supertest_1.default)(app_1.default).get("/api/users/non_existent_id").expect(404);
+    });
 });
 describe("POST createUser", () => {
     test("201: should create a new user /api/users", () => {
@@ -65,8 +65,8 @@ describe("POST createUser", () => {
             .post("/api/users")
             .send(newUser)
             .expect(201)
-            .then((response) => {
-            const user = response.body;
+            .then(({ body }) => {
+            const user = body.user;
             expect(user).toHaveProperty("forename", newUser.forename);
             expect(user).toHaveProperty("surname", newUser.surname);
             expect(user).toHaveProperty("username", newUser.username);
@@ -103,8 +103,7 @@ describe("PATCH updateUserById", () => {
             .patch(`/api/users/${userId}`)
             .send(updatedUser)
             .expect(200)
-            .then((response) => {
-            console.log(response.body);
+            .then(({ body }) => {
             const expectedUser = {
                 _id: expect.any(String),
                 forename: expect.any(String),
@@ -115,7 +114,23 @@ describe("PATCH updateUserById", () => {
                 wishlist: expect.any(Array),
                 albums: expect.any(Array),
             };
-            expect(response.body).toEqual(expect.objectContaining(expectedUser));
+            expect(body.user).toEqual(expect.objectContaining(expectedUser));
         });
+    });
+    test("404: should handle errors for a non-existent user ID", () => {
+        return (0, supertest_1.default)(app_1.default)
+            .patch("/api/users/non_existent_id")
+            .send({})
+            .expect(404);
+    });
+    test("400: should handle invalid request body", () => {
+        const invalidBody = {
+            forename: true,
+            surname: [],
+        };
+        return (0, supertest_1.default)(app_1.default)
+            .patch(`/api/users/${userId}`)
+            .send(invalidBody)
+            .expect(400);
     });
 });

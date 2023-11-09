@@ -6,6 +6,5 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const comments_controller_1 = require("../controllers/comments.controller");
 const commentsRouter = express_1.default.Router();
-commentsRouter.patch("/:comment_id", comments_controller_1.patchComment);
-commentsRouter.delete("/:comment_id", comments_controller_1.deleteComment);
+commentsRouter.route("/:comment_id").patch(comments_controller_1.patchComment).delete(comments_controller_1.deleteComment);
 exports.default = commentsRouter;
