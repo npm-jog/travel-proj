@@ -346,7 +346,7 @@
 		justify-content: space-evenly;
 	}
 
-	ion-button {
+	.buttons-div ion-button {
 		width: 40%;
 		height: 20%;
 		color: black;
