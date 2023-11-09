@@ -14,7 +14,7 @@
 						<!-- Full-width images with number and caption text -->
 						<div
 							class="fade"
-							v-if="slides[0].className.value"
+							v-if="slides[0].toShow.value"
 						>
 							<div class="image-div">
 								<img
@@ -26,7 +26,7 @@
 
 						<div
 							class="fade"
-							v-if="slides[1].className.value"
+							v-if="slides[1].toShow.value"
 						>
 							<div class="image-div">
 								<img
@@ -39,7 +39,7 @@
 						<div class="fade">
 							<div
 								class="image-div"
-								v-if="slides[2].className.value"
+								v-if="slides[2].toShow.value"
 							>
 								<img
 									class="carousel-image"
@@ -102,9 +102,9 @@
 
 	let slideIndex = 1;
 	const slides = [
-		{ className: ref(true) },
-		{ className: ref(false) },
-		{ className: ref(false) },
+		{ toShow: ref(true) },
+		{ toShow: ref(false) },
+		{ toShow: ref(false) },
 	];
 	const dots = [{ className: "" }, { className: "" }, { className: "" }];
 	showSlides(slideIndex);
@@ -129,12 +129,12 @@
 			slideIndex = slides.length;
 		}
 		for (i = 0; i < slides.length; i++) {
-			slides[i].className.value = false;
+			slides[i].toShow.value = false;
 		}
 		for (i = 0; i < dots.length; i++) {
 			dots[i].className = "";
 		}
-		slides[slideIndex - 1].className.value = true;
+		slides[slideIndex - 1].toShow.value = true;
 		dots[slideIndex - 1].className = "active";
 	}
 </script>
