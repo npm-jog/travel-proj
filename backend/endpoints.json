@@ -184,17 +184,103 @@
   "GET /api/reviews/:location": {
     "description": "Returns a list of reviews for a location",
     "queries": [],
-    "exampleResponse": {}
+    "exampleResponse": {
+      "reviews": [
+        {
+          "ratings": {
+          "safety": 4,
+          "food": 5,
+          "activities": 4,
+          "cost": 1,
+          "scenery": 5
+          },
+          "_id": "654cf83b52de90f10c748b03",
+          "username": "SunshineLoz92",
+          "body": "Each state is like another country! So much to explore!",
+          "pictures": ["<picture link>", "<picture link>", "<picture link>"],
+          "country": "USA",
+          "reported_count": 0,
+          "user_interactions": [{
+            "0" : {
+              "username": "TD2382",
+              "reported": "true",
+              "_id": "654cc9d16d5611e2f3e12fd6"
+            }
+          },
+          {
+            "1": {
+              "username": "flyawaypaul",
+              "reported": "true",
+              "_id": "654cc9d16d5611e2f3e12fd7"
+             }
+          }
+          ],
+          "__v": 0
+        },
+        {
+          "ratings": {
+          "safety": 3,
+          "food": 4,
+          "activities": 4,
+          "cost": 4,
+          "scenery": 5
+          },
+          "_id": "654cc9d16d5611e2f3e12fd7",
+          "username": "flyawaypaul",
+          "body": "Loved this place. Always sunny, great hospitality and amazing beaches!",
+          "pictures": [],
+          "country": "England",
+          "reported_count": 0,
+          "user_interactions": [],
+          "__v": 0
+        }
+      ]
+    }
   },
   "POST /api/reviews/:location": {
     "description": "Adds a review to a location and returns the added review",
     "queries": [],
-    "exampleResponse": {}
+    "exampleResponse": {
+      "postedReview": {
+        "username": "Johhny",
+        "body": "So sunny!",
+        "ratings": { 
+          "safety": 5,
+          "food": 5, 
+          "activities": 4, 
+          "cost": 3, 
+          "scenery": 5 
+        },
+        "pictures": ["<pic link>"],
+        "country": "England",
+        "reported_count": 0,
+        "_id": "654cfcd8c0097a62f26c3344",
+        "user_interactions": [],
+        "__v": 0
+      }
+    }
   },
   "PATCH /api/reviews/:review_id": {
     "description": "Updates a review by the users id and rerturns the updated review",
     "queries": [],
-    "exampleResponse": {}
+    "exampleResponse": {
+      "review": {
+        "ratings": { 
+          "safety": 5, 
+          "food": 5, 
+          "activities": 4, 
+          "cost": 4, 
+          "scenery": 5 },
+        "_id": "654cff5ced48b000512a1f77",
+        "username": "Backpacker2001",
+        "body": "More than amazing. Would highly recomend",
+        "pictures": [],
+        "country": "Thailand",
+        "reported_count": 0,
+        "user_interactions": [],
+        "__v": 0
+      }
+    }
   },
   "DELETE /api/reviews/:review_id": {
     "description": "Removes a review ",
