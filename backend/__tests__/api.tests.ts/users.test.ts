@@ -5,43 +5,120 @@ import request from "supertest";
 import connectDB from "./../../../Database/db/connection";
 import seed from "./../../../Database/db/seed/seed";
 import testData from "./../../../Database/db/data/test-data";
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
+import User from "../../../Database/models/user";
 
-beforeAll(() => connectDB());
-beforeEach(() => seed(testData));
-afterAll(() => {
-  mongoose.disconnect();
-  console.log("MongoDB disconnected successfully");
+let userId: Types.ObjectId;
+
+beforeAll(async () => {
+  await connectDB();
+});
+beforeEach(async () => {
+  await seed(testData);
+  const users = await User.find({});
+  userId = users[0]._id;
+});
+afterAll(async () => {
+  await mongoose.disconnect();
 });
 //JAVASCRIPT
 
-
 describe("GET fetchUserById", () => {
-  test("200: /api/users/:user_id", () => {
+  test("200: should return a user object with the correct properties /api/users/:user_id", () => {
     return request(app)
-      .get("/api/users/1")
+      .get(`/api/users/${userId}`)
       .expect(200)
-      .then((x) => {});
+      .then(({ body }) => {
+        const user = body.user;
+        expect(typeof user._id).toBe("string");
+        expect(typeof user.forename).toBe("string");
+        expect(typeof user.surname).toBe("string");
+        expect(typeof user.username).toBe("string");
+        expect(typeof user.avatar_url).toBe("string");
+        expect(Array.isArray(user.visited_locations)).toBe(true);
+        expect(Array.isArray(user.wishlist)).toBe(true);
+        expect(typeof user.__v).toBe("number");
+      });
   });
-  /*test("returns status 400", () => {
-    return request(app).get("/users/9999").expect(400);
-  });*/
+  test("404: can't fetch a non-existent user", () => {
+    return request(app).get("/api/users/non_existent_id").expect(404);
+  });
 });
 
 describe("POST createUser", () => {
-  test("201: /api/users", () => {
-    return request(app).post("/api/users").send({}).expect(201);
+  test("201: should create a new user /api/users", () => {
+    const newUser = {
+      username: "newUser",
+      forename: "Bob",
+      surname: "Davis",
+    };
+    return request(app)
+      .post("/api/users")
+      .send(newUser)
+      .expect(201)
+      .then(({ body }) => {
+        const user = body.user;
+        expect(user).toHaveProperty("forename", newUser.forename);
+        expect(user).toHaveProperty("surname", newUser.surname);
+        expect(user).toHaveProperty("username", newUser.username);
+        expect(user).toHaveProperty("avatar_url");
+        expect(user).toHaveProperty("visited_locations");
+        expect(user).toHaveProperty("wishlist");
+        expect(user).toHaveProperty("_id");
+        expect(user).toHaveProperty("albums");
+        expect(user).toHaveProperty("__v");
+      });
   });
 });
 
 describe("DELETE removeUserById", () => {
-  test("204: /api/users/:user_id", () => {
-    return request(app).delete("/api/users/1").expect(204);
+  test("204: should delete a user by ID /api/users/:user_id", () => {
+    return request(app).delete(`/api/users/${userId}`).expect(204);
+  });
+  test("404: can't delete a non-existent user", () => {
+    return request(app).delete("/api/users/non_existent_id").expect(404);
   });
 });
 
 describe("PATCH updateUserById", () => {
-  test("200: /api/users/:user_id", () => {
-    return request(app).patch("/users/1").expect(200);
+  test("200: should update a user by ID /api/users/:user_id", () => {
+    const updatedUser = {
+      forename: "UpdatedForename",
+      surname: "UpdatedSurname",
+      username: "UpdatedUsername",
+      avatar_url: "https://updated-avatar.com",
+      visited_locations: ["newCountry", "newCountry2"],
+      wishlist: ["anotherCountry", "anotherCountry2"],
+      albums: [{ country: "England", url: "https://england.com" }],
+      __v: 1,
+    };
+
+    return request(app)
+      .patch(`/api/users/${userId}`)
+      .send(updatedUser)
+      .expect(200)
+      .then(({ body }) => {
+        const expectedUser = {
+          _id: expect.any(String),
+          forename: expect.any(String),
+          surname: expect.any(String),
+          username: expect.any(String),
+          avatar_url: expect.any(String),
+          visited_locations: expect.any(Array),
+          wishlist: expect.any(Array),
+          albums: expect.any(Array),
+        };
+        expect(body.user).toEqual(expect.objectContaining(expectedUser));
+      });
+  });
+  test("404: should handle errors", () => {
+    return request(app).patch("/api/users/non_existent_id").send({}).expect(404);
+  });
+  test("400: should handle invalid request body", () => {
+    const invalidBody = {
+      forename: true,
+      surname: [],
+    };
+    return request(app).patch(`/api/users/${userId}`).send(invalidBody).expect(400);
   });
 });

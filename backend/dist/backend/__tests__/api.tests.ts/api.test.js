@@ -14,23 +14,11 @@ beforeAll(() => (0, connection_1.default)());
 beforeEach(() => (0, seed_1.default)(test_data_1.default));
 afterAll(() => {
     mongoose_1.default.disconnect();
+    console.log("MongoDB disconnected successfully");
 });
 //JAVASCRIPT
-describe("GET fetchAllCountries", () => {
-    test("200: /api/countries", () => {
-        return (0, supertest_1.default)(app_1.default)
-            .get("/api/countries")
-            .expect(200)
-            .then(({ body: { countries } }) => {
-            console.log(countries);
-            expect(countries).toHaveLength(18);
-            countries.forEach((country) => {
-                expect(country).toEqual(expect.objectContaining({
-                    _id: expect.any(String),
-                    name: expect.any(String),
-                    __v: expect.any(Number),
-                }));
-            });
-        });
+describe("GET getAllEndpoints", () => {
+    test("200: /api", () => {
+        return (0, supertest_1.default)(app_1.default).get("/api").expect(200);
     });
 });

@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -10,36 +19,103 @@ const connection_1 = __importDefault(require("./../../../Database/db/connection"
 const seed_1 = __importDefault(require("./../../../Database/db/seed/seed"));
 const test_data_1 = __importDefault(require("./../../../Database/db/data/test-data"));
 const mongoose_1 = __importDefault(require("mongoose"));
-beforeAll(() => (0, connection_1.default)());
-beforeEach(() => (0, seed_1.default)(test_data_1.default));
+const user_1 = __importDefault(require("../../../Database/models/user"));
+let userId;
+beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
+    yield (0, connection_1.default)();
+}));
+beforeEach(() => __awaiter(void 0, void 0, void 0, function* () {
+    yield (0, seed_1.default)(test_data_1.default);
+    const users = yield user_1.default.find({});
+    userId = users[0]._id;
+}));
 afterAll(() => {
     mongoose_1.default.disconnect();
-    console.log("MongoDB disconnected successfully");
 });
 //JAVASCRIPT
 describe("GET fetchUserById", () => {
-    test("200: /api/users/:user_id", () => {
+    test("200: should return a user object with the correct properties /api/users/:user_id", () => {
         return (0, supertest_1.default)(app_1.default)
-            .get("/api/users/1")
+            .get(`/api/users/${userId}`)
             .expect(200)
-            .then((x) => { });
+            .then((response) => {
+            const user = response.body;
+            expect(typeof user._id).toBe("string");
+            expect(typeof user.forename).toBe("string");
+            expect(typeof user.surname).toBe("string");
+            expect(typeof user.username).toBe("string");
+            expect(typeof user.avatar_url).toBe("string");
+            expect(Array.isArray(user.visited_locations)).toBe(true);
+            expect(Array.isArray(user.wishlist)).toBe(true);
+            expect(typeof user.__v).toBe("number");
+        });
     });
     /*test("returns status 400", () => {
       return request(app).get("/users/9999").expect(400);
     });*/
 });
 describe("POST createUser", () => {
-    test("201: /api/users", () => {
-        return (0, supertest_1.default)(app_1.default).post("/api/users").send({}).expect(201);
+    test("201: should create a new user /api/users", () => {
+        const newUser = {
+            username: "newUser",
+            forename: "Bob",
+            surname: "Davis",
+        };
+        return (0, supertest_1.default)(app_1.default)
+            .post("/api/users")
+            .send(newUser)
+            .expect(201)
+            .then((response) => {
+            const user = response.body;
+            expect(user).toHaveProperty("forename", newUser.forename);
+            expect(user).toHaveProperty("surname", newUser.surname);
+            expect(user).toHaveProperty("username", newUser.username);
+            expect(user).toHaveProperty("avatar_url");
+            expect(user).toHaveProperty("visited_locations");
+            expect(user).toHaveProperty("wishlist");
+            expect(user).toHaveProperty("_id");
+            expect(user).toHaveProperty("albums");
+            expect(user).toHaveProperty("__v");
+        });
     });
 });
 describe("DELETE removeUserById", () => {
-    test("204: /api/users/:user_id", () => {
-        return (0, supertest_1.default)(app_1.default).delete("/api/users/1").expect(204);
+    test("204: should delete a user by ID /api/users/:user_id", () => {
+        return (0, supertest_1.default)(app_1.default).delete(`/api/users/${userId}`).expect(204);
+    });
+    test("404: can't delete a non-existent user", () => {
+        return (0, supertest_1.default)(app_1.default).delete("/api/users/non_existent_id").expect(404);
     });
 });
 describe("PATCH updateUserById", () => {
-    test("200: /api/users/:user_id", () => {
-        return (0, supertest_1.default)(app_1.default).patch("/users/1").expect(200);
+    test("200: should update a user by ID /api/users/:user_id", () => {
+        const updatedUser = {
+            forename: "UpdatedForename",
+            surname: "UpdatedSurname",
+            username: "UpdatedUsername",
+            avatar_url: "https://updated-avatar.com",
+            visited_locations: ["newCountry", "newCountry2"],
+            wishlist: ["anotherCountry", "anotherCountry2"],
+            albums: [{ country: "England", url: "https://england.com" }],
+            __v: 1,
+        };
+        return (0, supertest_1.default)(app_1.default)
+            .patch(`/api/users/${userId}`)
+            .send(updatedUser)
+            .expect(200)
+            .then((response) => {
+            console.log(response.body);
+            const expectedUser = {
+                _id: expect.any(String),
+                forename: expect.any(String),
+                surname: expect.any(String),
+                username: expect.any(String),
+                avatar_url: expect.any(String),
+                visited_locations: expect.any(Array),
+                wishlist: expect.any(Array),
+                albums: expect.any(Array),
+            };
+            expect(response.body).toEqual(expect.objectContaining(expectedUser));
+        });
     });
 });

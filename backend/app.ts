@@ -1,5 +1,12 @@
 import express, { Express, Request, Response } from "express";
-import { usersRouter, reviewsRouter, countriesRouter, questionsRouter } from "./routes";
+import {
+  usersRouter,
+  reviewsRouter,
+  countriesRouter,
+  apiRouter,
+ questionsRouter, commentsRouter
+} from "./routes";
+
 import dotenv from "dotenv";
 import cors from "cors";
 import mongoose from "mongoose";
@@ -29,6 +36,8 @@ app.use("/api/reviews", reviewsRouter);
 app.use("/api/questions", questionsRouter);
 app.use("/api/countries", countriesRouter);
 
+app.use("/api/comments", commentsRouter);
+app.use("/api", apiRouter);
 
 app.use(handleErrors);
 

@@ -12,7 +12,6 @@ beforeAll(() => connectDB());
 beforeEach(() => seed(testData));
 afterAll(() => {
   mongoose.disconnect();
-  console.log("MongoDB disconnected successfully");
 });
 //JAVASCRIPT
 
@@ -22,7 +21,6 @@ describe("GET fetchAllCountries", () => {
       .get("/api/countries")
       .expect(200)
       .then(({ body: { countries } }) => {
-        console.log(countries);
         expect(countries).toHaveLength(18);
         countries.forEach((country: Document) => {
           expect(country).toEqual(

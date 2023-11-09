@@ -106,9 +106,11 @@ const config = {
     // A list of paths to snapshot serializer modules Jest should use for snapshot testing
     // snapshotSerializers: [],
     // The test environment that will be used for testing
-    // testEnvironment: "jest-environment-node",
+    testEnvironment: "jest-environment-node",
     // Options that will be passed to the testEnvironment
-    // testEnvironmentOptions: {},
+    testEnvironmentOptions: {
+        NODE_ENV: "test",
+    },
     // Adds a location field to test results
     // testLocationInResults: false,
     // The glob patterns Jest uses to detect test files

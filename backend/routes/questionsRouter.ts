@@ -1,11 +1,17 @@
 import express, { Request, Response } from "express";
-import { deleteQuestion, getQuestions, patchQuestion, postQuestion } from "../controllers/questions.controllers";
+import {
+  deleteQuestion,
+  getQuestions,
+  patchQuestion,
+  postQuestion,
+  getCommentsByQuestionId,
+  postCommentsByQuestionId,
+} from "../controllers/questions.controllers";
 
 const questionsRouter = express.Router();
 
-questionsRouter.get("/", getQuestions);
-questionsRouter.post("/", postQuestion);
-questionsRouter.delete("/:question_id", deleteQuestion);
-questionsRouter.patch("/:question_id", patchQuestion);
+questionsRouter.route("/").get(getQuestions).post(postQuestion);
+questionsRouter.route("/:question_id/comments").get(getCommentsByQuestionId).post(postCommentsByQuestionId);
+questionsRouter.route("/:question_id").delete(deleteQuestion).patch(patchQuestion);
 
 export default questionsRouter;

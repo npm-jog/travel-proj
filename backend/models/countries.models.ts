@@ -6,7 +6,7 @@ async function fetchAllCountries() {
 
     return countries;
   } catch (err) {
-    return err;
+    return Promise.reject(err);
   }
 }
 
