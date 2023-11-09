@@ -32,6 +32,7 @@ async function editReviewInDb(reviewId: Types.ObjectId, review: Document) {
       new: true,
     };
     const updatedReviewResponse = await Review.findByIdAndUpdate(reviewId, review, options);
+	return updatedReviewResponse;
   } catch (err) {
     return Promise.reject({ status: 400, msg: "Id does not exist" });
   }
