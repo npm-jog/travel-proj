@@ -9,7 +9,7 @@ async function updateCommentById(comment_id: Types.ObjectId, comment: Document) 
     const updatedComment = await Comment.findByIdAndUpdate(comment_id, comment, options);
     return updatedComment;
   } catch (err) {
-    return Promise.reject(err);
+    return Promise.reject({ status: 400, msg: "Id does not exist or model not valid" });
   }
 }
 
@@ -18,7 +18,7 @@ async function removeCommentById(comment_id: Types.ObjectId) {
     const deletedComment = await Comment.findByIdAndDelete(comment_id);
     return deletedComment;
   } catch (err) {
-    return Promise.reject(err);
+    return Promise.reject({ status: 400, msg: "Id does not exist" });
   }
 }
 
