@@ -10,93 +10,15 @@
 		</ion-header>
 		<ion-content class="ion-padding">
 			<ion-button
+				v-for="x in pages"
+				v-model="x.value[0]"
+				@click="navigateTo(x.value[0])"
 				class="ion-padding"
 				expand="block"
-			>
-				Home
-				<ion-icon
+				>{{ x.value[2]
+				}}<ion-icon
 					slot="end"
-					:icon="home"
-				></ion-icon>
-			</ion-button>
-			<ion-button
-				class="ion-padding"
-				expand="block"
-			>
-				Profile
-				<ion-icon
-					slot="end"
-					:icon="personOutline"
-				></ion-icon>
-			</ion-button>
-			<ion-button
-				class="ion-padding"
-				expand="block"
-			>
-				Create Account
-				<ion-icon
-					slot="end"
-					:icon="personAddOutline"
-				></ion-icon>
-			</ion-button>
-			<ion-button
-				class="ion-padding"
-				expand="block"
-			>
-				Sign In
-				<ion-icon
-					slot="end"
-					:icon="logInOutline"
-				></ion-icon>
-			</ion-button>
-			<ion-button
-				class="ion-padding"
-				expand="block"
-			>
-				Sign Out
-				<ion-icon
-					slot="end"
-					:icon="logOutOutline"
-				></ion-icon>
-			</ion-button>
-			<ion-button
-				class="ion-padding"
-				expand="block"
-			>
-				Gallery
-				<ion-icon
-					slot="end"
-					:icon="imageOutline"
-				></ion-icon>
-			</ion-button>
-			<ion-button
-				class="ion-padding"
-				expand="block"
-			>
-				My Reviews
-				<ion-icon
-					slot="end"
-					:icon="starHalfOutline"
-				></ion-icon>
-			</ion-button>
-			<ion-button
-				class="ion-padding"
-				expand="block"
-			>
-				Conversations
-				<ion-icon
-					slot="end"
-					:icon="chatboxEllipsesOutline"
-				></ion-icon>
-			</ion-button>
-			<ion-button
-				class="ion-padding"
-				expand="block"
-			>
-				Wishlist
-				<ion-icon
-					slot="end"
-					:icon="giftOutline"
+					:icon="x.value[1]"
 				></ion-icon>
 			</ion-button>
 		</ion-content>
@@ -104,6 +26,7 @@
 </template>
 
 <script lang="ts">
+	import router from "@/router";
 	import {
 		IonContent,
 		IonHeader,
@@ -113,6 +36,7 @@
 		IonToolbar,
 		IonButton,
 		IonIcon,
+		IonButtons,
 	} from "@ionic/vue";
 
 	import {
@@ -125,11 +49,29 @@
 		starHalfOutline,
 		chatboxEllipsesOutline,
 		giftOutline,
+		airplaneOutline,
 	} from "ionicons/icons";
 
-	import { defineComponent } from "vue";
+	import { defineComponent, ref } from "vue";
 
 	export default defineComponent({
+		data() {
+			return {
+				// array to render buttons
+				pages: [
+					ref(["home", home, "Home"]),
+					ref(["profile", personOutline, "Profile"]),
+					ref(["mygallery", imageOutline, "My Gallery"]),
+					ref(["wishlist", airplaneOutline, "Wishlist"]),
+					ref(["conversations", chatboxEllipsesOutline, "My Conversations"]),
+				],
+			};
+		},
+		methods: {
+			navigateTo(x: any) {
+				router.push(x);
+			},
+		},
 		components: {
 			IonContent,
 			IonHeader,
