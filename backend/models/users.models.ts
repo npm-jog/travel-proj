@@ -4,7 +4,6 @@ import { Types, Document } from "mongoose";
 async function fetchUserById(id: Types.ObjectId) {
   try {
     const userId = await User.findById(id);
-
     return userId;
   } catch (err) {
     return err;
@@ -23,7 +22,6 @@ async function insertUser(user: Document) {
 async function removeUserById(id: Types.ObjectId) {
   try {
     const deletedUser = await User.findByIdAndDelete(id);
-
     return deletedUser;
   } catch (err) {
     return err;
@@ -36,7 +34,6 @@ async function updateUserById(id: Types.ObjectId, user: Document) {
       new: true,
     };
     const updatedUser = await User.findByIdAndUpdate(id, user, options);
-    console.log("test", updatedUser);
     return updatedUser;
   } catch (err) {
     return err;

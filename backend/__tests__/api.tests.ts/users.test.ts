@@ -28,8 +28,8 @@ describe("GET fetchUserById", () => {
     return request(app)
       .get(`/api/users/${userId}`)
       .expect(200)
-      .then((response) => {
-        const user = response.body;
+      .then(({ body }) => {
+        const user = body.user;
         expect(typeof user._id).toBe("string");
         expect(typeof user.forename).toBe("string");
         expect(typeof user.surname).toBe("string");
@@ -56,8 +56,8 @@ describe("POST createUser", () => {
       .post("/api/users")
       .send(newUser)
       .expect(201)
-      .then((response) => {
-        const user = response.body;
+      .then(({ body }) => {
+        const user = body.user;
         expect(user).toHaveProperty("forename", newUser.forename);
         expect(user).toHaveProperty("surname", newUser.surname);
         expect(user).toHaveProperty("username", newUser.username);
@@ -73,10 +73,10 @@ describe("POST createUser", () => {
 
 describe("DELETE removeUserById", () => {
   test("204: should delete a user by ID /api/users/:user_id", () => {
-    return request(app).delete(`/users/${userId}`).expect(204);
+    return request(app).delete(`/api/users/${userId}`).expect(204);
   });
   test("404: can't delete a non-existent user", () => {
-    return request(app).delete("/users/non_existent_id").expect(404);
+    return request(app).delete("/api/users/non_existent_id").expect(404);
   });
 });
 
@@ -97,8 +97,7 @@ describe("PATCH updateUserById", () => {
       .patch(`/api/users/${userId}`)
       .send(updatedUser)
       .expect(200)
-      .then((response) => {
-        console.log(response.body);
+      .then(({ body }) => {
         const expectedUser = {
           _id: expect.any(String),
           forename: expect.any(String),
@@ -109,23 +108,17 @@ describe("PATCH updateUserById", () => {
           wishlist: expect.any(Array),
           albums: expect.any(Array),
         };
-        expect(response.body).toEqual(expect.objectContaining(expectedUser));
+        expect(body.user).toEqual(expect.objectContaining(expectedUser));
       });
   });
   test("404: should handle errors", () => {
-    return request(app)
-      .patch("/api/users/non_existent_id")
-      .send({})
-      .expect(404);
+    return request(app).patch("/api/users/non_existent_id").send({}).expect(404);
   });
   test("400: should handle invalid request body", () => {
     const invalidBody = {
       forename: true,
       surname: [],
     };
-    return request(app)
-      .patch(`/api/users/${userId}`)
-      .send(invalidBody)
-      .expect(400);
+    return request(app).patch(`/api/users/${userId}`).send(invalidBody).expect(400);
   });
 });
