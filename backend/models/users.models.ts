@@ -36,7 +36,7 @@ async function updateUserById(id: Types.ObjectId, user: Document) {
       new: true,
     };
     const updatedUser = await User.findByIdAndUpdate(id, user, options);
-
+    console.log("test", updatedUser);
     return updatedUser;
   } catch (err) {
     return err;

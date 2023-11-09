@@ -10,11 +10,8 @@ import {
 
 const questionsRouter = express.Router();
 
-questionsRouter.get("/", getQuestions);
-questionsRouter.get("/:question_id/comments", getCommentsByQuestionId);
-questionsRouter.post("/", postQuestion);
-questionsRouter.post("/:question_id/comments", postCommentsByQuestionId);
-questionsRouter.delete("/:question_id", deleteQuestion);
-questionsRouter.patch("/:question_id", patchQuestion);
+questionsRouter.route("/").get(getQuestions).post(postQuestion);
+questionsRouter.route("/:question_id/comments").get(getCommentsByQuestionId).post(postCommentsByQuestionId);
+questionsRouter.route("/:question_id").delete(deleteQuestion).patch(patchQuestion);
 
 export default questionsRouter;

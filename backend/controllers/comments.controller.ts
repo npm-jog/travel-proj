@@ -18,7 +18,7 @@ function patchComment(req: Request, res: Response, next: NextFunction) {
   const updatedComment: Document = req.body;
   updateCommentById(comment_id, updatedComment)
     .then((comment) => {
-      res.status(200).send(comment);
+      res.status(200).send({ comment });
     })
     .catch((err: Error) => {
       next(err);

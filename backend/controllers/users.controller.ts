@@ -11,7 +11,7 @@ function getUserById(req: Request, res: Response, next: NextFunction) {
   const user_id: Types.ObjectId = new Types.ObjectId(req.params.user_id);
   fetchUserById(user_id)
     .then((user) => {
-      res.status(200).send(user);
+      res.status(200).send({ user });
     })
     .catch((err: Error) => {
       next(err);
@@ -22,7 +22,7 @@ function postUser(req: Request, res: Response, next: NextFunction) {
   const newUser: Document = req.body;
   insertUser(newUser)
     .then((user) => {
-      res.status(201).send(user);
+      res.status(201).send({ user });
     })
     .catch((err: Error) => {
       next(err);
@@ -45,7 +45,7 @@ function patchUserById(req: Request, res: Response, next: NextFunction) {
   const updatedUser: Document = req.body;
   updateUserById(user_id, updatedUser)
     .then((user) => {
-      res.status(200).send(user);
+      res.status(200).send({ user });
     })
     .catch((err: Error) => {
       next(err);

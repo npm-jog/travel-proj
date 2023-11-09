@@ -40,6 +40,5 @@ app.use("/api/questions", routes_1.questionsRouter);
 app.use("/api/countries", routes_1.countriesRouter);
 app.use("/api/comments", routes_1.commentsRouter);
 app.use("/api", routes_1.apiRouter);
-
 app.use(errors_1.default);
 exports.default = app;

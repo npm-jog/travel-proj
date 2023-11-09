@@ -57,6 +57,7 @@ function updateUserById(id, user) {
                 new: true,
             };
             const updatedUser = yield user_1.default.findByIdAndUpdate(id, user, options);
+            console.log("test", updatedUser);
             return updatedUser;
         }
         catch (err) {
