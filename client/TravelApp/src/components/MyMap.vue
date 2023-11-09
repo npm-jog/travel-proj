@@ -2,7 +2,7 @@
 	<div>
 		<capacitor-google-map
 			ref="mapRef"
-			style="display: inline-block; width: 100vw; height: 86vh"
+			style="display: inline-block; width: 100vw; height: 100vh"
 		>
 		</capacitor-google-map>
 	</div>
