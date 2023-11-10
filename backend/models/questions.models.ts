@@ -1,5 +1,5 @@
-import Question from "../../Database/models/question";
-import Comment from "../../Database/models/comment";
+import Question from "../Database/models/question";
+import Comment from "../Database/models/comment";
 import { Types, Document } from "mongoose";
 
 async function fetchQuestions(country: string | undefined) {

@@ -1,9 +1,11 @@
 const mongoose = require("mongoose");
+const path = require("path");
 
 const ENV = process.env.NODE_ENV;
+const projectRootDir = path.resolve(__dirname, "..");
 
 require("dotenv").config({
-  path: `${__dirname}/../.env.${ENV}`,
+  path: `${projectRootDir}/../.env.${ENV}`,
 });
 
 async function resetDatabase() {

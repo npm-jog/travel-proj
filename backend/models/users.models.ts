@@ -1,4 +1,4 @@
-import User from "./../../Database/models/user";
+import User from "../Database/models/user";
 import { Types, Document } from "mongoose";
 
 async function fetchUserById(id: Types.ObjectId) {

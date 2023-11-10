@@ -6,9 +6,12 @@
   "scripts": {
     "test": "jest --runInBand",
     "build": "tsc",
-    "start": "node dist/backend/listen.js",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/backend/listen.js\"",
-    "build-dev": "npm run build && npm run dev"
+    "start": "node dist/listen.js",
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/listen.js\"",
+    "build-dev": "npm run build && npm run dev",
+    "seed": "node dist/Database/seed/run-seed.js",
+    "seed-prod": "NODE_ENV=production npm run seed",
+    "reset-db": "NODE_ENV=production node dist/Database/resetDatabase.js && NODE_ENV=development node dist/Database/resetDatabase.js && NODE_ENV=test node dist/Database/resetDatabase.js"
   },
   "keywords": [],
   "author": "",

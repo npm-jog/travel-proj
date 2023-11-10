@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import { getReviewsByLocation, postReview, patchReviewById, deleteReviewById } from "../controllers/reviews.controllers";
 
 const reviewsRouter = express.Router();

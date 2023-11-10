@@ -1,17 +1,11 @@
 import express, { Express, Request, Response } from "express";
-import {
-  usersRouter,
-  reviewsRouter,
-  countriesRouter,
-  apiRouter,
- questionsRouter, commentsRouter
-} from "./routes";
+import { usersRouter, reviewsRouter, countriesRouter, apiRouter, questionsRouter, commentsRouter } from "./routes";
 
 import dotenv from "dotenv";
 import cors from "cors";
 import mongoose from "mongoose";
 import handleErrors from "./error.controllers.ts/errors";
-
+import connectDB from "./Database/connection";
 dotenv.config();
 
 const app: Express = express();
@@ -19,12 +13,7 @@ app.use(cors());
 app.use(express.json());
 
 (async () => {
-  try {
-    await mongoose.connect(`${process.env.DATABASE_URL}`);
-    console.log("MongoDB connected");
-  } catch (error) {
-    console.error("MongoDB connection error:", error);
-  }
+  await connectDB();
 })();
 
 app.get("/", (req: Request, res: Response) => {
