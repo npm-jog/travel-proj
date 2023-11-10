@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
-const ENV = process.env.NODE_ENV || "development";
-const cwd = process.cwd();
+const ENV: string = process.env.NODE_ENV || "development";
+const cwd: string = process.cwd();
 
 require("dotenv").config({
   path: `${cwd}/.env.${ENV}`,
@@ -19,4 +19,4 @@ async function connectDB() {
   }
 }
 
-module.exports = connectDB;
+export default connectDB;

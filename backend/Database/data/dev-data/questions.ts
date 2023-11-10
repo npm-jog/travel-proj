@@ -1,4 +1,6 @@
-module.exports = [
+import { QuestionDocument } from "../../models/question";
+
+const questions: (QuestionDocument | Partial<QuestionDocument>)[] = [
   {
     username: "flyawaypaul",
     title: "How expensive is a holiday here?",
@@ -6,7 +8,7 @@ module.exports = [
     likes: 0,
     topic: "budget",
     country: "Italy",
-    created_at: 1602828180000,
+    created_at: new Date(1602828180000),
     reported_count: 1,
     user_interactions: [
       { username: "SunshineLoz92", vote: -1, reported: true },
@@ -20,7 +22,7 @@ module.exports = [
     likes: 2,
     topic: "food",
     country: "Italy",
-    created_at: 1596464040000,
+    created_at: new Date(1596464040000),
     reported_count: 0,
     user_interactions: [
       { username: "SunshineLoz92", vote: 1, reported: false },
@@ -34,7 +36,7 @@ module.exports = [
     likes: -2,
     topic: "general",
     country: "Italy",
-    created_at: 1496464040000,
+    created_at: new Date(1496464040000),
     reported_count: 2,
     user_interactions: [
       { username: "SunshineLoz92", vote: -1, reported: true },
@@ -48,7 +50,7 @@ module.exports = [
     likes: 2,
     topic: "beaches",
     country: "Vietnam",
-    created_at: 1396464040000,
+    created_at: new Date(1396464040000),
   },
   {
     username: "FoodieShaz",
@@ -57,7 +59,7 @@ module.exports = [
     likes: -1,
     topic: "activities",
     country: "Vietnam",
-    created_at: 1296464040000,
+    created_at: new Date(1296464040000),
   },
   {
     username: "SunshineLoz92",
@@ -66,6 +68,8 @@ module.exports = [
     likes: -1,
     topic: "activities",
     country: "Greece",
-    created_at: 1596464040000,
+    created_at: new Date(1596464040000),
   },
 ];
+
+export = questions;

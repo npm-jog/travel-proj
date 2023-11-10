@@ -1,4 +1,6 @@
-module.exports = [
+import { CountryDocument } from "../../models/country";
+
+const country: (CountryDocument | Partial<CountryDocument>)[] = [
   {
     name: "England",
   },
@@ -54,3 +56,5 @@ module.exports = [
     name: "China",
   },
 ];
+
+export = country;

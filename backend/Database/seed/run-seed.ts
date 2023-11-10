@@ -1,15 +1,15 @@
-const seedDatabase = require("./seed.js");
-const connectDB = require("../connection.js");
-const devData = require("../data/dev-data/index.js");
+import seedDatabase from "./seed";
+import connectDB from "../connection";
+import devData from "../data/dev-data";
 
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
-const runSeed = async () => {
+async function runSeed() {
   try {
     // Establish database connection
     await connectDB();
 
-    //seed the database
+    // Seed the database
     await seedDatabase(devData);
 
     // Close database connection
@@ -18,6 +18,6 @@ const runSeed = async () => {
   } catch (err) {
     console.error("Error running seed:", err);
   }
-};
+}
 
 runSeed();

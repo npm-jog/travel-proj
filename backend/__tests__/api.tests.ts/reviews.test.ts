@@ -5,7 +5,7 @@ import { Document, Types } from "mongoose";
 //JAVASCRIPT
 import connectDB from "../../Database/connection";
 import seed from "../../Database/seed/seed";
-import testData, { reviewData } from "../../Database/data/test-data";
+import testData from "../../Database/data/test-data";
 import mongoose from "mongoose";
 import Review from "../../Database/models/review";
 let reviewId: Types.ObjectId;
