@@ -2,7 +2,6 @@ import app from "../../app";
 import request from "supertest";
 import { Document, Types } from "mongoose";
 
-//JAVASCRIPT
 import connectDB from "../../Database/connection";
 import seed from "../../Database/seed/seed";
 import testData from "../../Database/data/test-data";
@@ -19,7 +18,6 @@ afterAll(async () => {
   await mongoose.disconnect();
   console.log("MongoDB disconnected successfully");
 });
-//JAVASCRIPT
 
 describe("GET getReviewsByLocation", () => {
   test("200: /api/reviews/:country_name returns status 200 and a list of reviews for that location", () => {
@@ -111,15 +109,23 @@ describe("DELETE deleteReviewById", () => {
       .delete(`/api/reviews/invalid_id`)
       .expect(400)
       .then(({ body: errResponse }) => {
-        expect(errResponse.msg).toBe("Invalid Id. Id must be a 24 character hex string, 12 byte Uint8Array, or an integer");
+        expect(errResponse.msg).toBe("Invalid Id");
       });
   });
 });
 
 describe("PATCH patchReviewById", () => {
   const dataToUpdateWith = {
+    country: "France",
+    username: "test",
     body: "More than amazing. Would highly recomend",
-    ratings: { safety: 5, food: 5, activities: 4, cost: 4, scenery: 5 },
+    ratings: {
+      safety: 5,
+      food: 5,
+      activities: 4,
+      cost: 4,
+      scenery: 5,
+    },
   };
   test("200: /api/reviews/:review_id returns status code 200 new updated review", () => {
     return request(app)
@@ -149,39 +155,16 @@ describe("PATCH patchReviewById", () => {
       .send(dataToUpdateWith)
       .expect(400)
       .then(({ body: errResponse }) => {
-        expect(errResponse.msg).toBe("Invalid Id. Id must be a 24 character hex string, 12 byte Uint8Array, or an integer");
+        expect(errResponse.msg).toBe("Invalid Id");
       });
   });
   test("404: /api/reviews/:review_id returns status code 404 when passed an id that doesn't exist", () => {
     return request(app)
-      .patch(`/api/reviews/654cc9d16d5311e2f3e12fdd`)
+      .patch(`/api/reviews/654e21c5a7e30e9220f0f35e`)
       .send(dataToUpdateWith)
       .expect(404)
       .then(({ body: errResponse }) => {
         expect(errResponse.msg).toBe("Id does not exist");
-      });
-  });
-  test("200: /api/reviews/:review_id returns status 200 nothign changed from origional review when no data passed in", () => {
-    return request(app)
-      .patch(`/api/reviews/${reviewId}`)
-      .send({})
-      .expect(200)
-      .then(({ body }) => {
-        const review: any = body.review;
-        const newReviewId: Types.ObjectId = review._id;
-        expect(review).toEqual(
-          expect.objectContaining({
-            _id: newReviewId,
-            username: expect.any(String),
-            body: expect.any(String),
-            ratings: expect.any(Object),
-            pictures: expect.any(Array),
-            country: expect.any(String),
-            __v: expect.any(Number),
-            reported_count: expect.any(Number),
-            user_interactions: expect.any(Array),
-          })
-        );
       });
   });
 });

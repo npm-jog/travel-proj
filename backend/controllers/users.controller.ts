@@ -49,6 +49,13 @@ function patchUserById(req: Request, res: Response, next: NextFunction) {
   }
   const user_id: Types.ObjectId = new Types.ObjectId(req.params.user_id);
   const updatedUser = new User(req.body);
+
+  updatedUser._id = user_id;
+  const validationErrors = updatedUser.validateSync();
+  if (validationErrors) {
+    next({ status: 400, msg: validationErrors.message });
+  }
+
   updateUserById(user_id, updatedUser)
     .then((user) => {
       res.status(200).send({ user });

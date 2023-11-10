@@ -1,6 +1,6 @@
-import Question from "../Database/models/question";
-import Comment from "../Database/models/comment";
-import { Types, Document } from "mongoose";
+import Question, { QuestionDocument } from "../Database/models/question";
+import Comment, { CommentDocument } from "../Database/models/comment";
+import { Types } from "mongoose";
 
 async function fetchQuestions(country: string | undefined) {
   try {
@@ -16,7 +16,7 @@ async function fetchQuestions(country: string | undefined) {
   }
 }
 
-async function updateQuestionById(question_id: Types.ObjectId, question: Question) {
+async function updateQuestionById(question_id: Types.ObjectId, question: QuestionDocument) {
   try {
     const options = {
       new: true,
@@ -38,7 +38,7 @@ async function removeQuestionById(question_id: Types.ObjectId) {
   }
 }
 
-async function insertQuestion(question: Question) {
+async function insertQuestion(question: QuestionDocument) {
   try {
     const newQuestion = await Question.create(question);
     return newQuestion;
@@ -55,7 +55,7 @@ async function fetchCommentsByQuestionId(question_id: Types.ObjectId) {
   }
 }
 
-async function insertCommentByQuestionId(comment: Comment) {
+async function insertCommentByQuestionId(comment: CommentDocument) {
   try {
     const newComment = await Comment.create(comment);
     return newComment;
