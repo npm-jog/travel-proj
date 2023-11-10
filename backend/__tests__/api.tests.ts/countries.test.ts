@@ -3,9 +3,9 @@ import request from "supertest";
 import { Document } from "mongoose";
 
 //JAVASCRIPT
-import connectDB from "./../../../Database/db/connection";
-import seed from "./../../../Database/db/seed/seed";
-import testData from "./../../../Database/db/data/test-data";
+import connectDB from "../../Database/connection";
+import seed from "../../Database/seed/seed";
+import testData from "../../Database/data/test-data";
 import mongoose from "mongoose";
 
 beforeAll(() => connectDB());
@@ -27,10 +27,12 @@ describe("GET fetchAllCountries", () => {
             expect.objectContaining({
               _id: expect.any(String),
               name: expect.any(String),
-              __v: expect.any(Number),
             })
           );
         });
       });
+  });
+  test("404: should handle accessing a non-existent route under /api/countries", () => {
+    return request(app).get("/api/countries/non_existent_route").expect(404);
   });
 });

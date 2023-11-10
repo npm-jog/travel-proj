@@ -1,5 +1,5 @@
 import { Types, Document } from "mongoose";
-import Review from "./../../Database/models/review";
+import Review from "../Database/models/review";
 
 async function fetchReviewsByLocation(countryName: string | undefined) {
   try {
@@ -32,7 +32,7 @@ async function editReviewInDb(reviewId: Types.ObjectId, review: Document) {
       new: true,
     };
     const updatedReviewResponse = await Review.findByIdAndUpdate(reviewId, review, options);
-	return updatedReviewResponse;
+    return updatedReviewResponse;
   } catch (err) {
     return Promise.reject({ status: 400, msg: "Id does not exist" });
   }

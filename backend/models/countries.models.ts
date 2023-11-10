@@ -1,4 +1,4 @@
-import Country from "./../../Database/models/country";
+import Country from "../Database/models/country";
 
 async function fetchAllCountries() {
   try {
