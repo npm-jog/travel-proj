@@ -9,10 +9,8 @@
   </div>
 </template>
 
-<script lang="ts"></script>
-
 <script setup lang="ts">
-import { onMounted, nextTick, ref, onUnmounted, defineComponent } from "vue";
+import { onMounted, nextTick, ref, onUnmounted } from "vue";
 import { GoogleMap } from "@capacitor/google-maps";
 import apiKey from "@/components/APIKey.js";
 import { toRaw } from "vue";
