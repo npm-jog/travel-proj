@@ -4,7 +4,7 @@ export interface UserDocument extends Document {
   forename: string;
   surname: string;
   username: string;
-  avatar_url: string;
+  avatar_url?: string;
   visited_locations?: string[];
   wishlist?: string[];
   albums?: { country: string; url: string }[];

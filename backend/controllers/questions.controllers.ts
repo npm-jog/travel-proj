@@ -9,6 +9,7 @@ import {
   updateQuestionById,
 } from "../models/questions.models";
 import Question from "../Database/models/question";
+import Comment from "../Database/models/comment";
 
 function getQuestions(req: Request, res: Response, next: NextFunction) {
   const country: string | undefined = req.query.country as string | undefined;
@@ -52,6 +53,12 @@ function patchQuestion(req: Request, res: Response, next: NextFunction) {
   }
   const question_id: Types.ObjectId = new Types.ObjectId(req.params.question_id);
   const updatedQuestion = new Question(req.body);
+  updatedQuestion._id = question_id;
+  const validationErrors = updatedQuestion.validateSync();
+  if (validationErrors) {
+    next({ status: 400, msg: validationErrors.message });
+  }
+
   updateQuestionById(question_id, updatedQuestion)
     .then((question) => {
       res.status(200).send({ question });

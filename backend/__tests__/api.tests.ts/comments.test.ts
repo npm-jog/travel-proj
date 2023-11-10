@@ -26,6 +26,8 @@ afterAll(async () => {
 describe("PATCH updateCommentById", () => {
   test("200: update a comment's details and returns the updated comment /api/comments/:comment_id", () => {
     const updatedComment = {
+      username: "test",
+      question_id: "654e21c5a7e30e9220f0f141",
       body: "UpdatedComment",
       likes: 2,
       reported_count: 1,

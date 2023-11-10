@@ -23,6 +23,12 @@ function patchComment(req: Request, res: Response, next: NextFunction) {
   }
   const comment_id: Types.ObjectId = new Types.ObjectId(req.params.comment_id);
   const updatedComment = new Comment(req.body);
+  updatedComment._id = comment_id;
+  const validationErrors = updatedComment.validateSync();
+  if (validationErrors) {
+    next({ status: 400, msg: validationErrors.message });
+  }
+
   updateCommentById(comment_id, updatedComment)
     .then((comment) => {
       res.status(200).send({ comment });

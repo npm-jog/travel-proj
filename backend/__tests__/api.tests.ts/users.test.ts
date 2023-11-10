@@ -1,7 +1,6 @@
 import app from "../../app";
 import request from "supertest";
 
-//JAVASCRIPT
 import connectDB from "../../Database/connection";
 import seed from "../../Database/seed/seed";
 import testData from "../../Database/data/test-data";

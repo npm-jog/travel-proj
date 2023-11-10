@@ -1,7 +1,7 @@
-import Comment from "../Database/models/comment";
-import { Types, Document } from "mongoose";
+import Comment, { CommentDocument } from "../Database/models/comment";
+import { Types } from "mongoose";
 
-async function updateCommentById(comment_id: Types.ObjectId, comment: Comment) {
+async function updateCommentById(comment_id: Types.ObjectId, comment: CommentDocument) {
   try {
     const options = {
       new: true,

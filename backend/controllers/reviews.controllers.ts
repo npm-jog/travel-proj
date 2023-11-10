@@ -27,7 +27,7 @@ function postReview(req: Request, res: Response, next: NextFunction) {
 
 function deleteReviewById(req: Request, res: Response, next: NextFunction) {
   if (!Types.ObjectId.isValid(req.params.review_id)) {
-    next({ status: 404, msg: "invalid Id" });
+    next({ status: 400, msg: "Invalid Id" });
   }
   const review_id: Types.ObjectId = new Types.ObjectId(req.params.review_id);
   removeReviewFromDb(review_id)
@@ -41,10 +41,15 @@ function deleteReviewById(req: Request, res: Response, next: NextFunction) {
 
 function patchReviewById(req: Request, res: Response, next: NextFunction) {
   if (!Types.ObjectId.isValid(req.params.review_id)) {
-    next({ status: 404, msg: "invalid Id" });
+    next({ status: 400, msg: "Invalid Id" });
   }
   const review_id: Types.ObjectId = new Types.ObjectId(req.params.review_id);
   const updatedReview = new Review(req.body);
+  updatedReview._id = review_id;
+  const validationErrors = updatedReview.validateSync();
+  if (validationErrors) {
+    next({ status: 400, msg: validationErrors.message });
+  }
   editReviewInDb(review_id, updatedReview)
     .then((review) => {
       res.status(200).send({ review });
