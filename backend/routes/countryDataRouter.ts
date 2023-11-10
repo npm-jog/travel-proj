@@ -1,8 +1,8 @@
 import express from "express";
-import getCountryData from "../controllers/country-data.controllers";
+import getCountryData from "../controllers/country-data.controller";
 
 const countryDataRouter = express.Router();
 
-countryDataRouter.route("/public-holidays").get(getCountryData);
+countryDataRouter.route("/public_holidays").get(getCountryData);
 
 export default countryDataRouter;
