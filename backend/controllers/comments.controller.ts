@@ -1,9 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-import { Types, Document } from "mongoose";
-import {
-  removeCommentById,
-  updateCommentById,
-} from "../models/comments.models";
+import { Types } from "mongoose";
+import { removeCommentById, updateCommentById } from "../models/comments.models";
+import Comment from "../Database/models/comment";
 
 function deleteComment(req: Request, res: Response, next: NextFunction) {
   if (!Types.ObjectId.isValid(req.params.comment_id)) {
@@ -24,7 +22,7 @@ function patchComment(req: Request, res: Response, next: NextFunction) {
     next({ status: 404, msg: "invalid Id" });
   }
   const comment_id: Types.ObjectId = new Types.ObjectId(req.params.comment_id);
-  const updatedComment: Document = req.body;
+  const updatedComment = new Comment(req.body);
   updateCommentById(comment_id, updatedComment)
     .then((comment) => {
       res.status(200).send({ comment });

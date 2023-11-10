@@ -9,7 +9,7 @@ async function fetchReviewsByLocation(countryName: string | undefined) {
     return err;
   }
 }
-async function addReviewToDb(reviewToCreate: Document) {
+async function addReviewToDb(reviewToCreate: Review) {
   try {
     const newReview = await Review.create(reviewToCreate);
     return newReview;
@@ -26,7 +26,7 @@ async function removeReviewFromDb(reviewId: Types.ObjectId) {
     return Promise.reject({ status: 400, msg: "Id does not exist" });
   }
 }
-async function editReviewInDb(reviewId: Types.ObjectId, review: Document) {
+async function editReviewInDb(reviewId: Types.ObjectId, review: Review) {
   try {
     const options = {
       new: true,
