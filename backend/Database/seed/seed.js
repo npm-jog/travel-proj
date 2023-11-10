@@ -1,9 +1,9 @@
 //model import
-const User = require("../../models/user.js");
-const Review = require("../../models/review.js");
-const Question = require("../../models/question.js");
-const Country = require("../../models/country.js");
-const Comment = require("../../models/comment.js");
+const User = require("../models/user.js");
+const Review = require("../models/review.js");
+const Question = require("../models/question.js");
+const Country = require("../models/country.js");
+const Comment = require("../models/comment.js");
 
 const seedDatabase = async ({ commentData, questionData, reviewData, userData, countryData }) => {
   try {
@@ -38,7 +38,6 @@ const seedDatabase = async ({ commentData, questionData, reviewData, userData, c
     commentData[5].question_id = questionId[2];
 
     await Comment.create(commentData);
-
   } catch (err) {
     console.error(err);
   }

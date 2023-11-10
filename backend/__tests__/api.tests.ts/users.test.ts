@@ -2,11 +2,11 @@ import app from "../../app";
 import request from "supertest";
 
 //JAVASCRIPT
-import connectDB from "./../../../Database/db/connection";
-import seed from "./../../../Database/db/seed/seed";
-import testData from "./../../../Database/db/data/test-data";
+import connectDB from "../../Database/connection";
+import seed from "../../Database/seed/seed";
+import testData from "../../Database/data/test-data";
 import mongoose, { Types } from "mongoose";
-import User from "../../../Database/models/user";
+import User from "../../Database/models/user";
 
 let userId: Types.ObjectId;
 
@@ -112,19 +112,13 @@ describe("PATCH updateUserById", () => {
       });
   });
   test("404: should handle errors for a non-existent user ID", () => {
-    return request(app)
-      .patch("/api/users/non_existent_id")
-      .send({})
-      .expect(404);
+    return request(app).patch("/api/users/non_existent_id").send({}).expect(404);
   });
   test("400: should handle invalid request body", () => {
     const invalidBody = {
       forename: true,
       surname: [],
     };
-    return request(app)
-      .patch(`/api/users/${userId}`)
-      .send(invalidBody)
-      .expect(400);
+    return request(app).patch(`/api/users/${userId}`).send(invalidBody).expect(400);
   });
 });

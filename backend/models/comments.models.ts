@@ -1,4 +1,4 @@
-import Comment from "../../Database/models/comment";
+import Comment from "../Database/models/comment";
 import { Types, Document } from "mongoose";
 
 async function updateCommentById(comment_id: Types.ObjectId, comment: Document) {

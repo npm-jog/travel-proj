@@ -2,11 +2,11 @@ import app from "../../app";
 import request from "supertest";
 
 //JAVASCRIPT
-import connectDB from "./../../../Database/db/connection";
-import seed from "./../../../Database/db/seed/seed";
-import testData from "./../../../Database/db/data/test-data";
+import connectDB from "../../Database/connection";
+import seed from "../../Database/seed/seed";
+import testData from "../../Database/data/test-data";
 import mongoose, { Types } from "mongoose";
-import Comment from "../../../Database/models/comment";
+import Comment from "../../Database/models/comment";
 
 let commentId: Types.ObjectId;
 
@@ -49,10 +49,7 @@ describe("PATCH updateCommentById", () => {
       });
   });
   test("404: should handle errors for a non-existent comment ID", () => {
-    return request(app)
-      .patch("/api/comments/non_existent_id")
-      .send({})
-      .expect(404);
+    return request(app).patch("/api/comments/non_existent_id").send({}).expect(404);
   });
   test("400: should handle invalid request body", () => {
     const invalidComment = {
@@ -60,10 +57,7 @@ describe("PATCH updateCommentById", () => {
       likes: "WrongDataType",
       reported_count: "WrongDataTypeAgain!",
     };
-    return request(app)
-      .patch(`/api/comments/${commentId}`)
-      .send(invalidComment)
-      .expect(400);
+    return request(app).patch(`/api/comments/${commentId}`).send(invalidComment).expect(400);
   });
 });
 

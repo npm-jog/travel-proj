@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import { getAllCountries } from "../controllers/countries.controllers";
 
 const countriesRouter = express.Router();
