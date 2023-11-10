@@ -1,34 +1,40 @@
-//model import
-const User = require("../models/user.js");
-const Review = require("../models/review.js");
-const Question = require("../models/question.js");
-const Country = require("../models/country.js");
-const Comment = require("../models/comment.js");
+import User, { UserDocument } from "../models/user";
+import Review, { ReviewDocument } from "../models/review";
+import Question, { QuestionDocument } from "../models/question";
+import Country, { CountryDocument } from "../models/country";
+import Comment, { CommentDocument } from "../models/comment";
+import { Schema } from "mongoose";
 
-const seedDatabase = async ({ commentData, questionData, reviewData, userData, countryData }) => {
+interface SeedDatabaseArgs {
+  commentData: CommentDocument[];
+  questionData: QuestionDocument[];
+  reviewData: ReviewDocument[];
+  userData: UserDocument[];
+  countryData: CountryDocument[];
+}
+
+async function seedDatabase({ commentData, questionData, reviewData, userData, countryData }: SeedDatabaseArgs) {
   try {
-    //delete DB
+    // delete DB
     await User.deleteMany({});
     await Review.deleteMany({});
     await Country.deleteMany({});
     await Question.deleteMany({});
     await Comment.deleteMany({});
 
-    //seed with data
+    // seed with data
     await User.create(userData);
     await Review.create(reviewData);
     await Question.create(questionData);
     await Country.create(countryData);
 
-    //setting up comments to questions
-    //just for test purpose need to add condition
-
     const title = ["I hear the food is great. Is this true?", "How long should I stay?", "Nightlife?"];
-    const questionId = [];
-
+    const questionId: Schema.Types.ObjectId[] = [];
     for (let i = 0; i < title.length; i++) {
       const question = await Question.findOne({ title: title[i] });
-      questionId.push(question._id);
+      if (question) {
+        questionId.push(question._id);
+      }
     }
     commentData[0].question_id = questionId[0];
     commentData[1].question_id = questionId[0];
@@ -36,11 +42,10 @@ const seedDatabase = async ({ commentData, questionData, reviewData, userData, c
     commentData[3].question_id = questionId[2];
     commentData[4].question_id = questionId[2];
     commentData[5].question_id = questionId[2];
-
     await Comment.create(commentData);
   } catch (err) {
     console.error(err);
   }
-};
+}
 
-module.exports = seedDatabase;
+export default seedDatabase;

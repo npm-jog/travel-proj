@@ -1,4 +1,6 @@
-module.exports = [
+import { ReviewDocument } from "../../models/review";
+
+const reviews: (ReviewDocument | Partial<ReviewDocument>)[] = [
   {
     username: "TD2382",
     body: "Loved this place. Always sunny, great hospitality and amazing beaches!",
@@ -7,8 +9,8 @@ module.exports = [
     country: "Spain",
     reported_count: 2,
     user_interactions: [
-      { username: "SunshineLoz92", vote: -1, reported: true },
-      { username: "flyawaypaul", vote: -1, reported: true },
+      { username: "SunshineLoz92", reported: true },
+      { username: "flyawaypaul", reported: true },
     ],
   },
   {
@@ -19,8 +21,8 @@ module.exports = [
     country: "USA",
     reported_count: 0,
     user_interactions: [
-      { username: "SunshineLoz92", vote: 1, reported: false },
-      { username: "Backpacker2001", vote: 1, reported: false },
+      { username: "SunshineLoz92", reported: false },
+      { username: "Backpacker2001", reported: false },
     ],
   },
   {
@@ -52,3 +54,5 @@ module.exports = [
     country: "Spain",
   },
 ];
+
+export = reviews;
