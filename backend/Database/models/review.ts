@@ -1,8 +1,24 @@
-const mongoose = require("mongoose");
+import mongoose, { Document } from "mongoose";
 
-const { Schema } = mongoose;
+interface Ratings {
+  safety: number;
+  food: number;
+  activities: number;
+  cost: number;
+  scenery: number;
+}
 
-const reviewSchema = new Schema(
+export interface ReviewDocument extends Document {
+  username: string;
+  body: string;
+  ratings: Ratings;
+  pictures?: string[];
+  country: string;
+  reported_count?: number;
+  user_interactions?: { username: string; reported: boolean }[];
+}
+
+const reviewSchema = new mongoose.Schema<ReviewDocument>(
   {
     username: { type: String, required: true },
     body: { type: String, required: true },
@@ -21,6 +37,6 @@ const reviewSchema = new Schema(
   { minimize: false }
 );
 
-const Review = mongoose.model("review", reviewSchema);
+const Review = mongoose.model<ReviewDocument>("review", reviewSchema);
 
-module.exports = Review;
+export default Review;

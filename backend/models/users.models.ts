@@ -1,4 +1,4 @@
-import User from "../Database/models/user";
+import User, { UserDocument } from "../Database/models/user";
 import { Types, Document } from "mongoose";
 
 async function fetchUserById(id: Types.ObjectId) {
@@ -10,7 +10,7 @@ async function fetchUserById(id: Types.ObjectId) {
   }
 }
 
-async function insertUser(user: Document) {
+async function insertUser(user: UserDocument) {
   try {
     const newUser = await User.create(user);
     return newUser;
@@ -28,7 +28,7 @@ async function removeUserById(id: Types.ObjectId) {
   }
 }
 
-async function updateUserById(id: Types.ObjectId, user: Document) {
+async function updateUserById(id: Types.ObjectId, user: UserDocument) {
   try {
     const options = {
       new: true,

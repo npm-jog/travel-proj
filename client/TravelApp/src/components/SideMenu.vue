@@ -9,18 +9,19 @@
 			</ion-toolbar>
 		</ion-header>
 		<ion-content class="ion-padding">
-			<ion-button
-				v-for="x in pages"
-				v-model="x.value[0]"
-				@click="navigateTo(x.value[0])"
-				class="ion-padding"
-				expand="block"
-				>{{ x.value[2]
-				}}<ion-icon
-					slot="end"
-					:icon="x.value[1]"
-				></ion-icon>
-			</ion-button>
+			<ion-menu-toggle v-for="x in pages">
+				<ion-button
+					v-model="x.value[0]"
+					@click="navigateTo(x.value[0])"
+					class="ion-padding"
+					expand="block"
+					>{{ x.value[2]
+					}}<ion-icon
+						slot="end"
+						:icon="x.value[1]"
+					></ion-icon>
+				</ion-button>
+			</ion-menu-toggle>
 		</ion-content>
 	</ion-menu>
 </template>
@@ -36,7 +37,7 @@
 		IonToolbar,
 		IonButton,
 		IonIcon,
-		IonButtons,
+		IonMenuToggle,
 	} from "@ionic/vue";
 
 	import {
@@ -81,6 +82,7 @@
 			IonToolbar,
 			IonButton,
 			IonIcon,
+			IonMenuToggle,
 		},
 		setup() {
 			return {
