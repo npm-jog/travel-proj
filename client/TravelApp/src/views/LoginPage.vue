@@ -8,6 +8,7 @@
 		<ion-content class="ion-padding">
 			<div class="login-form-div">
 				<form class="sign-in-form">
+					<LoginButton />
 					<input
 						class="log-in-input"
 						type="email"
@@ -69,6 +70,7 @@
 		modalController,
 	} from "@ionic/vue";
 
+	import LoginButton from "../components/LoginButton.vue";
 	import NewUserModal from "../components/NewUserModal.vue";
 	import { ref, defineComponent } from "vue";
 
