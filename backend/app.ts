@@ -21,7 +21,7 @@ app.use("/api/reviews", reviewsRouter);
 app.use("/api/questions", questionsRouter);
 app.use("/api/countries", countriesRouter);
 app.use("/api/comments", commentsRouter);
-app.use("/api/country-data", countryDataRouter)
+app.use("/api/country_data", countryDataRouter)
 app.use("/api", apiRouter);
 
 app.all('/*', (req: Request, res: Response, next: NextFunction) => {
