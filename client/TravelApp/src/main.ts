@@ -22,15 +22,34 @@ import "@ionic/vue/css/display.css";
 /* Theme variables */
 import "./theme/variables.css";
 
+/* Auth0 imports */
+import { createAuth0 } from "@auth0/auth0-vue";
+import config from "../capacitor.config";
+
 /*Components added manually*/
 import NavBar from "@/components/NavBar.vue";
 import SideMenu from "@/components/SideMenu.vue";
 
 const app = createApp(App).use(IonicVue).use(router);
 
+// Build the URL that Auth0 should redirect back to
+const redirect_uri = `${config.appId}://dev-02batacgo02k8aak.us.auth0.com/capacitor/${config.appId}/callback`;
+
+app.use(
+	createAuth0({
+		domain: "dev-02batacgo02k8aak.us.auth0.com",
+		clientId: "S2QeKQzU2jzfvg1lqRMve8LPQPg6pdrB",
+		useRefreshTokens: true,
+		useRefreshTokensFallback: false,
+		authorizationParams: {
+			redirect_uri,
+		},
+	})
+);
+
 app.component("nav-bar", NavBar);
 app.component("side-menu", SideMenu);
 
 router.isReady().then(() => {
-  app.mount("#app");
+	app.mount("#app");
 });
