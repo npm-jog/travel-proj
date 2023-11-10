@@ -33,7 +33,7 @@ function postQuestion(req: Request, res: Response, next: NextFunction) {
 
 function deleteQuestion(req: Request, res: Response, next: NextFunction) {
   if (!Types.ObjectId.isValid(req.params.question_id)) {
-    next({ status: 404, msg: "invalid Id" });
+    next({ status: 400, msg: "Invalid Id. Id must be a 24 character hex string, 12 byte Uint8Array, or an integer" });
   }
   const question_id: Types.ObjectId = new Types.ObjectId(
     req.params.question_id
@@ -49,7 +49,7 @@ function deleteQuestion(req: Request, res: Response, next: NextFunction) {
 
 function patchQuestion(req: Request, res: Response, next: NextFunction) {
   if (!Types.ObjectId.isValid(req.params.question_id)) {
-    next({ status: 404, msg: "invalid Id" });
+    next({ status: 400, msg: "Invalid Id. Id must be a 24 character hex string, 12 byte Uint8Array, or an integer" });
   }
   const question_id: Types.ObjectId = new Types.ObjectId(
     req.params.question_id
@@ -70,7 +70,7 @@ function getCommentsByQuestionId(
   next: NextFunction
 ) {
   if (!Types.ObjectId.isValid(req.params.question_id)) {
-    next({ status: 404, msg: "invalid Id" });
+    next({ status: 400, msg: "Invalid Id. Id must be a 24 character hex string, 12 byte Uint8Array, or an integer" });
   }
   const question_id: Types.ObjectId = new Types.ObjectId(
     req.params.question_id
@@ -90,13 +90,11 @@ function postCommentsByQuestionId(
   next: NextFunction
 ) {
   if (!Types.ObjectId.isValid(req.params.question_id)) {
-    next({ status: 404, msg: "invalid Id" });
+    next({ status: 400, msg: "Invalid Id. Id must be a 24 character hex string, 12 byte Uint8Array, or an integer" });
   }
-  const question_id: Types.ObjectId = new Types.ObjectId(
-    req.params.question_id
-  );
+
   const newComment: Document = req.body;
-  insertCommentByQuestionId(question_id, newComment)
+  insertCommentByQuestionId(newComment)
     .then((comment) => {
       res.status(200).send({ comment });
     })
