@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { fetchUserById, insertUser, removeUserById, updateUserById } from "../models/users.models";
-import { Types, Document } from "mongoose";
+import { Types } from "mongoose";
+import User from "../Database/models/user";
 
 function getUserById(req: Request, res: Response, next: NextFunction) {
   if (!Types.ObjectId.isValid(req.params.user_id)) {
@@ -18,7 +19,7 @@ function getUserById(req: Request, res: Response, next: NextFunction) {
 }
 
 function postUser(req: Request, res: Response, next: NextFunction) {
-  const newUser: Document = req.body;
+  const newUser = new User(req.body);
   insertUser(newUser)
     .then((user) => {
       res.status(201).send({ user });
@@ -47,7 +48,7 @@ function patchUserById(req: Request, res: Response, next: NextFunction) {
     next({ status: 404, msg: "invalid Id" });
   }
   const user_id: Types.ObjectId = new Types.ObjectId(req.params.user_id);
-  const updatedUser: Document = req.body;
+  const updatedUser = new User(req.body);
   updateUserById(user_id, updatedUser)
     .then((user) => {
       res.status(200).send({ user });

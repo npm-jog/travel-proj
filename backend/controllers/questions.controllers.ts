@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { Types, Document } from "mongoose";
+import { Types } from "mongoose";
 import {
   fetchCommentsByQuestionId,
   fetchQuestions,
@@ -8,6 +8,7 @@ import {
   removeQuestionById,
   updateQuestionById,
 } from "../models/questions.models";
+import Question from "../Database/models/question";
 
 function getQuestions(req: Request, res: Response, next: NextFunction) {
   const country: string | undefined = req.query.country as string | undefined;
@@ -21,7 +22,7 @@ function getQuestions(req: Request, res: Response, next: NextFunction) {
 }
 
 function postQuestion(req: Request, res: Response, next: NextFunction) {
-  const newQuestion: Document = req.body;
+  const newQuestion = new Question(req.body);
   insertQuestion(newQuestion)
     .then((question) => {
       res.status(201).send({ question });
@@ -33,11 +34,9 @@ function postQuestion(req: Request, res: Response, next: NextFunction) {
 
 function deleteQuestion(req: Request, res: Response, next: NextFunction) {
   if (!Types.ObjectId.isValid(req.params.question_id)) {
-    next({ status: 400, msg: "Invalid Id. Id must be a 24 character hex string, 12 byte Uint8Array, or an integer" });
+    next({ status: 400, msg: "Invalid Id" });
   }
-  const question_id: Types.ObjectId = new Types.ObjectId(
-    req.params.question_id
-  );
+  const question_id: Types.ObjectId = new Types.ObjectId(req.params.question_id);
   removeQuestionById(question_id)
     .then(() => {
       res.status(204).send();
@@ -49,12 +48,10 @@ function deleteQuestion(req: Request, res: Response, next: NextFunction) {
 
 function patchQuestion(req: Request, res: Response, next: NextFunction) {
   if (!Types.ObjectId.isValid(req.params.question_id)) {
-    next({ status: 400, msg: "Invalid Id. Id must be a 24 character hex string, 12 byte Uint8Array, or an integer" });
+    next({ status: 400, msg: "Invalid Id" });
   }
-  const question_id: Types.ObjectId = new Types.ObjectId(
-    req.params.question_id
-  );
-  const updatedQuestion: Document = req.body;
+  const question_id: Types.ObjectId = new Types.ObjectId(req.params.question_id);
+  const updatedQuestion = new Question(req.body);
   updateQuestionById(question_id, updatedQuestion)
     .then((question) => {
       res.status(200).send({ question });
@@ -64,17 +61,11 @@ function patchQuestion(req: Request, res: Response, next: NextFunction) {
     });
 }
 
-function getCommentsByQuestionId(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
+function getCommentsByQuestionId(req: Request, res: Response, next: NextFunction) {
   if (!Types.ObjectId.isValid(req.params.question_id)) {
-    next({ status: 400, msg: "Invalid Id. Id must be a 24 character hex string, 12 byte Uint8Array, or an integer" });
+    next({ status: 400, msg: "Invalid Id" });
   }
-  const question_id: Types.ObjectId = new Types.ObjectId(
-    req.params.question_id
-  );
+  const question_id: Types.ObjectId = new Types.ObjectId(req.params.question_id);
   fetchCommentsByQuestionId(question_id)
     .then((comments) => {
       res.status(200).send({ comments });
@@ -84,16 +75,12 @@ function getCommentsByQuestionId(
     });
 }
 
-function postCommentsByQuestionId(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
+function postCommentsByQuestionId(req: Request, res: Response, next: NextFunction) {
   if (!Types.ObjectId.isValid(req.params.question_id)) {
-    next({ status: 400, msg: "Invalid Id. Id must be a 24 character hex string, 12 byte Uint8Array, or an integer" });
+    next({ status: 400, msg: "Invalid Id" });
   }
 
-  const newComment: Document = req.body;
+  const newComment = new Comment(req.body);
   insertCommentByQuestionId(newComment)
     .then((comment) => {
       res.status(200).send({ comment });
@@ -103,11 +90,4 @@ function postCommentsByQuestionId(
     });
 }
 
-export {
-  getQuestions,
-  postQuestion,
-  deleteQuestion,
-  patchQuestion,
-  getCommentsByQuestionId,
-  postCommentsByQuestionId,
-};
+export { getQuestions, postQuestion, deleteQuestion, patchQuestion, getCommentsByQuestionId, postCommentsByQuestionId };

@@ -1,7 +1,7 @@
 import Comment from "../Database/models/comment";
 import { Types, Document } from "mongoose";
 
-async function updateCommentById(comment_id: Types.ObjectId, comment: Document) {
+async function updateCommentById(comment_id: Types.ObjectId, comment: Comment) {
   try {
     const options = {
       new: true,

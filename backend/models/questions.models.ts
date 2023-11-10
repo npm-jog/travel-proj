@@ -16,13 +16,13 @@ async function fetchQuestions(country: string | undefined) {
   }
 }
 
-async function updateQuestionById(question_id: Types.ObjectId, question: Document) {
+async function updateQuestionById(question_id: Types.ObjectId, question: Question) {
   try {
     const options = {
       new: true,
     };
     const updatedQuestion = await Question.findByIdAndUpdate(question_id, question, options);
-    if(updatedQuestion === null) return Promise.reject({ status: 404, msg: "Id does not exist" });
+    if (updatedQuestion === null) return Promise.reject({ status: 404, msg: "Id does not exist" });
     return updatedQuestion;
   } catch (err) {
     return Promise.reject({ status: 400, msg: "Id does not exist" });
@@ -38,7 +38,7 @@ async function removeQuestionById(question_id: Types.ObjectId) {
   }
 }
 
-async function insertQuestion(question: Document) {
+async function insertQuestion(question: Question) {
   try {
     const newQuestion = await Question.create(question);
     return newQuestion;
@@ -55,7 +55,7 @@ async function fetchCommentsByQuestionId(question_id: Types.ObjectId) {
   }
 }
 
-async function insertCommentByQuestionId(comment: Document) {
+async function insertCommentByQuestionId(comment: Comment) {
   try {
     const newComment = await Comment.create(comment);
     return newComment;

@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { fetchReviewsByLocation, addReviewToDb, removeReviewFromDb, editReviewInDb } from "../models/reviews.models";
-import { Types, Document } from "mongoose";
+import { Types } from "mongoose";
+import Review from "../Database/models/review";
 
 function getReviewsByLocation(req: Request, res: Response, next: NextFunction) {
   const reviewLocation: string | undefined = req.params.country_name as string | undefined;
@@ -14,7 +15,7 @@ function getReviewsByLocation(req: Request, res: Response, next: NextFunction) {
 }
 
 function postReview(req: Request, res: Response, next: NextFunction) {
-  const newReview: Document = req.body;
+  const newReview = new Review(req.body);
   addReviewToDb(newReview)
     .then((postedReview) => {
       res.status(201).send({ postedReview });
@@ -43,7 +44,7 @@ function patchReviewById(req: Request, res: Response, next: NextFunction) {
     next({ status: 404, msg: "invalid Id" });
   }
   const review_id: Types.ObjectId = new Types.ObjectId(req.params.review_id);
-  const updatedReview: Document = req.body;
+  const updatedReview = new Review(req.body);
   editReviewInDb(review_id, updatedReview)
     .then((review) => {
       res.status(200).send({ review });
