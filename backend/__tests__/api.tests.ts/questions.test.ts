@@ -3,11 +3,11 @@ import request from "supertest";
 import { Document, Types } from "mongoose";
 
 //JAVASCRIPT
-import connectDB from "./../../../Database/db/connection";
-import seed from "./../../../Database/db/seed/seed";
-import testData, { questionData } from "./../../../Database/db/data/test-data";
+import connectDB from "../../Database/connection";
+import seed from "../../Database/seed/seed";
+import testData, { questionData } from "../../Database/data/test-data";
 import mongoose from "mongoose";
-import Question from "../../../Database/models/question";
+import Question from "../../Database/models/question";
 let questionId: Types.ObjectId;
 beforeAll(async () => await connectDB());
 beforeEach(async () => {
