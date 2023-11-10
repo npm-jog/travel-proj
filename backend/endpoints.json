@@ -188,11 +188,11 @@
       "reviews": [
         {
           "ratings": {
-          "safety": 4,
-          "food": 5,
-          "activities": 4,
-          "cost": 1,
-          "scenery": 5
+            "safety": 4,
+            "food": 5,
+            "activities": 4,
+            "cost": 1,
+            "scenery": 5
           },
           "_id": "654cf83b52de90f10c748b03",
           "username": "SunshineLoz92",
@@ -200,30 +200,31 @@
           "pictures": ["<picture link>", "<picture link>", "<picture link>"],
           "country": "USA",
           "reported_count": 0,
-          "user_interactions": [{
-            "0" : {
-              "username": "TD2382",
-              "reported": "true",
-              "_id": "654cc9d16d5611e2f3e12fd6"
+          "user_interactions": [
+            {
+              "0": {
+                "username": "TD2382",
+                "reported": "true",
+                "_id": "654cc9d16d5611e2f3e12fd6"
+              }
+            },
+            {
+              "1": {
+                "username": "flyawaypaul",
+                "reported": "true",
+                "_id": "654cc9d16d5611e2f3e12fd7"
+              }
             }
-          },
-          {
-            "1": {
-              "username": "flyawaypaul",
-              "reported": "true",
-              "_id": "654cc9d16d5611e2f3e12fd7"
-             }
-          }
           ],
           "__v": 0
         },
         {
           "ratings": {
-          "safety": 3,
-          "food": 4,
-          "activities": 4,
-          "cost": 4,
-          "scenery": 5
+            "safety": 3,
+            "food": 4,
+            "activities": 4,
+            "cost": 4,
+            "scenery": 5
           },
           "_id": "654cc9d16d5611e2f3e12fd7",
           "username": "flyawaypaul",
@@ -244,12 +245,12 @@
       "postedReview": {
         "username": "Johhny",
         "body": "So sunny!",
-        "ratings": { 
+        "ratings": {
           "safety": 5,
-          "food": 5, 
-          "activities": 4, 
-          "cost": 3, 
-          "scenery": 5 
+          "food": 5,
+          "activities": 4,
+          "cost": 3,
+          "scenery": 5
         },
         "pictures": ["<pic link>"],
         "country": "England",
@@ -265,12 +266,13 @@
     "queries": [],
     "exampleResponse": {
       "review": {
-        "ratings": { 
-          "safety": 5, 
-          "food": 5, 
-          "activities": 4, 
-          "cost": 4, 
-          "scenery": 5 },
+        "ratings": {
+          "safety": 5,
+          "food": 5,
+          "activities": 4,
+          "cost": 4,
+          "scenery": 5
+        },
         "_id": "654cff5ced48b000512a1f77",
         "username": "Backpacker2001",
         "body": "More than amazing. Would highly recomend",
@@ -286,5 +288,20 @@
     "description": "Removes a review ",
     "queries": [],
     "exampleResponse": {}
+  },
+  "GET /api/country-data/weather/:city": {
+    "description": "return the current weather in the city specified",
+    "queries": [],
+    "exampleResponse": {
+      "name": "London",
+      "country": "United Kingdom",
+      "localtime": "2023-11-10 16:00",
+      "weather": {
+        "temp_c": 9,
+        "condition": "Partly cloudy",
+        "icon": "//cdn.weatherapi.com/weather/64x64/day/116.png",
+        "precip_mm": 0.02
+      }
+    }
   }
 }
