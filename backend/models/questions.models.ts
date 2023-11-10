@@ -12,7 +12,6 @@ async function fetchQuestions(country: string | undefined) {
       return questions;
     }
   } catch (err) {
-    console.log('model err')
     return Promise.reject({ status: 400, msg: "Bad request: model validation failed" });
   }
 }
@@ -23,6 +22,7 @@ async function updateQuestionById(question_id: Types.ObjectId, question: Documen
       new: true,
     };
     const updatedQuestion = await Question.findByIdAndUpdate(question_id, question, options);
+    if(updatedQuestion === null) return Promise.reject({ status: 404, msg: "Id does not exist" });
     return updatedQuestion;
   } catch (err) {
     return Promise.reject({ status: 400, msg: "Id does not exist" });
@@ -32,7 +32,6 @@ async function updateQuestionById(question_id: Types.ObjectId, question: Documen
 async function removeQuestionById(question_id: Types.ObjectId) {
   try {
     const deletedQuestion = await Question.findByIdAndDelete(question_id);
-
     return deletedQuestion;
   } catch (err) {
     return Promise.reject({ status: 400, msg: "Id does not exist" });
@@ -56,7 +55,7 @@ async function fetchCommentsByQuestionId(question_id: Types.ObjectId) {
   }
 }
 
-async function insertCommentByQuestionId(question_id: Types.ObjectId, comment: Document) {
+async function insertCommentByQuestionId(comment: Document) {
   try {
     const newComment = await Comment.create(comment);
     return newComment;

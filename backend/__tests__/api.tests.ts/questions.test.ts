@@ -66,20 +66,124 @@ describe("GET getQuestions", () => {
             })
         })
     })
-    test.only('400 /api/questions?:invalid_country_name returns status 400 ', () => {
-        return request(app).get(`/api/questions?999`).expect(200).then(({body: errResponse}) => {
-            console.log(errResponse, 'here')
-            expect(errResponse.msg).toBe('Invalid query. Query must be a string')
+});
+describe("POST postQuestionById", () => {
+    const question = {
+        username: "SunshineLoz92",
+        title: "How long should I stay?",
+        body: "How long do you recommend staying? Is there enough to do for a 2 week visit?",
+        topic: "activities",
+        country: "England",
+    }
+    test('201: /api/questions returns status code 201 and the posted question', () => {
+        return request(app).post('/api/questions').send(question).expect(201).then(({body}) => {
+            const question: Document = body.question
+            expect(question).toEqual(expect.objectContaining({
+                _id: expect.any(String),
+                username: 'SunshineLoz92',
+                title: 'How long should I stay?',
+                body: 'How long do you recommend staying? Is there enough to do for a 2 week visit?',
+                likes: 0,
+                topic: 'activities',
+                country: 'England',
+                created_at: expect.any(String),
+                reported_count: 0,
+                user_interactions: [],
+                __v: 0
+            }))
+        })
+    })
+})
+describe('DELETE removeQuestionById', () => {
+    test('204: /api/questions/:question_id returns status code 204', () => {
+        return request(app).delete(`/api/questions/${questionId}`).expect(204)
+    })
+    test('400: /api/questions/:question_id returns status code 400 when id is not correct format', () => {
+        return request(app).delete(`/api/questions/ada`).expect(400).then(({body: errResponse}) => {
+            expect(errResponse.msg).toBe('Invalid Id. Id must be a 24 character hex string, 12 byte Uint8Array, or an integer')
+        })
+    })
+})
+describe("PATCH insertQuestion", () => {
+    const updateBody = {
+        body: 'Edit: I spoke too soon. Don\'t come, here', 
+    }
+    test('200: /api/questions/:question_id returns status code 200 and the updated question', () => {
+        return request(app).patch(`/api/questions/${questionId}`).send(updateBody).expect(200).then(({body}) => {
+            const question: Document = body.question
+            expect(question).toEqual(expect.objectContaining({
+                _id: questionId.toString(),
+                username: expect.any(String),
+                title: expect.any(String),
+                body: 'Edit: I spoke too soon. Don\'t come, here',
+                likes: expect.any(Number),
+                topic: expect.any(String),
+                country: expect.any(String),
+                created_at: expect.any(String),
+                reported_count: expect.any(Number),
+                user_interactions: expect.any(Array),
+                __v: expect.any(Number)
+            }))
+        })
+    })
+    test('400: /api/questions/:question_id returns status code 400 when id is not correct format', () => {
+        return request(app).patch(`/api/questions/ada`).expect(400).then(({body: errResponse}) => {
+            expect(errResponse.msg).toBe('Invalid Id. Id must be a 24 character hex string, 12 byte Uint8Array, or an integer')
+        })
+    })
+    test('404: /api/questions/:question_id returns status code 404 when id is not found', () => {
+        return request(app).patch(`/api/questions/654dda64a415e38d5b1dfb35`).expect(404).then(({body: errResponse}) => {
+            expect(errResponse.msg).toBe('Id does not exist')
         })
     })
 });
-describe("POST postQuestionById", () => {
-})
-describe('DELETE removeQuestionById', () => {
-})
-describe("PATH insertQuestion", () => {
-});
 describe("GET getCommentsByQuestionId", () => {
+    test('200: /api/questions/:question_id/comments returns status code 200 and the list of comments for that specific question', () => {
+        return request(app).get(`/api/questions/${questionId}/comments`).expect(200).then(({body}) => {
+            const comments: Document[] = body.comments
+            comments.forEach(comment => {
+                expect(comment).toEqual(expect.objectContaining({
+                    _id: expect.any(String),
+                    question_id: questionId.toString(),
+                    username: expect.any(String),
+                    body: expect.any(String),
+                    likes: expect.any(Number),
+                    created_at: expect.any(String),
+                    reported_count: expect.any(Number),
+                    user_interactions: expect.any(Array),
+                    __v: expect.any(Number)
+                }))
+            })
+        })
+    })
+    test('400: /api/questions/:question_id/comments returns status code 400 when id is not correct format', () => {
+        return request(app).get(`/api/questions/ada/comments`).expect(400).then(({body: errResponse}) => {
+            expect(errResponse.msg).toBe('Invalid Id. Id must be a 24 character hex string, 12 byte Uint8Array, or an integer')
+        })
+    })
 })
-describe('PATCH patchCommentByQuestionId', () => {
+describe('POST patchCommentByQuestionId', () => {
+    const commentToPost = {
+        username: 'TD2382',
+        body: 'Awesome place!'
+    }
+    /*test('201: /api/questions/:question_id/comments returns status code 201 and the created comment', () => {
+        return request(app).post(`/api/questions/${questionId}/comments`).send(commentToPost).expect(201).then(({body}) => {
+            const comment: Document = body.comment
+            expect(comment).toEqual(expect.objectContaining({
+                username: "TD2382",
+                question_id: questionId.toString(),
+                body:'Awesome place!',
+                likes: 0,
+                created_at: expect.any(String),
+                reported_count: 0,
+                user_interactions: [],
+            }))
+        })
+    })
+    test('400: /api/questions/:question_id/comments returns status code 400 when id is not correct format', () => {
+        return request(app).post(`/api/questions/ada/comments`).expect(400).then(({body: errResponse}) => {
+            expect(errResponse.msg).toBe('Invalid Id. Id must be a 24 character hex string, 12 byte Uint8Array, or an integer')
+        })
+    })*/
 })
