@@ -16,6 +16,7 @@ import apiKey from "@/components/APIKey.js";
 import { toRaw } from "vue";
 let newCoordinates: any;
 let newZoom: any;
+
 async function logCountries(passedArg: any) {
   if (passedArg) {
     newCoordinates = toRaw(passedArg.coordinates);
