@@ -293,14 +293,16 @@
     "description": "return the current weather in the city specified",
     "queries": [],
     "exampleResponse": {
-      "name": "London",
-      "country": "United Kingdom",
-      "localtime": "2023-11-10 16:00",
       "weather": {
-        "temp_c": 9,
-        "condition": "Partly cloudy",
-        "icon": "//cdn.weatherapi.com/weather/64x64/day/116.png",
-        "precip_mm": 0.02
+        "name": "London",
+        "country": "United Kingdom",
+        "localtime": "2023-11-10 16:00",
+        "weather": {
+          "temp_c": 9,
+          "condition": "Partly cloudy",
+          "icon": "//cdn.weatherapi.com/weather/64x64/day/116.png",
+          "precip_mm": 0.02
+        }
       }
     }
   }
