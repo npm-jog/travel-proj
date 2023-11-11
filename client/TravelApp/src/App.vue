@@ -9,15 +9,25 @@
 <script lang="ts">
 	import { useAuth0 } from "@auth0/auth0-vue";
 	import { IonApp, IonRouterOutlet } from "@ionic/vue";
-	import { defineComponent } from "vue";
+	import { defineComponent, ref } from "vue";
 	import { App as CapApp } from "@capacitor/app";
 	import { Browser } from "@capacitor/browser";
+	import { Auth0Client } from "@auth0/auth0-spa-js";
 
 	export default defineComponent({
 		name: "App",
 		components: {
 			IonApp,
 			IonRouterOutlet,
+		},
+		methods: {
+			async getUserInfo() {
+				try {
+					const user = await Auth0Client.getUser();
+				} catch (error) {
+					console.log(error);
+				}
+			},
 		},
 		setup() {
 			const { handleRedirectCallback } = useAuth0();

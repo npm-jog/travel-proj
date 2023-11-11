@@ -10,6 +10,10 @@ const routes: Array<RouteRecordRaw> = [
 		redirect: "/home",
 	},
 	{
+		path: "/callback",
+		redirect: "/home",
+	},
+	{
 		path: "/login",
 		component: () => import("@/views/LoginPage.vue"),
 	},

@@ -42,7 +42,7 @@ app.use(
 		useRefreshTokens: true,
 		useRefreshTokensFallback: false,
 		authorizationParams: {
-			redirect_uri,
+			redirect_uri: "http://localhost:8100/callback",
 		},
 	})
 );
