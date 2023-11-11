@@ -10,6 +10,8 @@ export interface PublicHolidays {
   types: String[];
 }
 
+export interface PublicHolidaysArray extends Array<PublicHolidays> {}
+
 export interface WeatherData {
   name: string;
   country: string;
@@ -22,7 +24,26 @@ export interface WeatherData {
   };
 }
 
-export interface PublicHolidaysArray extends Array<PublicHolidays> {}
+export interface SafetyData {
+  score: number;
+  sources_active: number;
+  message: string;
+  updated: string;
+  source: string;
+}
+
+export interface TravelAdvisoryResponse {
+  iso_alpha2: string;
+  name: string;
+  continent: string;
+  advisory: {
+    score: number;
+    sources_active: number;
+    message: string;
+    updated: string;
+    source: string;
+  }
+}
 
 export interface RequestError {
   status: number;

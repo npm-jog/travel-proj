@@ -1,16 +1,20 @@
-import axios from "axios";
-import { PublicHolidays, RequestError, WeatherData } from "../types/country-data.interfaces";
+import axios, { AxiosResponse, AxiosError } from "axios";
+import { PublicHolidays, RequestError, WeatherData, SafetyData, TravelAdvisoryResponse } from "../types/country-data.interfaces";
 
 async function fetchPublicHolidays(year: string, countryCode: string) {
   try {
-    const response: any = await axios.get(`https://date.nager.at/api/v3/PublicHolidays/${year}/${countryCode}`);
+    const response: AxiosResponse<any, any> = await axios.get(`https://date.nager.at/api/v3/PublicHolidays/${year}/${countryCode}`);
     const holidays: PublicHolidays[] = response.data;
     if (!holidays) return Promise.reject({ status: 400, msg: "Invalid country code" });
     return holidays;
-  } catch (err: any) {
-    const msg: string = err.response.data.status === 400 ? "Bad query request" : "Invalid country code";
-    const queryError: RequestError = { status: err.response.data.status, msg };
-    return Promise.reject(queryError);
+  } catch (err: AxiosError | any) {
+    if (axios.isAxiosError(err))  {
+      const status: number = err?.response?.data.status;
+      const msg: string = status === 400 ? "Bad query request" : "Invalid country code";
+      const queryError: RequestError = { status, msg };
+      return Promise.reject(queryError);
+    } 
+    return err
   }
 }
 
@@ -35,4 +39,19 @@ async function fetchWeatherData(apiUrl: string) {
   }
 }
 
-export { fetchWeatherData, fetchPublicHolidays };
+async function fetchSafetyData(countryCode: string) {
+  try {
+    const response: AxiosResponse<any, any> = await axios.get(`https://www.travel-advisory.info/api?countrycode=${countryCode}`);
+    const travelAdvisoryResponse: TravelAdvisoryResponse = response.data.data[countryCode]
+    if (!travelAdvisoryResponse) return Promise.reject({ status: 400, msg: "Invalid country code" });
+    const safetyData: SafetyData = travelAdvisoryResponse.advisory;
+    return safetyData;
+  } catch (err: AxiosError | any) {
+    if (axios.isAxiosError(err))  {
+      return Promise.reject({ status: 400, msg: "Axios request failed" });
+    } 
+    return err
+  }
+}
+
+export { fetchWeatherData, fetchPublicHolidays, fetchSafetyData };

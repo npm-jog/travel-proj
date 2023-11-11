@@ -1,14 +1,15 @@
 import { Request, Response, NextFunction } from "express";
-import { fetchPublicHolidays, fetchWeatherData } from "../models/country-data.models";
+import { fetchPublicHolidays, fetchWeatherData, fetchSafetyData } from "../models/country-data.models";
+import { PublicHolidays, WeatherData, SafetyData, RequestError } from "../types/country-data.interfaces";
 
 function getPublicHolidays(req: Request, res: Response, next: NextFunction) {
   const year: string = req.query.year as string;
   const countryCode: string = req.query.country_code as string;
   fetchPublicHolidays(year, countryCode)
-    .then((publicHolidays) => {
+    .then((publicHolidays: PublicHolidays) => {
       res.status(200).send({ publicHolidays });
     })
-    .catch((err: any) => {
+    .catch((err: RequestError | any) => {
       next(err);
     });
 }
@@ -21,9 +22,21 @@ function getWeather(req: Request, res: Response, next: NextFunction) {
     .then((weather) => {
       res.status(200).send({ weather });
     })
-    .catch((err: any) => {
+    .catch((err) => {
       next(err);
     });
 }
 
-export { getPublicHolidays, getWeather };
+function getSafetyData(req: Request, res: Response, next: NextFunction) {
+  const countryCode: string = req.params.country_code;
+  fetchSafetyData(countryCode)
+    .then((safetyData: SafetyData) => {
+      res.status(200).send({ safetyData });
+    })
+    .catch((err: RequestError | any) => {
+      console.log(err)
+      next(err);
+    });
+}
+
+export { getPublicHolidays, getWeather, getSafetyData };
