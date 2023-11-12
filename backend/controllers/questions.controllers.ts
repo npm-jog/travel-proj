@@ -8,13 +8,14 @@ import {
   removeQuestionById,
   updateQuestionById,
 } from "../models/questions.models";
+import {QuestionType, CommentType} from '../types/types';
 import Question from "../Database/models/question";
 import Comment from "../Database/models/comment";
 
 function getQuestions(req: Request, res: Response, next: NextFunction) {
   const country: string | undefined = req.query.country as string | undefined;
   fetchQuestions(country)
-    .then((questions) => {
+    .then((questions: QuestionType[]) => {
       res.status(200).send({ questions });
     })
     .catch((err: Error) => {
@@ -25,7 +26,7 @@ function getQuestions(req: Request, res: Response, next: NextFunction) {
 function postQuestion(req: Request, res: Response, next: NextFunction) {
   const newQuestion = new Question(req.body);
   insertQuestion(newQuestion)
-    .then((question) => {
+    .then((question: QuestionType) => {
       res.status(201).send({ question });
     })
     .catch((err: Error) => {
@@ -60,7 +61,7 @@ function patchQuestion(req: Request, res: Response, next: NextFunction) {
   }
 
   updateQuestionById(question_id, updatedQuestion)
-    .then((question) => {
+    .then((question: QuestionType) => {
       res.status(200).send({ question });
     })
     .catch((err: Error) => {
@@ -74,7 +75,7 @@ function getCommentsByQuestionId(req: Request, res: Response, next: NextFunction
   }
   const question_id: Types.ObjectId = new Types.ObjectId(req.params.question_id);
   fetchCommentsByQuestionId(question_id)
-    .then((comments) => {
+    .then((comments: CommentType[]) => {
       res.status(200).send({ comments });
     })
     .catch((err: Error) => {
@@ -89,7 +90,7 @@ function postCommentsByQuestionId(req: Request, res: Response, next: NextFunctio
 
   const newComment = new Comment(req.body);
   insertCommentByQuestionId(newComment)
-    .then((comment) => {
+    .then((comment: CommentType) => {
       res.status(200).send({ comment });
     })
     .catch((err: Error) => {

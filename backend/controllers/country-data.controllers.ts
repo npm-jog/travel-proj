@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { fetchPublicHolidays, fetchWeatherData, fetchSafetyData } from "../models/country-data.models";
-import { PublicHolidays, WeatherData, SafetyData, RequestError } from "../types/country-data.interfaces";
+import { PublicHolidays, WeatherData, SafetyData, RequestError } from "../types/types";
 
 function getPublicHolidays(req: Request, res: Response, next: NextFunction) {
   const year: string = req.query.year as string;
@@ -34,7 +34,6 @@ function getSafetyData(req: Request, res: Response, next: NextFunction) {
       res.status(200).send({ safetyData });
     })
     .catch((err: RequestError | any) => {
-      console.log(err)
       next(err);
     });
 }

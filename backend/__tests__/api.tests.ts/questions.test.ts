@@ -1,6 +1,7 @@
 import app from "../../app";
 import request from "supertest";
-import { Document, Types } from "mongoose";
+import { QuestionType, CommentType } from '../../types/types';
+import { Types } from "mongoose";
 
 import connectDB from "../../Database/connection";
 import seed from "../../Database/seed/seed";
@@ -18,7 +19,6 @@ beforeEach(async () => {
 });
 afterAll(async () => {
   await mongoose.disconnect();
-  console.log("MongoDB disconnected successfully");
 });
 
 describe("GET getQuestions", () => {
@@ -27,9 +27,9 @@ describe("GET getQuestions", () => {
       .get("/api/questions")
       .expect(200)
       .then(({ body }) => {
-        const questions: Document[] = body.questions;
+        const questions: QuestionType[] = body.questions;
         expect(questions).toHaveLength(6);
-        questions.forEach((question) => {
+        questions.forEach((question: QuestionType) => {
           expect(question).toEqual(
             expect.objectContaining({
               _id: expect.any(String),
@@ -53,9 +53,9 @@ describe("GET getQuestions", () => {
       .get("/api/questions?country=Vietnam")
       .expect(200)
       .then(({ body }) => {
-        const questions: Document[] = body.questions;
+        const questions: QuestionType[] = body.questions;
         expect(questions).toHaveLength(2);
-        questions.forEach((question) => {
+        questions.forEach((question: QuestionType) => {
           expect(question).toEqual(
             expect.objectContaining({
               _id: expect.any(String),
@@ -89,7 +89,7 @@ describe("POST postQuestionById", () => {
       .send(question)
       .expect(201)
       .then(({ body }) => {
-        const question: Document = body.question;
+        const question: QuestionType = body.question;
         expect(question).toEqual(
           expect.objectContaining({
             _id: expect.any(String),
@@ -134,7 +134,7 @@ describe("PATCH insertQuestion", () => {
       .send(updateBody)
       .expect(200)
       .then(({ body }) => {
-        const question: Document = body.question;
+        const question: QuestionType = body.question;
         expect(question).toEqual(
           expect.objectContaining({
             _id: questionId.toString(),
@@ -176,8 +176,8 @@ describe("GET getCommentsByQuestionId", () => {
       .get(`/api/questions/${questionId}/comments`)
       .expect(200)
       .then(({ body }) => {
-        const comments: Document[] = body.comments;
-        comments.forEach((comment) => {
+        const comments: CommentType[] = body.comments;
+        comments.forEach((comment: CommentType) => {
           expect(comment).toEqual(
             expect.objectContaining({
               _id: expect.any(String),
@@ -210,7 +210,7 @@ describe("POST patchCommentByQuestionId", () => {
   };
   /*test('201: /api/questions/:question_id/comments returns status code 201 and the created comment', () => {
         return request(app).post(`/api/questions/${questionId}/comments`).send(commentToPost).expect(201).then(({body}) => {
-            const comment: Document = body.comment
+            const comment: CommentType = body.comment
             expect(comment).toEqual(expect.objectContaining({
                 username: "TD2382",
                 question_id: questionId.toString(),

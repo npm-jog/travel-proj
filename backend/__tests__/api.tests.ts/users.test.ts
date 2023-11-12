@@ -1,5 +1,6 @@
 import app from "../../app";
 import request from "supertest";
+import { UserType } from '../../types/types';
 
 import connectDB from "../../Database/connection";
 import seed from "../../Database/seed/seed";
@@ -20,7 +21,6 @@ beforeEach(async () => {
 afterAll(async () => {
   await mongoose.disconnect();
 });
-//JAVASCRIPT
 
 describe("GET fetchUserById", () => {
   test("200: should return a user object with the correct properties /api/users/:user_id", () => {
@@ -28,7 +28,7 @@ describe("GET fetchUserById", () => {
       .get(`/api/users/${userId}`)
       .expect(200)
       .then(({ body }) => {
-        const user = body.user;
+        const user: UserType = body.user;
         expect(typeof user._id).toBe("string");
         expect(typeof user.forename).toBe("string");
         expect(typeof user.surname).toBe("string");
@@ -56,7 +56,7 @@ describe("POST createUser", () => {
       .send(newUser)
       .expect(201)
       .then(({ body }) => {
-        const user = body.user;
+        const user: UserType = body.user;
         expect(user).toHaveProperty("forename", newUser.forename);
         expect(user).toHaveProperty("surname", newUser.surname);
         expect(user).toHaveProperty("username", newUser.username);
@@ -97,6 +97,7 @@ describe("PATCH updateUserById", () => {
       .send(updatedUser)
       .expect(200)
       .then(({ body }) => {
+        const returnedUser: UserType = body.user;
         const expectedUser = {
           _id: expect.any(String),
           forename: expect.any(String),
@@ -107,7 +108,7 @@ describe("PATCH updateUserById", () => {
           wishlist: expect.any(Array),
           albums: expect.any(Array),
         };
-        expect(body.user).toEqual(expect.objectContaining(expectedUser));
+        expect(returnedUser).toEqual(expect.objectContaining(expectedUser));
       });
   });
   test("404: should handle errors for a non-existent user ID", () => {

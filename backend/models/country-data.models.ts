@@ -1,5 +1,5 @@
 import axios, { AxiosResponse, AxiosError } from "axios";
-import { PublicHolidays, RequestError, WeatherData, SafetyData, TravelAdvisoryResponse } from "../types/country-data.interfaces";
+import { PublicHolidays, RequestError, WeatherData, SafetyData, TravelAdvisoryResponse } from "../types/types";
 
 async function fetchPublicHolidays(year: string, countryCode: string) {
   try {
@@ -20,7 +20,7 @@ async function fetchPublicHolidays(year: string, countryCode: string) {
 
 async function fetchWeatherData(apiUrl: string) {
   try {
-    const { data }: any = await axios.get(apiUrl);
+    const { data }: AxiosResponse<any, any> = await axios.get(apiUrl);
     const weather: WeatherData = {
       name: data.location.name,
       country: data.location.country,
@@ -34,8 +34,11 @@ async function fetchWeatherData(apiUrl: string) {
     };
     if (!weather) return Promise.reject({ status: 400, msg: "Invalid city name" });
     return weather;
-  } catch (err) {
-    return Promise.reject({ status: 400, msg: "unexpected error" });
+  } catch (err: AxiosError | any) {
+    if (axios.isAxiosError(err))  {
+      return Promise.reject({ status: 400, msg: "unexpected error" });
+    } 
+    return err
   }
 }
 

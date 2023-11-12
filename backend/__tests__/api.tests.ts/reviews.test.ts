@@ -1,12 +1,14 @@
 import app from "../../app";
 import request from "supertest";
-import { Document, Types } from "mongoose";
+import { ReviewType } from '../../types/types';
+import { Types } from "mongoose";
 
 import connectDB from "../../Database/connection";
 import seed from "../../Database/seed/seed";
 import testData from "../../Database/data/test-data";
 import mongoose from "mongoose";
 import Review from "../../Database/models/review";
+
 let reviewId: Types.ObjectId;
 beforeAll(async () => await connectDB());
 beforeEach(async () => {
@@ -16,7 +18,6 @@ beforeEach(async () => {
 });
 afterAll(async () => {
   await mongoose.disconnect();
-  console.log("MongoDB disconnected successfully");
 });
 
 describe("GET getReviewsByLocation", () => {
@@ -25,9 +26,9 @@ describe("GET getReviewsByLocation", () => {
       .get("/api/reviews/USA")
       .expect(200)
       .then(({ body }) => {
-        const reviews: Document[] = body.reviews;
+        const reviews: ReviewType[] = body.reviews;
         expect(reviews).toHaveLength(2);
-        reviews.forEach((review: Document) => {
+        reviews.forEach((review: ReviewType) => {
           expect(review).toEqual(
             expect.objectContaining({
               ratings: expect.any(Object),
@@ -49,7 +50,7 @@ describe("GET getReviewsByLocation", () => {
       .get("/api/reviews/no_reiews")
       .expect(200)
       .then(({ body }) => {
-        const reviews: Document[] = body.reviews;
+        const reviews: ReviewType[] = body.reviews;
         expect(reviews).toHaveLength(0);
       });
   });
@@ -70,7 +71,7 @@ describe("POST postReview", () => {
       .send(postData)
       .expect(201)
       .then(({ body }) => {
-        const review: Document = body.postedReview;
+        const review: ReviewType = body.postedReview;
         expect(review).toEqual(
           expect.objectContaining({
             username: "Johhny",
@@ -133,7 +134,7 @@ describe("PATCH patchReviewById", () => {
       .send(dataToUpdateWith)
       .expect(200)
       .then(({ body }) => {
-        const review: any = body.review;
+        const review: ReviewType = body.review;
         expect(review).toEqual(
           expect.objectContaining({
             _id: expect.any(String),

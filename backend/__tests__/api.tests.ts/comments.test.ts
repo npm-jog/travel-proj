@@ -1,7 +1,7 @@
 import app from "../../app";
 import request from "supertest";
+import { CommentType } from '../../types/types'; 
 
-//JAVASCRIPT
 import connectDB from "../../Database/connection";
 import seed from "../../Database/seed/seed";
 import testData from "../../Database/data/test-data";
@@ -21,7 +21,6 @@ beforeEach(async () => {
 afterAll(async () => {
   await mongoose.disconnect();
 });
-//JAVASCRIPT
 
 describe("PATCH updateCommentById", () => {
   test("200: update a comment's details and returns the updated comment /api/comments/:comment_id", () => {
@@ -37,6 +36,7 @@ describe("PATCH updateCommentById", () => {
       .send(updatedComment)
       .expect(200)
       .then(({ body }) => {
+        const returnedComment: CommentType = body.comment;
         const expectedComment = {
           _id: expect.any(String),
           question_id: expect.any(String),
@@ -47,7 +47,7 @@ describe("PATCH updateCommentById", () => {
           reported_count: 1,
           user_interactions: expect.any(Array),
         };
-        expect(body.comment).toEqual(expect.objectContaining(expectedComment));
+        expect(returnedComment).toEqual(expect.objectContaining(expectedComment));
       });
   });
   test("404: should handle errors for a non-existent comment ID", () => {

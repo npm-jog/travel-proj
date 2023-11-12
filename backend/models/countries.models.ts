@@ -1,8 +1,9 @@
 import Country from "../Database/models/country";
+import { CountryType } from '../types/types';
 
 async function fetchAllCountries() {
   try {
-    const countries = await Country.find();
+    const countries: CountryType[] = await Country.find();
 
     return countries;
   } catch (err) {

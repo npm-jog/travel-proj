@@ -1,12 +1,13 @@
 import { Request, Response, NextFunction } from "express";
 import { fetchReviewsByLocation, addReviewToDb, removeReviewFromDb, editReviewInDb } from "../models/reviews.models";
+import { ReviewType } from '../types/types';
 import { Types } from "mongoose";
 import Review from "../Database/models/review";
 
 function getReviewsByLocation(req: Request, res: Response, next: NextFunction) {
   const reviewLocation: string | undefined = req.params.country_name as string | undefined;
   fetchReviewsByLocation(reviewLocation)
-    .then((reviews: any) => {
+    .then((reviews: ReviewType[] | any) => {
       res.status(200).send({ reviews });
     })
     .catch((err) => {
@@ -17,7 +18,7 @@ function getReviewsByLocation(req: Request, res: Response, next: NextFunction) {
 function postReview(req: Request, res: Response, next: NextFunction) {
   const newReview = new Review(req.body);
   addReviewToDb(newReview)
-    .then((postedReview) => {
+    .then((postedReview: ReviewType) => {
       res.status(201).send({ postedReview });
     })
     .catch((err) => {
@@ -31,8 +32,8 @@ function deleteReviewById(req: Request, res: Response, next: NextFunction) {
   }
   const review_id: Types.ObjectId = new Types.ObjectId(req.params.review_id);
   removeReviewFromDb(review_id)
-    .then((x) => {
-      res.status(204).send(x);
+    .then(() => {
+      res.status(204).send();
     })
     .catch((err) => {
       next(err);
@@ -51,7 +52,7 @@ function patchReviewById(req: Request, res: Response, next: NextFunction) {
     next({ status: 400, msg: validationErrors.message });
   }
   editReviewInDb(review_id, updatedReview)
-    .then((review) => {
+    .then((review: ReviewType) => {
       res.status(200).send({ review });
     })
     .catch((err: Error) => {
