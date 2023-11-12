@@ -1,4 +1,4 @@
-import { ReviewType } from '../types/types';
+import { ReviewType } from '../interfaces/response.interfaces';
 import { Types } from "mongoose";
 import Review, { ReviewDocument } from "../Database/models/review";
 

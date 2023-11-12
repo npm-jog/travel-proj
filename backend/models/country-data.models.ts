@@ -1,5 +1,6 @@
 import axios, { AxiosResponse, AxiosError } from "axios";
-import { PublicHolidays, RequestError, WeatherData, SafetyData, TravelAdvisoryResponse } from "../types/types";
+import { RequestError } from "../interfaces/response.interfaces";
+import {PublicHolidays, WeatherData, SafetyData, TravelAdvisoryResponse} from '../interfaces/axios-response.interfaces';
 
 async function fetchPublicHolidays(year: string, countryCode: string) {
   try {

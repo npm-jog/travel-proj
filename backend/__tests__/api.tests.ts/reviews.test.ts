@@ -1,6 +1,6 @@
 import app from "../../app";
 import request from "supertest";
-import { ReviewType } from '../../types/types';
+import { ReviewType } from '../../interfaces/response.interfaces';
 import { Types } from "mongoose";
 
 import connectDB from "../../Database/connection";

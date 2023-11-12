@@ -1,5 +1,5 @@
 import Comment, { CommentDocument } from "../Database/models/comment";
-import { CommentType } from '../types/types';
+import { CommentType } from '../interfaces/response.interfaces';
 import { Types } from "mongoose";
 
 async function updateCommentById(comment_id: Types.ObjectId, comment: CommentDocument) {

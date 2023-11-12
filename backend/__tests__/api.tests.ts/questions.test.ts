@@ -1,6 +1,6 @@
 import app from "../../app";
 import request from "supertest";
-import { QuestionType, CommentType } from '../../types/types';
+import { QuestionType, CommentType } from '../../interfaces/response.interfaces';
 import { Types } from "mongoose";
 
 import connectDB from "../../Database/connection";

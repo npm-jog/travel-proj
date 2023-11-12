@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { RequestError } from '../types/types';
+import { RequestError } from '../interfaces/response.interfaces';
 
 function handleErrors(err: RequestError | any, req: Request, res: Response, next: NextFunction) {
   if (err.status) {

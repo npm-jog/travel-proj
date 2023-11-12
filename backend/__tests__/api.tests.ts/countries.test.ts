@@ -1,6 +1,6 @@
 import app from "../../app";
 import request from "supertest";
-import { CountryType } from '../../types/types';
+import { CountryType } from '../../interfaces/response.interfaces';
 
 import connectDB from "../../Database/connection";
 import seed from "../../Database/seed/seed";

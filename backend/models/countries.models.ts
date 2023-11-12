@@ -1,5 +1,5 @@
 import Country from "../Database/models/country";
-import { CountryType } from '../types/types';
+import { CountryType } from '../interfaces/response.interfaces';
 
 async function fetchAllCountries() {
   try {

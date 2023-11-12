@@ -8,7 +8,7 @@ import {
   removeQuestionById,
   updateQuestionById,
 } from "../models/questions.models";
-import {QuestionType, CommentType} from '../types/types';
+import {QuestionType, CommentType} from '../interfaces/response.interfaces';
 import Question from "../Database/models/question";
 import Comment from "../Database/models/comment";
 

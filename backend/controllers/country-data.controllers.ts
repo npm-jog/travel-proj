@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { fetchPublicHolidays, fetchWeatherData, fetchSafetyData } from "../models/country-data.models";
-import { PublicHolidays, WeatherData, SafetyData, RequestError } from "../types/types";
+import { RequestError } from "../interfaces/response.interfaces";
+import { PublicHolidays, WeatherData, SafetyData, } from '../interfaces/axios-response.interfaces';
 
 function getPublicHolidays(req: Request, res: Response, next: NextFunction) {
   const year: string = req.query.year as string;
