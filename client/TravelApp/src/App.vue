@@ -2,6 +2,7 @@
 	<ion-app>
 		<side-menu />
 		<nav-bar />
+
 		<ion-router-outlet id="main-content" />
 	</ion-app>
 </template>
@@ -20,17 +21,16 @@
 			IonApp,
 			IonRouterOutlet,
 		},
-		methods: {
-			async getUserInfo() {
-				try {
-					const user = await Auth0Client.getUser();
-				} catch (error) {
-					console.log(error);
-				}
-			},
+		data() {
+			return {
+				user: {},
+				isLoading: {},
+			};
 		},
 		setup() {
 			const { handleRedirectCallback } = useAuth0();
+			const { user, isLoading } = useAuth0();
+			console.log(user);
 
 			// Handle the 'appUrlOpen' event and call `handleRedirectCallback`
 			CapApp.addListener("appUrlOpen", async ({ url }) => {

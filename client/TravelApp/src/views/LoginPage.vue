@@ -9,28 +9,6 @@
 			<div class="login-form-div">
 				<form class="sign-in-form">
 					<LoginButton />
-					<input
-						class="log-in-input"
-						type="email"
-						placeholder="Enter email"
-					/>
-					<input
-						class="log-in-input"
-						type="password"
-						placeholder="Enter password"
-					/>
-					<ion-button
-						>Sign In<ion-icon
-							slot="end"
-							:icon="logInOutline"
-						></ion-icon
-					></ion-button>
-					<ion-button @click="openModal"
-						>Create Account<ion-icon
-							slot="end"
-							:icon="personAddOutline"
-						></ion-icon
-					></ion-button>
 				</form>
 			</div>
 		</ion-content>
@@ -46,14 +24,7 @@
 				),
 			};
 		},
-		methods: {
-			async openModal() {
-				const modal = await modalController.create({
-					component: NewUserModal,
-				});
-				modal.present();
-			},
-		},
+		methods: {},
 		components: {},
 	});
 </script>
@@ -65,16 +36,11 @@
 		IonToolbar,
 		IonTitle,
 		IonContent,
-		IonButton,
-		IonIcon,
 		modalController,
 	} from "@ionic/vue";
 
 	import LoginButton from "../components/LoginButton.vue";
-	import NewUserModal from "../components/NewUserModal.vue";
 	import { ref, defineComponent } from "vue";
-
-	import { logInOutline, personAddOutline } from "ionicons/icons";
 </script>
 
 <style>
@@ -95,14 +61,6 @@
 		grid-template-columns: 1fr;
 		grid-template-rows: 1fr 1fr;
 		grid-gap: 1rem;
-	}
-
-	.log-in-input {
-		border-radius: 0.5rem;
-		width: 100%;
-		margin-left: auto;
-		margin-right: auto;
-		height: 2.5rem;
-		text-align: center;
+		width: 50%;
 	}
 </style>

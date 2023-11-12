@@ -22,6 +22,9 @@
 					></ion-icon>
 				</ion-button>
 			</ion-menu-toggle>
+			<ion-menu-toggle>
+				<LogoutButton />
+			</ion-menu-toggle>
 		</ion-content>
 	</ion-menu>
 </template>
@@ -55,6 +58,8 @@
 
 	import { defineComponent, ref } from "vue";
 
+	import LogoutButton from "./LogoutButton.vue";
+
 	export default defineComponent({
 		data() {
 			return {
@@ -83,6 +88,7 @@
 			IonButton,
 			IonIcon,
 			IonMenuToggle,
+			LogoutButton,
 		},
 		setup() {
 			return {
