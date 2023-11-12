@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from "@ionic/vue-router";
 import { RouteRecordRaw } from "vue-router";
 import MapPage from "@/views/MapPage.vue";
 import CountryPage from "@/views/CountryPage.vue";
-import WishList from "@/views/WishlistPage.vue";
+import WishlistPage from "@/views/WishlistPage.vue";
 
 const routes: Array<RouteRecordRaw> = [
 	{
@@ -28,7 +28,8 @@ const routes: Array<RouteRecordRaw> = [
 	},
 	{
 		path: "/wishlist",
-		component: WishList,
+		component: WishlistPage,
+		props: (route) => ({ user: route.params.user }),
 	},
 	{
 		path: "/profile",

@@ -46,18 +46,13 @@
 	import {
 		home,
 		personOutline,
-		personAddOutline,
-		logInOutline,
-		logOutOutline,
 		imageOutline,
-		starHalfOutline,
 		chatboxEllipsesOutline,
-		giftOutline,
 		airplaneOutline,
 	} from "ionicons/icons";
 
 	import { defineComponent, ref } from "vue";
-
+	import { useAuth0 } from "@auth0/auth0-vue";
 	import LogoutButton from "./LogoutButton.vue";
 
 	export default defineComponent({
@@ -90,18 +85,22 @@
 			IonMenuToggle,
 			LogoutButton,
 		},
-		setup() {
-			return {
-				home,
-				personOutline,
-				personAddOutline,
-				logInOutline,
-				logOutOutline,
-				imageOutline,
-				starHalfOutline,
-				chatboxEllipsesOutline,
-				giftOutline,
-			};
-		},
+		// setup() {
+		// 	return {
+		// 		home,
+		// 		personOutline,
+		// 		personAddOutline,
+		// 		logInOutline,
+		// 		logOutOutline,
+		// 		imageOutline,
+		// 		starHalfOutline,
+		// 		chatboxEllipsesOutline,
+		// 		giftOutline,
+		// 	};
+		// },
 	});
+</script>
+
+<script setup lang="ts">
+	const { user } = useAuth0();
 </script>

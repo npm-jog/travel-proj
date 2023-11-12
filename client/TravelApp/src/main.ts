@@ -33,7 +33,7 @@ import SideMenu from "@/components/SideMenu.vue";
 const app = createApp(App).use(IonicVue).use(router);
 
 // Build the URL that Auth0 should redirect back to
-const redirect_uri = `${config.appId}://dev-02batacgo02k8aak.us.auth0.com/capacitor/${config.appId}/callback`;
+// const redirect_uri = `${config.appId}://dev-02batacgo02k8aak.us.auth0.com/capacitor/${config.appId}/callback`;
 
 app.use(
 	createAuth0({

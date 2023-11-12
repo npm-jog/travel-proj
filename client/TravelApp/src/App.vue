@@ -10,10 +10,9 @@
 <script lang="ts">
 	import { useAuth0 } from "@auth0/auth0-vue";
 	import { IonApp, IonRouterOutlet } from "@ionic/vue";
-	import { defineComponent, ref } from "vue";
+	import { defineComponent, ref, watchEffect, toRaw } from "vue";
 	import { App as CapApp } from "@capacitor/app";
 	import { Browser } from "@capacitor/browser";
-	import { Auth0Client } from "@auth0/auth0-spa-js";
 
 	export default defineComponent({
 		name: "App",
@@ -21,16 +20,8 @@
 			IonApp,
 			IonRouterOutlet,
 		},
-		data() {
-			return {
-				user: {},
-				isLoading: {},
-			};
-		},
 		setup() {
-			const { handleRedirectCallback } = useAuth0();
-			const { user, isLoading } = useAuth0();
-			console.log(user);
+			const { handleRedirectCallback, user, isLoading } = useAuth0();
 
 			// Handle the 'appUrlOpen' event and call `handleRedirectCallback`
 			CapApp.addListener("appUrlOpen", async ({ url }) => {
@@ -43,6 +34,22 @@
 				// No-op on Android
 				await Browser.close();
 			});
+
+			// Use watchEffect to observe changes in user and isLoading
+			watchEffect(() => {
+				if (!isLoading.value && user.value) {
+					const userInfo = toRaw(user.value);
+					console.log(userInfo.name);
+				} else {
+					// User information is not available yet
+					console.log("User information is still loading...");
+				}
+			});
+
+			return {
+				user,
+				isLoading,
+			};
 		},
 	});
 </script>
