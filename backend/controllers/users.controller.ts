@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { UserType } from '../types/types';
+import { UserType } from '../interfaces/response.interfaces';
 import { fetchUserById, insertUser, removeUserById, updateUserById } from "../models/users.models";
 import { Types } from "mongoose";
 import User from "../Database/models/user";

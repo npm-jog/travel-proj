@@ -1,6 +1,6 @@
 import Question, { QuestionDocument } from "../Database/models/question";
 import Comment, { CommentDocument } from "../Database/models/comment";
-import {QuestionType, CommentType} from '../types/types';
+import {QuestionType, CommentType} from '../interfaces/response.interfaces';
 import { Types } from "mongoose";
 
 async function fetchQuestions(country: string | undefined) {

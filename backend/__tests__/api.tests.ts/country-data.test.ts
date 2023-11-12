@@ -1,6 +1,6 @@
 import app from "../../app";
 import request from "supertest";
-import { PublicHolidays, WeatherData, SafetyData } from "../../types/types";
+import { PublicHolidays, WeatherData, SafetyData } from "../../interfaces/axios-response.interfaces";
 
 describe("GET /api/public_holidays/:year/:country_code", () => {
   test("200: Returns status 200 and requested public holidays for the country in that year", () => {

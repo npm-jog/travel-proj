@@ -1,4 +1,4 @@
-import { UserType } from '../types/types';
+import { UserType } from '../interfaces/response.interfaces';
 import User, { UserDocument } from "../Database/models/user";
 import { Types } from "mongoose";
 

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { fetchReviewsByLocation, addReviewToDb, removeReviewFromDb, editReviewInDb } from "../models/reviews.models";
-import { ReviewType } from '../types/types';
+import { ReviewType } from '../interfaces/response.interfaces';
 import { Types } from "mongoose";
 import Review from "../Database/models/review";
 

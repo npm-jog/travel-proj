@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { fetchAllCountries } from "../models/countries.models";
-import { CountryType } from '../types/types';
+import { CountryType } from '../interfaces/response.interfaces';
 
 function getAllCountries(req: Request, res: Response, next: NextFunction) {
   fetchAllCountries()

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { removeCommentById, updateCommentById } from "../models/comments.models";
-import { CommentType } from '../types/types';
+import { CommentType } from '../interfaces/response.interfaces';
 import { Types } from "mongoose";
 import Comment from "../Database/models/comment";
 
