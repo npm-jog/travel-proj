@@ -1,6 +1,6 @@
 import mongoose, { Document } from "mongoose";
 
-interface UserInteraction {
+export interface UserInteraction {
   username: string;
   vote: number;
   reported: boolean;

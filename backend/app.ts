@@ -1,14 +1,13 @@
-import express, { Express, Request, Response, NextFunction } from "express";
+import express, { Application, Request, Response, NextFunction } from "express";
 import { usersRouter, reviewsRouter, countriesRouter, apiRouter, questionsRouter, commentsRouter, countryDataRouter } from "./routes";
 
 import dotenv from "dotenv";
 import cors from "cors";
-import mongoose from "mongoose";
 import handleErrors from "./error.controllers.ts/errors";
 import connectDB from "./Database/connection";
 dotenv.config();
 
-const app: Express = express();
+const app: Application = express();
 app.use(cors());
 app.use(express.json());
 

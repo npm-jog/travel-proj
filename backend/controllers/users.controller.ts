@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { UserType } from '../types/types';
 import { fetchUserById, insertUser, removeUserById, updateUserById } from "../models/users.models";
 import { Types } from "mongoose";
 import User from "../Database/models/user";
@@ -10,7 +11,7 @@ function getUserById(req: Request, res: Response, next: NextFunction) {
   const user_id: Types.ObjectId = new Types.ObjectId(req.params.user_id);
 
   fetchUserById(user_id)
-    .then((user) => {
+    .then((user: UserType | null) => {
       res.status(200).send({ user });
     })
     .catch((err: Error) => {
@@ -21,7 +22,7 @@ function getUserById(req: Request, res: Response, next: NextFunction) {
 function postUser(req: Request, res: Response, next: NextFunction) {
   const newUser = new User(req.body);
   insertUser(newUser)
-    .then((user) => {
+    .then((user: UserType) => {
       res.status(201).send({ user });
     })
     .catch((err: Error) => {
@@ -57,7 +58,7 @@ function patchUserById(req: Request, res: Response, next: NextFunction) {
   }
 
   updateUserById(user_id, updatedUser)
-    .then((user) => {
+    .then((user: UserType | null) => {
       res.status(200).send({ user });
     })
     .catch((err: Error) => {

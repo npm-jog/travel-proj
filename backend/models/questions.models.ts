@@ -1,14 +1,15 @@
 import Question, { QuestionDocument } from "../Database/models/question";
 import Comment, { CommentDocument } from "../Database/models/comment";
+import {QuestionType, CommentType} from '../types/types';
 import { Types } from "mongoose";
 
 async function fetchQuestions(country: string | undefined) {
   try {
     if (!country) {
-      const questions = await Question.find({});
+      const questions: QuestionType[] = await Question.find({});
       return questions;
     } else {
-      const questions = await Question.find({ country: country });
+      const questions: QuestionType[] = await Question.find({ country: country });
       return questions;
     }
   } catch (err) {
@@ -21,7 +22,7 @@ async function updateQuestionById(question_id: Types.ObjectId, question: Questio
     const options = {
       new: true,
     };
-    const updatedQuestion = await Question.findByIdAndUpdate(question_id, question, options);
+    const updatedQuestion: QuestionType | null = await Question.findByIdAndUpdate(question_id, question, options);
     if (updatedQuestion === null) return Promise.reject({ status: 404, msg: "Id does not exist" });
     return updatedQuestion;
   } catch (err) {
@@ -31,7 +32,7 @@ async function updateQuestionById(question_id: Types.ObjectId, question: Questio
 
 async function removeQuestionById(question_id: Types.ObjectId) {
   try {
-    const deletedQuestion = await Question.findByIdAndDelete(question_id);
+    const deletedQuestion: QuestionType | null = await Question.findByIdAndDelete(question_id);
     return deletedQuestion;
   } catch (err) {
     return Promise.reject({ status: 400, msg: "Id does not exist" });
@@ -40,7 +41,7 @@ async function removeQuestionById(question_id: Types.ObjectId) {
 
 async function insertQuestion(question: QuestionDocument) {
   try {
-    const newQuestion = await Question.create(question);
+    const newQuestion: QuestionType | any = await Question.create(question);
     return newQuestion;
   } catch (err) {
     return Promise.reject({ status: 400, msg: "Bad request: model validation failed" });
@@ -48,7 +49,7 @@ async function insertQuestion(question: QuestionDocument) {
 }
 async function fetchCommentsByQuestionId(question_id: Types.ObjectId) {
   try {
-    const comments = await Comment.find({ question_id: question_id });
+    const comments: CommentType[] = await Comment.find({ question_id: question_id });
     return comments;
   } catch (err) {
     return Promise.reject({ status: 400, msg: "Id does not exist" });
@@ -57,7 +58,7 @@ async function fetchCommentsByQuestionId(question_id: Types.ObjectId) {
 
 async function insertCommentByQuestionId(comment: CommentDocument) {
   try {
-    const newComment = await Comment.create(comment);
+    const newComment: CommentType | any = await Comment.create(comment);
     return newComment;
   } catch (err) {
     return Promise.reject({ status: 400, msg: "Id does not exist" });

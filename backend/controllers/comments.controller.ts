@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-import { Types } from "mongoose";
 import { removeCommentById, updateCommentById } from "../models/comments.models";
+import { CommentType } from '../types/types';
+import { Types } from "mongoose";
 import Comment from "../Database/models/comment";
 
 function deleteComment(req: Request, res: Response, next: NextFunction) {
@@ -30,7 +31,7 @@ function patchComment(req: Request, res: Response, next: NextFunction) {
   }
 
   updateCommentById(comment_id, updatedComment)
-    .then((comment) => {
+    .then((comment: CommentType | null) => {
       res.status(200).send({ comment });
     })
     .catch((err: Error) => {

@@ -1,6 +1,6 @@
 import app from "../../app";
 import request from "supertest";
-import { PublicHolidays, WeatherData, SafetyData } from "../../types/country-data.interfaces";
+import { PublicHolidays, WeatherData, SafetyData } from "../../types/types";
 
 describe("GET /api/public_holidays/:year/:country_code", () => {
   test("200: Returns status 200 and requested public holidays for the country in that year", () => {
@@ -29,8 +29,7 @@ describe("GET /api/public_holidays/:year/:country_code", () => {
       .get("/api/country_data/public_holidays?year=invalid_year&country_code=AT")
       .expect(400)
       .then(({ body: errResponse }) => {
-        const errMessage: string = errResponse.msg;
-        expect(errMessage).toBe("Bad query request");
+        expect(errResponse.msg).toBe("Bad query request");
       });
   });
   test("400: Returns status 400 for invalid country code", () => {
@@ -38,8 +37,7 @@ describe("GET /api/public_holidays/:year/:country_code", () => {
       .get("/api/country_data/public_holidays?year=2023&country_code=ZG")
       .expect(404)
       .then(({ body: errResponse }) => {
-        const errMessage: string = errResponse.msg;
-        expect(errMessage).toBe("Invalid country code");
+        expect(errResponse.msg).toBe("Invalid country code");
       });
   });
   test("400: Returns status 400 for invalid country code", () => {
@@ -47,8 +45,7 @@ describe("GET /api/public_holidays/:year/:country_code", () => {
       .get("/api/country_data/public_holidays?year=2023&country_code=9999")
       .expect(400)
       .then(({ body: errResponse }) => {
-        const errMessage: string = errResponse.msg;
-        expect(errMessage).toBe("Invalid country code");
+        expect(errResponse.msg).toBe("Invalid country code");
       });
   });
 });
@@ -90,7 +87,7 @@ describe("GET /api/country_data/country_safety/:country_code", () => {
     return request(app)
       .get("/api/country_data/country_safety/GB")
       .expect(200)
-      .then(({body}: any) => {
+      .then(({body}) => {
         const safetyData: SafetyData = body.safetyData;
         expect(safetyData).toEqual(expect.objectContaining({
             score: expect.any(Number),
@@ -106,8 +103,7 @@ describe("GET /api/country_data/country_safety/:country_code", () => {
       .get("/api/country_data/country_safety/999")
       .expect(400)
       .then(({ body: errResponse }) => {
-        const errMessage: string = errResponse.msg;
-        expect(errMessage).toBe("Invalid country code");
+        expect(errResponse.msg).toBe("Invalid country code");
       });
   });
 });
