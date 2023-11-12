@@ -1,6 +1,6 @@
 import app from "../../app";
 import request from "supertest";
-import { PublicHolidays, WeatherData } from "../../types/country-data.interfaces";
+import { PublicHolidays, WeatherData, SafetyData } from "../../types/country-data.interfaces";
 
 describe("GET /api/public_holidays/:year/:country_code", () => {
   test("200: Returns status 200 and requested public holidays for the country in that year", () => {
@@ -81,6 +81,33 @@ describe("GET /api/weather/:city", () => {
       .expect(400)
       .then(({ body }) => {
         expect(body.msg).toBe("unexpected error");
+      });
+  });
+});
+
+describe("GET /api/country_data/country_safety/:country_code", () => {
+  test("200: Returns status 200 and requested safety data for that country", () => {
+    return request(app)
+      .get("/api/country_data/country_safety/GB")
+      .expect(200)
+      .then(({body}: any) => {
+        const safetyData: SafetyData = body.safetyData;
+        expect(safetyData).toEqual(expect.objectContaining({
+            score: expect.any(Number),
+            sources_active: expect.any(Number),
+            message: expect.any(String),
+            updated: expect.any(String),
+            source: expect.any(String),
+          }));
+      });
+  });
+  test("400: Returns status 400 for country code", () => {
+    return request(app)
+      .get("/api/country_data/country_safety/999")
+      .expect(400)
+      .then(({ body: errResponse }) => {
+        const errMessage: string = errResponse.msg;
+        expect(errMessage).toBe("Invalid country code");
       });
   });
 });
