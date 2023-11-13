@@ -20,8 +20,7 @@ function getUserById(req: Request, res: Response, next: NextFunction) {
 }
 
 function getUserByEmail(req: Request, res: Response, next: NextFunction) {
-  const email: string = req.body.email;
-  console.log(email);
+  const email: string | null = req.body.email as string;
 
   fetchUserByEmail(email)
     .then((user: UserType | null) => {
