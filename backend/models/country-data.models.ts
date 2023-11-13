@@ -68,9 +68,6 @@ async function fetchCountryImages(country: string) {
       }
     }
     const response: AxiosResponse<any, any> = await axios.request(options);
-    //const travelAdvisoryResponse: TravelAdvisoryResponse = response.data.data[countryCode]
-    //if (!travelAdvisoryResponse) return Promise.reject({ status: 400, msg: "Invalid country code" });
-    //const safetyData: SafetyData = travelAdvisoryResponse.advisory;
     const images: ImageResponse[] = response.data.photos
     return images;
   } catch (err: AxiosError | any) {
