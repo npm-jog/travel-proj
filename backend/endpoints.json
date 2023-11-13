@@ -20,8 +20,7 @@
   },
   "GET /api/users/": {
     "description": "Returns a specified user by their email",
-    "queries": [],
-    "body": { "email": "email" },
+    "queries": ["email"],
     "exampleResponse": {
       "user": {
         "_id": "ObjectId(654cb37b1898b12d9a6e5e19)",

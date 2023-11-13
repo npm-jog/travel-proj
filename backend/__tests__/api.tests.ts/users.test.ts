@@ -48,8 +48,7 @@ describe("GET fetchUserById", () => {
 describe("GET fetchUserByEmail", () => {
   test("200: should return a user object with the correct properties /api/users/", () => {
     return request(app)
-      .get(`/api/users`)
-      .send({ email: "test@test.com" })
+      .get(`/api/users?email=test@test.com`)
       .expect(200)
       .then(({ body }) => {
         const user: UserType = body.user;
@@ -68,7 +67,7 @@ describe("GET fetchUserByEmail", () => {
     return request(app).get("/api/users").expect(400);
   });
   test("404: if no user found", () => {
-    return request(app).get("/api/users").send({ email: "tt@test.com" }).expect(400);
+    return request(app).get("/api/users?email=test@test.com").expect(400);
   });
 });
 
