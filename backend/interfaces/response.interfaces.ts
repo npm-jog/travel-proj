@@ -1,3 +1,5 @@
+import { Types } from "mongoose";
+
 export interface RequestError {
   status: number;
   msg: string;
@@ -10,8 +12,8 @@ interface UserInteraction {
 }
 
 export interface CommentType {
-  _id: string;
-  question_id: string;
+  _id: Types.ObjectId;
+  question_id: Types.ObjectId;
   username: string;
   body: string;
   likes: number;
@@ -22,13 +24,13 @@ export interface CommentType {
 }
 
 export interface CountryType {
-  _id: string;
+  _id: Types.ObjectId;
   name: string;
   __v: number;
 }
 
 export interface QuestionType {
-  _id: string;
+  _id: Types.ObjectId;
   username: string;
   title: string;
   body: string;
@@ -51,7 +53,7 @@ interface Ratings {
 
 export interface ReviewType {
   ratings: Ratings;
-  _id: string;
+  _id: Types.ObjectId;
   username: string;
   body: string;
   pictures: string[];
@@ -62,7 +64,7 @@ export interface ReviewType {
 }
 
 export interface UserType {
-  _id: string;
+  _id: Types.ObjectId;
   forename: string;
   surname: string;
   username: string;

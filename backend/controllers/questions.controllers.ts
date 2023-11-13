@@ -8,7 +8,7 @@ import {
   removeQuestionById,
   updateQuestionById,
 } from "../models/questions.models";
-import {QuestionType, CommentType} from '../interfaces/response.interfaces';
+import { QuestionType, CommentType } from "../interfaces/response.interfaces";
 import Question from "../Database/models/question";
 import Comment from "../Database/models/comment";
 
@@ -88,10 +88,12 @@ function postCommentsByQuestionId(req: Request, res: Response, next: NextFunctio
     next({ status: 400, msg: "Invalid Id" });
   }
 
+  const question_id: Types.ObjectId = new Types.ObjectId(req.params.question_id);
   const newComment = new Comment(req.body);
+  newComment.question_id = question_id;
   insertCommentByQuestionId(newComment)
     .then((comment: CommentType) => {
-      res.status(200).send({ comment });
+      res.status(201).send({ comment });
     })
     .catch((err: Error) => {
       next(err);
