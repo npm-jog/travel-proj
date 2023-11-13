@@ -1,11 +1,22 @@
-import { UserType } from '../interfaces/response.interfaces';
+import { UserType } from "../interfaces/response.interfaces";
 import User, { UserDocument } from "../Database/models/user";
 import { Types } from "mongoose";
 
 async function fetchUserById(id: Types.ObjectId) {
   try {
-    const userId: UserType | null = await User.findById(id);
-    return userId;
+    const user: UserType | null = await User.findById(id);
+    return user;
+  } catch (err) {
+    return Promise.reject({ status: 400, msg: "Id does not exist" });
+  }
+}
+async function fetchUserByEmail(email: string) {
+  try {
+    const user: UserType | null = await User.findOne({ email: email });
+    if (!user) {
+      return Promise.reject({ status: 400, msg: "User does not exist" });
+    }
+    return user;
   } catch (err) {
     return Promise.reject({ status: 400, msg: "Id does not exist" });
   }
@@ -41,4 +52,4 @@ async function updateUserById(id: Types.ObjectId, user: UserDocument) {
   }
 }
 
-export { fetchUserById, updateUserById, removeUserById, insertUser };
+export { fetchUserById, fetchUserByEmail, updateUserById, removeUserById, insertUser };
