@@ -28,7 +28,6 @@ describe("GET getQuestions", () => {
       .expect(200)
       .then(({ body }) => {
         const questions: QuestionType[] = body.questions;
-        console.log(questions)
         expect(questions).toHaveLength(6);
         questions.forEach((question: QuestionType) => {
           expect(question).toEqual(
