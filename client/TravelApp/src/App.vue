@@ -47,18 +47,21 @@
 							`https://travel-app-api-8nj9.onrender.com/api/users?email=${userInfo.email}`
 						)
 						.then((res: any) => {
+							console.log("Sucessfully found user")
 							store.commit("setUsername", res.data.user.username);
 							store.commit("setUserEmail", res.data.user.email);
 							store.commit("setUserId", res.data.user._id);
 						})
-						.catch((err) => {
+						.catch((err: any) => {
 							if (err.response.data.msg === "User does not exist") {
+								console.log("user did not exist, posting a new user...", )
+								console.log(userInfo.nickname)
 								axios
 									.post("https://travel-app-api-8nj9.onrender.com/api/users", {
-										forename: userInfo.given_name,
-										surname: userInfo.family_name,
+										forename: userInfo.given_name, 
+										surname: userInfo.family_name || "Surname",
 										email: userInfo.email,
-										username: userInfo.nickname,
+										username: userInfo.nickname || `${userInfo.given_name}${userInfo.email.slice(0,2)}`,
 									})
 									.then((res: any) => {
 										console.log("new user posted, setting new user");
@@ -66,9 +69,9 @@
 										store.commit("setUserEmail", res.data.user.email);
 										store.commit("setUserId", res.data.user._id);
 									})
-									.catch((err) => {});
+									.catch((err: any) => {});
 							} else {
-								console.log("get user failed with differnt message: " + err);
+								console.log("get user failed with different message: " + err);
 							}
 						});
 				} else {
