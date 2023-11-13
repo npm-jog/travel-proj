@@ -115,6 +115,7 @@ describe("GET /api/country_data/images/:country", () => {
       .expect(200)
       .then(({body}) => {
         const images: ImageResponse[] = body.images;
+        expect(images).toHaveLength(10);
         images.forEach((image: ImageResponse) => {
           expect(image).toEqual(expect.objectContaining({
             id: expect.any(Number),

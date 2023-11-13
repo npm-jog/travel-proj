@@ -56,23 +56,37 @@
     }
   },
 
-  "GET /api/questions/": {
-    "description": "Returns the list of all questions",
-    "queries": ["country"],
-    "exampleResponse": {
-      "questions": {
-        "_id": "ObjectId(654cb37b1898b12d9a6e5e19)",
-        "username": "FoodieShaz",
-        "title": "I hear the food is great. Is this true?",
-        "body": "Read the title",
+  "GET /api/questions": {
+    "description": "Returns a list of questions",
+    "queries": [],
+    "exampleResponse": [
+      {
+        "_id": "6551fcc77f12c05bbc5d9648",
+        "username": "SunshineLoz92",
+        "title": "Does Vietnam have good beaches?",
+        "body": "Are there lots of good beaches here? When is the best time of year to get the most sun?",
         "likes": 2,
-        "topic": "food",
-        "country": "Italy",
-        "created_at": 1596464040000,
+        "topic": "beaches",
+        "country": "Vietnam",
+        "created_at": "2014-04-02T18:40:40.000Z",
         "reported_count": 0,
-        "user_interactions": [{ "username": "SunshineLoz92", "vote": 1, "reported": false }]
+        "user_interactions": [],
+        "__v": 0
+      },
+      {
+        "_id": "6551fcc77f12c05bbc5d9649",
+        "username": "FoodieShaz",
+        "title": "Nightlife?",
+        "body": "Does this country have a lot of nightlife attractions?",
+        "likes": -1,
+        "topic": "activities",
+        "country": "Vietnam",
+        "created_at": "2011-01-31T08:54:00.000Z",
+        "reported_count": 0,
+        "user_interactions": [],
+        "__v": 0
       }
-    }
+    ]
   },
 
   "POST /api/questions": {
@@ -289,6 +303,34 @@
     "queries": [],
     "exampleResponse": {}
   },
+  "GET /public_holidays": {
+    "description": "returns the pbulic holidays and dates for a specified country on that year",
+    "queries": ["year", "country_code"],
+    "exampleResponse": [
+      {
+        "date": "2023-01-01",
+        "localName": "Neujahr",
+        "name": "New Year's Day",
+        "countryCode": "AT",
+        "fixed": true,
+        "global": true,
+        "counties": null,
+        "launchYear": 1967,
+        "types": [ "Public" ]
+      },
+      {
+        "date": "2023-01-06",
+        "localName": "Heilige Drei Könige",
+        "name": "Epiphany",
+        "countryCode": "AT",
+        "fixed": true,
+        "global": true,
+        "counties": null,
+        "launchYear": null,
+        "types": [ "Public" ]
+      }
+    ]
+  },
   "GET /api/country-data/weather/:city": {
     "description": "return the current weather in the city specified",
     "queries": [],
@@ -304,6 +346,69 @@
           "precip_mm": 0.02
         }
       }
+    }
+  },
+  "GET /country_safety/:country_code": {
+    "description": "returns safety data for a specific country",
+    "queries": [],
+    "exampleResponse": {
+        "score": 3,
+        "sources_active": 7,
+        "message": "United Kingdom has a current risk level of 3 (out of 5). We advise: Use some caution when travelling United Kingdom.",
+        "updated": "2023-11-13 07:29:15",
+        "source": "https://www.travel-advisory.info/united-kingdom"
+    }
+  },
+  "GET /images/:country": {
+    "description": "returns a list of images for a given country",
+    "queries": [],
+    "exampleResponse": {
+      "images": [
+        {
+          "id": 6580702,
+          "width": 3648,
+          "height": 5472,
+          "url": "https://www.pexels.com/photo/statue-of-christ-redeemer-on-mountain-under-blue-sky-6580702/",
+          "photographer": "Athena",
+          "photographer_url": "https://www.pexels.com/@athena",
+          "photographer_id": 307356,
+          "avg_color": "#7C8A7E",
+          "src": {
+            "original": "https://images.pexels.com/photos/6580702/pexels-photo-6580702.jpeg",
+            "large2x": "https://images.pexels.com/photos/6580702/pexels-photo-6580702.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+            "large": "https://images.pexels.com/photos/6580702/pexels-photo-6580702.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+            "medium": "https://images.pexels.com/photos/6580702/pexels-photo-6580702.jpeg?auto=compress&cs=tinysrgb&h=350",
+            "small": "https://images.pexels.com/photos/6580702/pexels-photo-6580702.jpeg?auto=compress&cs=tinysrgb&h=130",
+            "portrait": "https://images.pexels.com/photos/6580702/pexels-photo-6580702.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+            "landscape": "https://images.pexels.com/photos/6580702/pexels-photo-6580702.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200",
+            "tiny": "https://images.pexels.com/photos/6580702/pexels-photo-6580702.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280"
+          },
+          "liked": false,
+          "alt": "Aerial view of sculpture of Jesus Christ on green mount in Rio de Janeiro Brazil on summer day"
+        },
+        {
+          "id": 7675249,
+          "width": 3578,
+          "height": 4000,
+          "url": "https://www.pexels.com/photo/bare-tree-under-starry-sky-during-night-time-7675249/",
+          "photographer": "Nando Paz",
+          "photographer_url": "https://www.pexels.com/@nando-paz-49562026",
+          "photographer_id": 49562026,
+          "avg_color": "#394A3E",
+          "src": {
+            "original": "https://images.pexels.com/photos/7675249/pexels-photo-7675249.jpeg",
+            "large2x": "https://images.pexels.com/photos/7675249/pexels-photo-7675249.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+            "large": "https://images.pexels.com/photos/7675249/pexels-photo-7675249.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+            "medium": "https://images.pexels.com/photos/7675249/pexels-photo-7675249.jpeg?auto=compress&cs=tinysrgb&h=350",
+            "small": "https://images.pexels.com/photos/7675249/pexels-photo-7675249.jpeg?auto=compress&cs=tinysrgb&h=130",
+            "portrait": "https://images.pexels.com/photos/7675249/pexels-photo-7675249.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+            "landscape": "https://images.pexels.com/photos/7675249/pexels-photo-7675249.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200",
+            "tiny": "https://images.pexels.com/photos/7675249/pexels-photo-7675249.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280"
+          },
+          "liked": false,
+          "alt": "Bare Tree Under Starry Sky during Night Time"
+        }
+      ]
     }
   }
 }
