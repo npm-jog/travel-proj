@@ -48,12 +48,11 @@ export default defineComponent({
         element: this.$refs.mapRef,
         apiKey: apiKey.mapsKey,
         config: {
-          center: this.newCoordinates || {
-            lat: 30,
-
-            lng: 0,
+          center: {
+            lat: 54,
+            lng: -2,
           },
-          zoom: this.newZoom || 3,
+          zoom: 6,
         },
       });
     },
@@ -67,12 +66,9 @@ export default defineComponent({
       console.log(toRaw(result.coordinates));
       if (result) {
         this.newCoordinates = toRaw(result.coordinates);
-        this.newZoom = 6;
         if (this.newMap) {
-          await this.newMap.removeAllMapListeners();
-          await this.newMap.destroy();
+          await this.newMap.setCamera({ coordinate: this.newCoordinates });
         }
-        await this.createMap();
       }
     },
   },
