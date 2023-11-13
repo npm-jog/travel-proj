@@ -3,7 +3,7 @@ import Review, { ReviewDocument } from "../models/review";
 import Question, { QuestionDocument } from "../models/question";
 import Country, { CountryDocument } from "../models/country";
 import Comment, { CommentDocument } from "../models/comment";
-import { Schema } from "mongoose";
+import { Types } from "mongoose";
 
 interface SeedDatabaseArgs {
   commentData: CommentDocument[];
@@ -29,7 +29,7 @@ async function seedDatabase({ commentData, questionData, reviewData, userData, c
     await Country.create(countryData);
 
     const title = ["I hear the food is great. Is this true?", "How long should I stay?", "Nightlife?"];
-    const questionId: Schema.Types.ObjectId[] = [];
+    const questionId: Types.ObjectId[] = [];
     for (let i = 0; i < title.length; i++) {
       const question = await Question.findOne({ title: title[i] });
       if (question) {

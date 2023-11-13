@@ -45,6 +45,33 @@ describe("GET fetchUserById", () => {
   });
 });
 
+describe("GET fetchUserByEmail", () => {
+  test("200: should return a user object with the correct properties /api/users/", () => {
+    return request(app)
+      .get(`/api/users`)
+      .send({ email: "test@test.com" })
+      .expect(200)
+      .then(({ body }) => {
+        const user: UserType = body.user;
+        expect(typeof user._id).toBe("string");
+        expect(typeof user.forename).toBe("string");
+        expect(typeof user.surname).toBe("string");
+        expect(typeof user.username).toBe("string");
+        expect(typeof user.email).toBe("string");
+        expect(typeof user.avatar_url).toBe("string");
+        expect(Array.isArray(user.visited_locations)).toBe(true);
+        expect(Array.isArray(user.wishlist)).toBe(true);
+        expect(typeof user.__v).toBe("number");
+      });
+  });
+  test("400: if no user email send", () => {
+    return request(app).get("/api/users").expect(400);
+  });
+  test("404: if no user found", () => {
+    return request(app).get("/api/users").send({ email: "tt@test.com" }).expect(400);
+  });
+});
+
 describe("POST createUser", () => {
   test("201: should create a new user /api/users", () => {
     const newUser = {

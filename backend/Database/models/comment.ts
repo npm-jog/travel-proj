@@ -1,4 +1,4 @@
-import mongoose, { Document } from "mongoose";
+import mongoose, { Document, Types } from "mongoose";
 
 export interface UserInteraction {
   username: string;
@@ -7,7 +7,7 @@ export interface UserInteraction {
 }
 
 export interface CommentDocument extends Document {
-  question_id: mongoose.Schema.Types.ObjectId;
+  question_id: Types.ObjectId;
   username: string;
   body: string;
   likes: number;

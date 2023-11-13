@@ -1,6 +1,6 @@
 import app from "../../app";
 import request from "supertest";
-import { QuestionType, CommentType } from '../../interfaces/response.interfaces';
+import { QuestionType, CommentType } from "../../interfaces/response.interfaces";
 import { Types } from "mongoose";
 
 import connectDB from "../../Database/connection";
@@ -8,7 +8,6 @@ import seed from "../../Database/seed/seed";
 import testData from "../../Database/data/test-data";
 import mongoose from "mongoose";
 import Question from "../../Database/models/question";
-
 
 let questionId: Types.ObjectId;
 beforeAll(async () => await connectDB());
@@ -203,28 +202,39 @@ describe("GET getCommentsByQuestionId", () => {
       });
   });
 });
-describe("POST patchCommentByQuestionId", () => {
+describe("POST postCommentByQuestionId", () => {
   const commentToPost = {
+    country: "France",
+    body: "Edit: I spoke too soon. Don't come, here",
+    title: "France is the best",
     username: "TD2382",
-    body: "Awesome place!",
   };
-  /*test('201: /api/questions/:question_id/comments returns status code 201 and the created comment', () => {
-        return request(app).post(`/api/questions/${questionId}/comments`).send(commentToPost).expect(201).then(({body}) => {
-            const comment: CommentType = body.comment
-            expect(comment).toEqual(expect.objectContaining({
-                username: "TD2382",
-                question_id: questionId.toString(),
-                body:'Awesome place!',
-                likes: 0,
-                created_at: expect.any(String),
-                reported_count: 0,
-                user_interactions: [],
-            }))
-        })
-    })
-    test('400: /api/questions/:question_id/comments returns status code 400 when id is not correct format', () => {
-        return request(app).post(`/api/questions/ada/comments`).expect(400).then(({body: errResponse}) => {
-            expect(errResponse.msg).toBe('Invalid Id. Id must be a 24 character hex string, 12 byte Uint8Array, or an integer')
-        })
-    })*/
+  test("201: /api/questions/:question_id/comments returns status code 201 and the created comment", () => {
+    return request(app)
+      .post(`/api/questions/${questionId}/comments`)
+      .send(commentToPost)
+      .expect(201)
+      .then(({ body }) => {
+        const comment: CommentType = body.comment;
+        expect(comment).toEqual(
+          expect.objectContaining({
+            username: "TD2382",
+            question_id: questionId.toString(),
+            body: "Edit: I spoke too soon. Don't come, here",
+            likes: 0,
+            created_at: expect.any(String),
+            reported_count: 0,
+            user_interactions: [],
+          })
+        );
+      });
+  });
+  test("400: /api/questions/:question_id/comments returns status code 400 when id is not correct format", () => {
+    return request(app)
+      .post(`/api/questions/ada/comments`)
+      .expect(400)
+      .then(({ body: errResponse }) => {
+        expect(errResponse.msg).toBe("Invalid Id");
+      });
+  });
 });
