@@ -1,6 +1,6 @@
 import axios, { AxiosResponse, AxiosError } from "axios";
 import { RequestError } from "../interfaces/response.interfaces";
-import {PublicHolidays, WeatherData, SafetyData, TravelAdvisoryResponse} from '../interfaces/axios-response.interfaces';
+import {PublicHolidays, WeatherData, SafetyData, TravelAdvisoryResponse, ImageResponse} from '../interfaces/axios-response.interfaces';
 
 async function fetchPublicHolidays(year: string, countryCode: string) {
   try {
@@ -58,4 +58,27 @@ async function fetchSafetyData(countryCode: string) {
   }
 }
 
-export { fetchWeatherData, fetchPublicHolidays, fetchSafetyData };
+async function fetchCountryImages(country: string) {
+  try {
+    const options = {
+      method: 'GET',
+      url: `https://api.pexels.com/v1/search?query=${country}%20scenery&per_page=10`,
+      headers: {
+        Authorization: process.env.IMAGES_API
+      }
+    }
+    const response: AxiosResponse<any, any> = await axios.request(options);
+    //const travelAdvisoryResponse: TravelAdvisoryResponse = response.data.data[countryCode]
+    //if (!travelAdvisoryResponse) return Promise.reject({ status: 400, msg: "Invalid country code" });
+    //const safetyData: SafetyData = travelAdvisoryResponse.advisory;
+    const images: ImageResponse[] = response.data.photos
+    return images;
+  } catch (err: AxiosError | any) {
+    if (axios.isAxiosError(err))  {
+      return Promise.reject({ status: 400, msg: "Axios request failed" });
+    } 
+    return err
+  }
+}
+
+export { fetchWeatherData, fetchPublicHolidays, fetchSafetyData, fetchCountryImages };
