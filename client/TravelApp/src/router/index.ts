@@ -3,6 +3,7 @@ import { RouteRecordRaw } from "vue-router";
 import MapPage from "@/views/MapPage.vue";
 import CountryPage from "@/views/CountryPage.vue";
 import WishlistPage from "@/views/WishlistPage.vue";
+import { useAuth0 } from "@auth0/auth0-vue";
 
 const routes: Array<RouteRecordRaw> = [
 	{

@@ -13,6 +13,8 @@
 	import { defineComponent, ref, watchEffect, toRaw } from "vue";
 	import { App as CapApp } from "@capacitor/app";
 	import { Browser } from "@capacitor/browser";
+	import { useStore } from "vuex";
+	import axios from "axios";
 
 	export default defineComponent({
 		name: "App",
@@ -22,6 +24,7 @@
 		},
 		setup() {
 			const { handleRedirectCallback, user, isLoading } = useAuth0();
+			const store = useStore();
 
 			// Handle the 'appUrlOpen' event and call `handleRedirectCallback`
 			CapApp.addListener("appUrlOpen", async ({ url }) => {
@@ -39,7 +42,35 @@
 			watchEffect(() => {
 				if (!isLoading.value && user.value) {
 					const userInfo = toRaw(user.value);
-					console.log(userInfo.name);
+					axios
+						.get(
+							`https://travel-app-api-8nj9.onrender.com/api/users?email=${userInfo.email}`
+						)
+						.then((res: any) => {
+							store.commit("setUsername", res.data.user.username);
+							store.commit("setUserEmail", res.data.user.email);
+							store.commit("setUserId", res.data.user._id);
+						})
+						.catch((err) => {
+							if (err.response.data.msg === "User does not exist") {
+								axios
+									.post("https://travel-app-api-8nj9.onrender.com/api/users", {
+										forename: userInfo.given_name,
+										surname: userInfo.family_name,
+										email: userInfo.email,
+										username: userInfo.nickname,
+									})
+									.then((res: any) => {
+										console.log("new user posted, setting new user");
+										store.commit("setUsername", res.data.user.username);
+										store.commit("setUserEmail", res.data.user.email);
+										store.commit("setUserId", res.data.user._id);
+									})
+									.catch((err) => {});
+							} else {
+								console.log("get user failed with differnt message: " + err);
+							}
+						});
 				} else {
 					// User information is not available yet
 					console.log("User information is still loading...");
