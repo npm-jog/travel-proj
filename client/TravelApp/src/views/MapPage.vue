@@ -96,7 +96,7 @@ export default defineComponent({
       if (result) {
         this.newCoordinates = toRaw(result.coordinates);
         if (this.newMap) {
-          await this.newMap.setCamera({ coordinate: this.newCoordinates });
+          await this.newMap.setCamera({ coordinate: this.newCoordinates, zoom: 5 });
         }
       }
     },
