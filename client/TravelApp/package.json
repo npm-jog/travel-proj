@@ -27,6 +27,7 @@
     "ionicons": "^7.0.0",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6",
+    "vue3-google-map": "^0.18.0",
     "vuex": "^4.0.2"
   },
   "devDependencies": {

@@ -23,7 +23,7 @@
 import { ref, defineComponent, nextTick, toRaw } from "vue";
 import { countries } from "../../API";
 import { IonSearchbar, IonPage, IonContent } from "@ionic/vue";
-import { GoogleMap } from "@capacitor/google-maps";
+import { GoogleMap, Marker } from "@capacitor/google-maps";
 import apiKey from "@/components/APIKey.js";
 
 export default defineComponent({
@@ -35,7 +35,7 @@ export default defineComponent({
       searchResult: "",
       countriesArr: countries(),
       mapRef: ref<HTMLElement>(),
-      newMap: GoogleMap,
+      newMap: null as any,
       newZoom: null as any,
       newCoordinates: null as any,
     };
@@ -55,7 +55,24 @@ export default defineComponent({
           zoom: 6,
         },
       });
+      this.addCustomMarkers(this.createMarkerData(toRaw(this.countriesArr)));
     },
+    createMarkerData(arr: any) {
+      const markers: Marker[] = [];
+      for (let i = 0; i < arr.length; i++) {
+        markers.push({
+          coordinate: arr[i].coordinates,
+          title: arr[i].name,
+          snippet: "placeholder",
+        });
+      }
+      return markers;
+    },
+    async addCustomMarkers(markers: any) {
+      console.log(markers);
+      await this.newMap.addMarkers(markers);
+    },
+
     handleSearch(arr: any) {
       this.searchResult = arr.filter((country: any) => {
         return this.searchQuery.toLowerCase() === country.name.toLowerCase();
@@ -71,7 +88,12 @@ export default defineComponent({
         }
       }
     },
+    convertToRaw(passedData: any) {
+      console.log(toRaw(passedData));
+      return toRaw(passedData);
+    },
   },
+
   watch: {
     $route(to, from) {
       this.path = to.path === "/home";
