@@ -1,6 +1,6 @@
 import app from "../../app";
 import request from "supertest";
-import { CountryType } from '../../interfaces/response.interfaces';
+import { CountryType } from "../../interfaces/response.interfaces";
 
 import connectDB from "../../Database/connection";
 import seed from "../../Database/seed/seed";
@@ -26,7 +26,8 @@ describe("GET fetchAllCountries", () => {
             expect.objectContaining({
               _id: expect.any(String),
               name: expect.any(String),
-              __v: expect.any(Number)
+              coordinates: expect.any(Object),
+              __v: expect.any(Number),
             })
           );
         });
