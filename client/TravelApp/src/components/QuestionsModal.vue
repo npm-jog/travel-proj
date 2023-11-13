@@ -32,12 +32,12 @@
               <ion-input
                 label-placement="stacked"
                 label=""
-                type="reply"
+                type: any = "reply"
                 placeholder="Write your reply here:"></ion-input>
             </ion-item>
-            <ion-button @click="submitReply(question.id)" expand="full">
+            <!--<ion-button @click="submitReply(question.id)" expand="full">
               Submit Reply
-            </ion-button>
+            </ion-button>-->
           </form>
         </ion-card-content>
       </ion-card>
@@ -49,7 +49,7 @@
       <ion-input
         label-placement="stacked"
         label=""
-        type="review"
+        type: any ="review"
         placeholder="Write your review here:">
       </ion-input>
     </ion-item>
@@ -87,6 +87,7 @@ import {
 } from "@ionic/vue";
 import { defineComponent, ref } from "vue";
 import AnswersModal from "./AnswersModal.vue";
+
 const name = ref();
 const cancel = () => modalController.dismiss(null, "cancel");
 const confirm = () => modalController.dismiss(name.value, "confirm");

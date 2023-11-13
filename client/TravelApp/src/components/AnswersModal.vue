@@ -1,6 +1,6 @@
 <template>
   <ion-header class="reviews-header">
-    <h1 class="reviews-heading">Answers{{ question }}</h1>
+    <h1 class="reviews-heading">{{ question }}</h1>
   </ion-header>
   <ion-content class="ion-padding">
     <div class="dummy-reviews">
@@ -25,7 +25,7 @@
       <ion-input
         label-placement="stacked"
         label=""
-        type="review"
+        type: any ="review"
         placeholder="Write your review here:">
       </ion-input>
     </ion-item>
@@ -39,8 +39,8 @@
     </ion-buttons>
   </ion-toolbar>
 </template>
-console.log()
 <script lang="ts" setup>
+
 import { setupConfig } from "@ionic/core";
 import {
   IonContent,
@@ -62,6 +62,10 @@ import {
 } from "@ionic/vue";
 import { emit } from "process";
 import { DefineComponent, ref } from "vue";
+
+import { defineProps } from 'vue';
+const props = defineProps(['question']);
+
 const name = ref();
 const cancel = () => modalController.dismiss(null, "cancel");
 const confirm = () => modalController.dismiss(name.value, "confirm");
