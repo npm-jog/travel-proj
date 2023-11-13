@@ -1,6 +1,6 @@
 import app from "../../app";
 import request from "supertest";
-import { PublicHolidays, WeatherData, SafetyData } from "../../interfaces/axios-response.interfaces";
+import { PublicHolidays, WeatherData, SafetyData, ImageResponse } from "../../interfaces/axios-response.interfaces";
 
 describe("GET /api/public_holidays/:year/:country_code", () => {
   test("200: Returns status 200 and requested public holidays for the country in that year", () => {
@@ -104,6 +104,32 @@ describe("GET /api/country_data/country_safety/:country_code", () => {
       .expect(400)
       .then(({ body: errResponse }) => {
         expect(errResponse.msg).toBe("Invalid country code");
+      });
+  });
+});
+
+describe("GET /api/country_data/images/:country", () => {
+  test("200: Returns status 200 and requested images for that country", () => {
+    return request(app)
+      .get("/api/country_data/images/brazil")
+      .expect(200)
+      .then(({body}) => {
+        const images: ImageResponse[] = body.images;
+        images.forEach((image: ImageResponse) => {
+          expect(image).toEqual(expect.objectContaining({
+            id: expect.any(Number),
+            width: expect.any(Number),
+            height: expect.any(Number),
+            url: expect.any(String),
+            photographer: expect.any(String),
+            photographer_url: expect.any(String),
+            photographer_id: expect.any(Number),
+            avg_color: expect.any(String),
+            src: expect.any(Object),
+            liked: expect.any(Boolean),
+            alt: expect.any(String),
+          }));
+        })
       });
   });
 });

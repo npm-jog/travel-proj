@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-import { fetchPublicHolidays, fetchWeatherData, fetchSafetyData } from "../models/country-data.models";
+import { fetchPublicHolidays, fetchWeatherData, fetchSafetyData, fetchCountryImages } from "../models/country-data.models";
 import { RequestError } from "../interfaces/response.interfaces";
-import { PublicHolidays, WeatherData, SafetyData, } from '../interfaces/axios-response.interfaces';
+import { PublicHolidays, WeatherData, SafetyData, ImageResponse} from '../interfaces/axios-response.interfaces';
 
 function getPublicHolidays(req: Request, res: Response, next: NextFunction) {
   const year: string = req.query.year as string;
@@ -39,4 +39,15 @@ function getSafetyData(req: Request, res: Response, next: NextFunction) {
     });
 }
 
-export { getPublicHolidays, getWeather, getSafetyData };
+function getCountryImages(req: Request, res: Response, next: NextFunction) {
+  const country: string = req.params.country;
+  fetchCountryImages(country)
+    .then((images: ImageResponse[]) => {
+      res.status(200).send({ images });
+    })
+    .catch((err: RequestError | any) => {
+      next(err);
+    });
+}
+
+export { getPublicHolidays, getWeather, getSafetyData, getCountryImages };
