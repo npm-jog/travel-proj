@@ -15,9 +15,6 @@
           {{ country.name }}
         </li>
       </ul>
-      <div v-if="searchResult.length === 0">
-        <p>No results found</p>
-      </div>
       <div>
         <capacitor-google-map ref="mapRef" style="display: inline-block; width: 100vw; height: 100vh"> </capacitor-google-map>
       </div>
@@ -132,13 +129,16 @@ export default defineComponent({
   float: right;
 }
 .filtered-countries {
-  margin-top: 10px;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+  padding: 10px;
   width: 75%;
   float: right;
   list-style-type: none;
-  padding: 0;
-  background-color: none;
   z-index: 4;
+  position: absolute;
+  top: 40px;
+  left: 20%;
 }
 .filtered-countries li {
   cursor: pointer;
