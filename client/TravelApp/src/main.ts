@@ -2,6 +2,7 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
 import { IonicVue } from "@ionic/vue";
+import store from "./components/store.js";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/vue/css/core.css";
@@ -30,7 +31,7 @@ import config from "../capacitor.config";
 import NavBar from "@/components/NavBar.vue";
 import SideMenu from "@/components/SideMenu.vue";
 
-const app = createApp(App).use(IonicVue).use(router);
+const app = createApp(App).use(IonicVue).use(router).use(store);
 
 app.use(
 	createAuth0({
