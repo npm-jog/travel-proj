@@ -67,7 +67,7 @@ describe("GET fetchUserByEmail", () => {
     return request(app).get("/api/users").expect(400);
   });
   test("404: if no user found", () => {
-    return request(app).get("/api/users?email=test@test.com").expect(400);
+    return request(app).get("/api/users?email=rgfsdgv@test.com").expect(400);
   });
 });
 
