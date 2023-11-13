@@ -96,8 +96,24 @@
 	</ion-page>
 </template>
 
+<script lang="ts">
+	import { mapGetters } from "vuex";
+
+	export default defineComponent({
+		computed: {
+			// Use mapGetters to access the getUser getter from the store
+			...mapGetters(["getUserInfo"]),
+
+			// Use a computed property to get the user from the store
+			userInfo() {
+				return this.getUserInfo;
+			},
+		},
+	});
+</script>
+
 <script setup lang="ts">
-	import { ref } from "vue";
+	import { ref, defineComponent } from "vue";
 	import { IonPage, IonContent } from "@ionic/vue";
 
 	let slideIndex = 1;
