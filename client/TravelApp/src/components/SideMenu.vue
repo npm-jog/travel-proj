@@ -62,7 +62,7 @@
 				pages: [
 					ref(["home", home, "Home"]),
 					ref(["profile", personOutline, "Profile"]),
-					ref(["mygallery", imageOutline, "My Gallery"]),
+					ref(["mygalleries", imageOutline, "My Galleries"]),
 					ref(["wishlist", airplaneOutline, "Wishlist"]),
 					ref(["conversations", chatboxEllipsesOutline, "My Conversations"]),
 				],
@@ -99,6 +99,7 @@
 		// 	};
 		// },
 	});
+	
 </script>
 
 <script setup lang="ts">

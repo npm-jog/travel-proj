@@ -51,6 +51,12 @@
 							store.commit("setUsername", res.data.user.username);
 							store.commit("setUserEmail", res.data.user.email);
 							store.commit("setUserId", res.data.user._id);
+							store.commit("setUserForename", res.data.user.forename);
+							store.commit("setUserSurname", res.data.user.surname);
+							store.commit("setUserAvatar", res.data.user.avatar_url);
+							store.commit("setUserVisitedLocations", res.data.user.visited_locations);
+							store.commit("setUserWishlist", res.data.user.wishlist);
+							store.commit("setUserAlbums", res.data.user.albums);
 						})
 						.catch((err: any) => {
 							if (err.response.data.msg === "User does not exist") {
@@ -68,6 +74,12 @@
 										store.commit("setUsername", res.data.user.username);
 										store.commit("setUserEmail", res.data.user.email);
 										store.commit("setUserId", res.data.user._id);
+										store.commit("setUserForename", res.data.user.forename);
+										store.commit("setUserSurname", res.data.user.surname);
+										store.commit("setUserAvatar", res.data.user.avatar_url);
+										store.commit("setUserVisitedLocations", res.data.user.visited_locations);
+										store.commit("setUserWishlist", res.data.user.wishlist);
+										store.commit("setUserAlbums", res.data.user.albums);
 									})
 									.catch((err: any) => {});
 							} else {
