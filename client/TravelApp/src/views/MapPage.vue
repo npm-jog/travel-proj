@@ -77,7 +77,6 @@ export default defineComponent({
       return markers;
     },
     async addCustomMarkers(markers: any) {
-      console.log(markers);
       await this.newMap.addMarkers(markers);
     },
 
@@ -97,6 +96,11 @@ export default defineComponent({
         this.newCoordinates = toRaw(result.coordinates);
         if (this.newMap) {
           await this.newMap.setCamera({ coordinate: this.newCoordinates, zoom: 5 });
+          this.newMap.addListener("load", () => {
+            const bounds = this.newMap.getBounds();
+            // Add markers to the map.
+            this.addCustomMarkers(bounds);
+          });
         }
       }
     },
