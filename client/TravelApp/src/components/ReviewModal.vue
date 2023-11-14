@@ -25,7 +25,7 @@
       <ion-input
         label-placement="stacked"
         label=""
-        type="review"
+        type: any ="review"
         placeholder="Write your review here:">
       </ion-input>
     </ion-item>

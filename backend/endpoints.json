@@ -67,7 +67,8 @@
     "exampleResponse": {
       "countries": {
         "_id": "ObjectId(654cb37b1898b12d9a6e5e19)",
-        "name": "France"
+        "name": "France",
+        "coordinates": { "lat": "00", "lon": "00" }
       }
     }
   },

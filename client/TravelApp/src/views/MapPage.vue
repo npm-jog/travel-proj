@@ -5,9 +5,25 @@
         class="home-search"
         placeholder="Search for country"
         v-model="searchQuery"
-        @ionInput="handleSearch(countriesArr)"
+        @ionInput="handleSearch()"
         @keyup.enter="resetMap(searchResult[0])"
-      ></ion-searchbar>
+      >
+        <ion-icon
+          name="close-circle"
+          slot="end"
+          @click="clearSearchQuery()"
+          class="search-clear-button"
+        ></ion-icon>
+      </ion-searchbar>
+      <ul class="filtered-countries" v-if="searchResult.length > 0">
+        <li
+          v-for="country in searchResult"
+          :key="country.name"
+          @click="resetMap(country)"
+        >
+          {{ country.name }}
+        </li>
+      </ul>
       <div>
         <capacitor-google-map
           ref="mapRef"
@@ -22,23 +38,46 @@
 <script lang="ts">
 import { ref, defineComponent, nextTick, toRaw } from "vue";
 import { countries } from "../../API";
-import { IonSearchbar, IonPage, IonContent } from "@ionic/vue";
-import { GoogleMap } from "@capacitor/google-maps";
+import {
+  IonSearchbar,
+  IonPage,
+  IonContent,
+  IonIcon,
+  modalController,
+  IonPopover,
+} from "@ionic/vue";
+import { GoogleMap, Marker } from "@capacitor/google-maps";
 import apiKey from "@/components/APIKey.js";
+import MapModal from "@/components/MapModal.vue";
+
+const openModal = async (marker: any) => {
+  const modal = await modalController.create({
+    component: MapModal,
+    componentProps: { marker },
+  });
+  modal.present();
+  const { data, role } = await modal.onWillDismiss();
+};
 
 export default defineComponent({
-  components: { IonSearchbar, IonPage, IonContent },
+  components: { IonSearchbar, IonPage, IonContent, IonIcon },
   data() {
     return {
-      path: this.$route.path === "/home",
       searchQuery: "",
-      searchResult: "",
-      countriesArr: countries(),
+      searchResult: [],
+      countriesArr: countries,
       mapRef: ref<HTMLElement>(),
-      newMap: GoogleMap,
+      newMap: null as any,
       newZoom: null as any,
       newCoordinates: null as any,
     };
+  },
+  computed: {
+    filteredCountries() {
+      return this.countriesArr.filter((country: any) =>
+        country.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
+    },
   },
   methods: {
     async createMap() {
@@ -48,37 +87,67 @@ export default defineComponent({
         element: this.$refs.mapRef,
         apiKey: apiKey.mapsKey,
         config: {
-          center: this.newCoordinates || {
-            lat: 30,
-
-            lng: 0,
+          center: {
+            lat: 54,
+            lng: -2,
           },
-          zoom: this.newZoom || 3,
+          zoom: 6,
         },
       });
-    },
-    handleSearch(arr: any) {
-      this.searchResult = arr.filter((country: any) => {
-        return this.searchQuery.toLowerCase() === country.name.toLowerCase();
+      this.addCustomMarkers(this.createMarkerData(toRaw(this.countriesArr)));
+      await this.newMap.setOnMarkerClickListener(async (marker: any) => {
+        openModal(marker);
       });
+    },
+    createMarkerData(arr: any) {
+      const markers: Marker[] = [];
+      for (let i = 0; i < arr.length; i++) {
+        markers.push({
+          coordinate: arr[i].coordinates,
+          title: arr[i].name,
+          snippet: "placeholder",
+        });
+      }
+      return markers;
+    },
+    async addCustomMarkers(markers: any) {
+      await this.newMap.addMarkers(markers);
+    },
+
+    handleSearch() {
+      if (this.searchQuery === "") {
+        this.searchResult = [];
+      } else {
+        this.searchResult = this.filteredCountries;
+      }
     },
 
     async resetMap(result: any) {
       console.log(toRaw(result.coordinates));
+      this.searchQuery = result.name;
+      this.searchResult = [];
       if (result) {
         this.newCoordinates = toRaw(result.coordinates);
-        this.newZoom = 6;
         if (this.newMap) {
-          await this.newMap.removeAllMapListeners();
-          await this.newMap.destroy();
+          await this.newMap.setCamera({
+            coordinate: this.newCoordinates,
+            zoom: 5,
+          });
+          this.newMap.addListener("load", () => {
+            const bounds = this.newMap.getBounds();
+            // Add markers to the map.
+            this.addCustomMarkers(bounds);
+          });
         }
-        await this.createMap();
       }
     },
-  },
-  watch: {
-    $route(to, from) {
-      this.path = to.path === "/home";
+    clearSearchQuery() {
+      this.searchQuery = "";
+      this.searchResult = [];
+    },
+    convertToRaw(passedData: any) {
+      console.log(toRaw(passedData));
+      return toRaw(passedData);
     },
   },
   mounted() {
@@ -94,4 +163,20 @@ export default defineComponent({
   width: 85%;
   float: right;
 }
+.filtered-countries {
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+  padding: 10px;
+  width: 75%;
+  float: right;
+  list-style-type: none;
+  z-index: 4;
+  position: absolute;
+  top: 40px;
+  left: 20%;
+}
+.filtered-countries li {
+  cursor: pointer;
+}
+
 </style>

@@ -26,6 +26,7 @@ export interface CommentType {
 export interface CountryType {
   _id: Types.ObjectId;
   name: string;
+  coordinates: { lat: Number; lng: Number };
   __v: number;
 }
 

@@ -41,33 +41,32 @@
 			// Use watchEffect to observe changes in user and isLoading
 			watchEffect(() => {
 				if (!isLoading.value && user.value) {
-					const userInfo = toRaw(user.value);
+					const userTemp = toRaw(user.value);
 					axios
 						.get(
-							`https://travel-app-api-8nj9.onrender.com/api/users?email=${userInfo.email}`
+							`https://travel-app-api-8nj9.onrender.com/api/users?email=${userTemp.email}`
 						)
 						.then((res: any) => {
-							console.log("Sucessfully found user")
-							store.commit("setUsername", res.data.user.username);
-							store.commit("setUserEmail", res.data.user.email);
-							store.commit("setUserId", res.data.user._id);
+							console.log("Sucessfully found user");
+							store.commit("setUserInfo", res.data.user);
 						})
 						.catch((err: any) => {
 							if (err.response.data.msg === "User does not exist") {
-								console.log("user did not exist, posting a new user...", )
-								console.log(userInfo.nickname)
+								console.log("user did not exist, posting a new user...");
+								console.log(userTemp.nickname);
 								axios
 									.post("https://travel-app-api-8nj9.onrender.com/api/users", {
-										forename: userInfo.given_name, 
-										surname: userInfo.family_name || "Surname",
-										email: userInfo.email,
-										username: userInfo.nickname || `${userInfo.given_name}${userInfo.email.slice(0,2)}`,
+										forename: userTemp.given_name,
+										surname: userTemp.family_name || "Surname",
+										email: userTemp.email,
+										username:
+											userTemp.nickname ||
+											`${userTemp.given_name}${userTemp.email.slice(0, 2)}`,
 									})
 									.then((res: any) => {
 										console.log("new user posted, setting new user");
-										store.commit("setUsername", res.data.user.username);
-										store.commit("setUserEmail", res.data.user.email);
-										store.commit("setUserId", res.data.user._id);
+										console.log(res.data.user);
+										store.commit("setUserInfo", res.data.user);
 									})
 									.catch((err: any) => {});
 							} else {
