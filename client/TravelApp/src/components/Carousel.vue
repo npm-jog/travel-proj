@@ -1,8 +1,12 @@
-<ion-page class="carouselContainer">
+<template>
+	<ion-page class="carouselContainer">
 		<ion-content>
 			<swiper class="carousel">
 				<swiper-slide v-for="pic in pics">
-					<img class="carouselPic" :src="pic" />
+					<img
+						class="carouselPic"
+						:src="pic"
+					/>
 				</swiper-slide>
 			</swiper>
 		</ion-content>

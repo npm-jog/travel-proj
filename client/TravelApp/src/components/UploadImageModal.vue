@@ -142,4 +142,15 @@
 		justify-content: center;
 		height: 100%;
 	}
+
+	input {
+		margin: 1rem;
+	}
+
+	ion-input {
+		width: 80%;
+	}
+
+	.label-text-wrapper {
+	}
 </style>
