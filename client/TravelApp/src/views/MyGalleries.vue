@@ -5,11 +5,11 @@
 			<ion-card
 				v-if="userInfo"
 				class="album-div"
-				v-for="x in albumNames"
+				v-for="x in countries"
 				@click="navigateTo(x.country)"
 			>
 				<ion-card-title v-if="userInfo"
-					>{{ userInfo.username }}'s Album of {{ x.country }}
+					>Album of {{ x.country }}
 				</ion-card-title>
 				<ion-img
 					v-if="userInfo"
@@ -18,6 +18,16 @@
 				>
 				</ion-img>
 			</ion-card>
+			<ion-button
+				class="ion-padding mygalleries-add-button"
+				expand="block"
+				@click="openModal"
+			>
+				<ion-icon
+					slot="icon-only"
+					:icon="addOutline"
+				></ion-icon>
+			</ion-button>
 		</ion-content>
 	</ion-page>
 </template>
@@ -31,7 +41,14 @@
 		IonCardTitle,
 		IonImg,
 		IonContent,
+		IonButton,
+		IonIcon,
 	} from "@ionic/vue";
+
+	import { addOutline } from "ionicons/icons";
+	import { modalController } from "@ionic/vue";
+	import UploadImageModal from "../components/UploadImageModal.vue";
+
 	export default defineComponent({
 		components: {
 			IonPage,
@@ -39,28 +56,37 @@
 			IonCardTitle,
 			IonImg,
 			IonContent,
+			IonButton,
+			IonIcon,
 		},
 		data() {
 			return {
-				albumNames: [],
+				countries: [],
 			};
 		},
 		methods: {
 			navigateTo(x: { country: string; firstImage: string }) {
-				router.push(`gallery/${x}`);
+				router.push({ path: `/mygalleries/${x}` });
+			},
+			async openModal() {
+				console.log("openModal called");
+				const modal = await modalController.create({
+					component: UploadImageModal,
+				});
+				modal.present();
 			},
 			uniqueCountries() {
-				const addedCountries = new Set();
+				const addedAlbums = new Set();
 
 				if (this.userInfo && this.userInfo.albums) {
 					this.userInfo.albums.forEach(
-						(country: { country: string; url: string }) => {
-							if (!addedCountries.has(country.country)) {
-								this.albumNames.push({
-									country: country.country,
-									firstImage: country.url,
+						(image: { country: string; url: string }) => {
+							if (!addedAlbums.has(image.country)) {
+								this.countries.push({
+									country: image.country,
+									firstImage: image.url,
 								});
-								addedCountries.add(country.country);
+								addedAlbums.add(image.country);
 							}
 						}
 					);
@@ -100,5 +126,12 @@
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
+	}
+	.mygalleries-add-button {
+		width: 8rem;
+		position: fixed;
+		bottom: 0;
+		left: 50%;
+		margin-left: -4rem;
 	}
 </style>
