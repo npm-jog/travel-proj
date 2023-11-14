@@ -63,8 +63,10 @@ import {
 import { emit } from "process";
 import { DefineComponent, ref } from "vue";
 
+//get props
 import { defineProps } from 'vue';
 const props = defineProps(['question']);
+//get props
 
 const name = ref();
 const cancel = () => modalController.dismiss(null, "cancel");
