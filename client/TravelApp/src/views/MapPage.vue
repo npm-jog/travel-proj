@@ -25,19 +25,20 @@
 <script lang="ts">
 import { ref, defineComponent, nextTick, toRaw } from "vue";
 import { countries } from "../../API";
-import { jsonData } from "../../countryData";
+import { polygons, countriesList } from "../../Polygons";
 import { IonSearchbar, IonPage, IonContent, IonIcon, modalController, IonPopover } from "@ionic/vue";
 import { GoogleMap, Marker, Polygon } from "@capacitor/google-maps";
 import apiKey from "@/components/APIKey.js";
 import MapModal from "@/components/MapModal.vue";
 
 const openModal = async (marker: any) => {
-  const modal = await modalController.create({
-    component: MapModal,
-    componentProps: { marker },
-  });
-  modal.present();
-  const { data, role } = await modal.onWillDismiss();
+  console.log(marker);
+  // const modal = await modalController.create({
+  //   component: MapModal,
+  //   componentProps: { marker },
+  // });
+  // modal.present();
+  // const { data, role } = await modal.onWillDismiss();
 };
 
 export default defineComponent({
@@ -47,8 +48,6 @@ export default defineComponent({
       searchQuery: "",
       searchResult: [] as any,
       countriesArr: countries,
-      countriesData: jsonData,
-      countries: [] as Polygon[],
       mapRef: ref<HTMLElement>(),
       newMap: null as any,
       newZoom: null as any,
@@ -75,9 +74,14 @@ export default defineComponent({
           zoom: 6,
         },
       });
-      await this.addCustomMarkers(this.createMarkerData(toRaw(this.countriesArr)));
+
+      await this.newMap.addMarkers(this.createMarkerData(toRaw(this.countriesArr)));
       await this.newMap.setOnMarkerClickListener(async (marker: any) => {
         openModal(marker);
+      });
+      await this.newMap.addPolygons(polygons);
+      await this.newMap.setOnPolygonClickListener(async (polygon: any) => {
+        openModal(countriesList[Number(polygon.polygonId)]);
       });
     },
     createMarkerData(arr: any) {
@@ -91,9 +95,6 @@ export default defineComponent({
       }
       return markers;
     },
-    async addCustomMarkers(markers: any) {
-      await this.newMap.addMarkers(markers);
-    },
 
     handleSearch() {
       if (this.searchQuery === "") {
@@ -104,7 +105,6 @@ export default defineComponent({
     },
 
     async resetMap(result: any) {
-      console.log(toRaw(result.coordinates));
       this.searchQuery = result.name;
       this.searchResult = [];
       if (result) {
@@ -122,66 +122,12 @@ export default defineComponent({
       this.searchResult = [];
     },
     convertToRaw(passedData: any) {
-      console.log(toRaw(passedData));
       return toRaw(passedData);
-    },
-    initCountry() {
-      this.countriesData.forEach((country) => {
-        let countryCoords: any[];
-        let ca: string[];
-        let co: string[];
-
-        if ("multi" in country) {
-          const ccArray = [];
-
-          for (const t in country.xml.Polygon) {
-            countryCoords = [];
-
-            co = country.xml.Polygon[t].outerBoundaryIs.LinearRing.coordinates.split(" ");
-
-            for (const i in co) {
-              ca = co[i].split(",");
-              countryCoords.push({ lat: Number(ca[1]), lng: Number(ca[0]) });
-            }
-
-            ccArray.push(countryCoords);
-          }
-          this.createCountry(ccArray, country);
-        } else {
-          countryCoords = [];
-
-          co = country.xml.outerBoundaryIs.LinearRing.coordinates.split(" ");
-
-          for (const j in co) {
-            ca = co[j].split(",");
-            countryCoords.push({ lat: Number(ca[1]), lng: Number(ca[0]) });
-          }
-          this.createCountry(countryCoords, country);
-        }
-      });
-
-      this.showCountries();
-    },
-
-    async showCountries() {
-      await this.newMap.addPolygons(toRaw(this.countries));
-    },
-    createCountry(coords: any, country: any) {
-      const polygon = {
-        title: country.country,
-        paths: coords,
-        strokeColor: "#fffffff",
-        strokeWeight: 1,
-        fillColor: "#71ACD6",
-        fillOpacity: 0.35,
-      };
-      this.countries.push(polygon);
     },
   },
   mounted() {
-    nextTick(async () => {
-      await this.createMap();
-      await this.initCountry();
+    nextTick(() => {
+      this.createMap();
     });
   },
 });
