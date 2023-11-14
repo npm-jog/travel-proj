@@ -6,10 +6,10 @@
 				v-if="userInfo"
 				class="album-div"
 				v-for="x in albumNames"
-				@click="navigateTo(x.country)"
+				@click="navigateTo(x.albumName)"
 			>
 				<ion-card-title v-if="userInfo"
-					>{{ userInfo.username }}'s Album of {{ x.country }}
+					>{{ userInfo.username }}'s Album of {{ x.albumName }}
 				</ion-card-title>
 				<ion-img
 					v-if="userInfo"
@@ -46,21 +46,21 @@
 			};
 		},
 		methods: {
-			navigateTo(x: { country: string; firstImage: string }) {
-				router.push(`gallery/${x}`);
+			navigateTo(x: { albumName: string; firstImage: string }) {
+				router.push({ path: `/mygalleries/${x}` });
 			},
 			uniqueCountries() {
-				const addedCountries = new Set();
+				const addedAlbums = new Set();
 
 				if (this.userInfo && this.userInfo.albums) {
 					this.userInfo.albums.forEach(
-						(country: { country: string; url: string }) => {
-							if (!addedCountries.has(country.country)) {
+						(image: { albumName: string; url: string }) => {
+							if (!addedAlbums.has(image.albumName)) {
 								this.albumNames.push({
-									country: country.country,
-									firstImage: country.url,
+									albumName: image.albumName,
+									firstImage: image.url,
 								});
-								addedCountries.add(country.country);
+								addedAlbums.add(image.albumName);
 							}
 						}
 					);

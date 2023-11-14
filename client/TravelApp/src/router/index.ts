@@ -42,7 +42,7 @@ const routes: Array<RouteRecordRaw> = [
 		component: () => import("@/views/MyGalleries.vue"),
 	},
 	{
-		path: "/gallery/:country",
+		path: "/mygalleries/:album",
 		component: () => import("@/views/MyGalleryPage.vue"),
 	},
 ];
