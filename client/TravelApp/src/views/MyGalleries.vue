@@ -18,6 +18,16 @@
 				>
 				</ion-img>
 			</ion-card>
+			<ion-button
+				class="ion-padding mygalleries-add-button"
+				expand="block"
+				@click="openModal"
+			>
+				<ion-icon
+					slot="icon-only"
+					:icon="addOutline"
+				></ion-icon>
+			</ion-button>
 		</ion-content>
 	</ion-page>
 </template>
@@ -31,7 +41,14 @@
 		IonCardTitle,
 		IonImg,
 		IonContent,
+		IonButton,
+		IonIcon,
 	} from "@ionic/vue";
+
+	import { addOutline } from "ionicons/icons";
+	import { modalController } from "@ionic/vue";
+	import UploadImageModal from "../components/UploadImageModal.vue";
+
 	export default defineComponent({
 		components: {
 			IonPage,
@@ -39,6 +56,8 @@
 			IonCardTitle,
 			IonImg,
 			IonContent,
+			IonButton,
+			IonIcon,
 		},
 		data() {
 			return {
@@ -48,6 +67,13 @@
 		methods: {
 			navigateTo(x: { albumName: string; firstImage: string }) {
 				router.push({ path: `/mygalleries/${x}` });
+			},
+			async openModal() {
+				console.log("openModal called");
+				const modal = await modalController.create({
+					component: UploadImageModal,
+				});
+				modal.present();
 			},
 			uniqueCountries() {
 				const addedAlbums = new Set();
@@ -100,5 +126,12 @@
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
+	}
+	.mygalleries-add-button {
+		width: 8rem;
+		position: fixed;
+		bottom: 0;
+		left: 50%;
+		margin-left: -4rem;
 	}
 </style>
