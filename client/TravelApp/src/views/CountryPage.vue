@@ -55,13 +55,9 @@
               @click="currentSlide(3)"></span>
           </div>
         </div>
-        <!-- <div class="events-div center">events here</div>
-		  <div class="rating-wishlist-div center">
-			rate country and add to wishlist buttons here
-		  </div> -->
-        <!-- <div class="questions-reviews-div center">
-			questions and reviews buttons here
-		  </div> -->
+        <div class="public-holidays-div center">Public Holidays</div>
+        <div class="rating-wishlist-div center"></div>
+
         <div class="country-info-container">
           <h4 class="country-info-header">Country info</h4>
           <p class="country-info">
@@ -87,13 +83,29 @@
             >
           </div>
         </div>
+        <div class="rating-card">
+          <p>Rate Country</p>
+          <div v-for="metric in metrics" :key="metric.name">
+            <p>{{ metric.name }}</p>
+            <div class="star-rating">
+              <span
+                v-for="star in 5"
+                :key="star"
+                class="star"
+                :class="{ highlighted: star <= metric.rating }"
+                @click="rateCountry(metric, star)">
+                &#9733;
+              </span>
+            </div>
+          </div>
+        </div>
       </main>
     </ion-content>
   </ion-page>
 </template>
 
 <script lang="ts">
-import { ref, defineComponent } from "vue";
+import Vue, { ref, defineComponent, VueElement, reactive } from "vue";
 import {
   IonPage,
   IonContent,
@@ -127,13 +139,6 @@ export default defineComponent({
       });
       modal.present();
     },
-  },
-  props: { myProps: { type: String, required: false } },
-  setup(props) {
-    const myPropsValue = ref(props.myProps);
-    return {
-      myPropsValue,
-    };
   },
 });
 </script>
@@ -177,18 +182,23 @@ function showSlides(n: number) {
   dots[slideIndex - 1].className = "active";
 }
 
-// const metrics = [
-//   { name: "Food", rating: ref(0) },
-//   { name: "Safety", rating: ref(0) },
-//   { name: "Activities", rating: ref(0) },
-//   { name: "Cost", rating: ref(0) },
-// ];
+const metrics = [
+  { name: "Food", rating: ref(0), highlightedStars: ref([]) },
+  { name: "Safety", rating: ref(0), highlightedStars: ref([]) },
+  { name: "Activities", rating: ref(0), highlightedStars: ref([]) },
+  { name: "Cost", rating: ref(0), highlightedStars: ref([]) },
+];
 
-// function rateCountry(metric, stars) {
-//   metric.rating.value = stars;
-//   console.log(`Rating ${metric.name}: ${stars} stars`);
-// }
+function rateCountry(metric, stars) {
+  metric.rating.value = stars;
 
+  // Update the highlightedStars array based on the current rating
+  metric.highlightedStars = metric.highlightedStars.map(
+    (_, index) => index < stars
+  );
+
+  console.log(`Rating ${metric.name}: ${stars} stars`);
+}
 </script>
 
 <style scoped>
