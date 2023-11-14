@@ -19,6 +19,10 @@
         <br />
         <div class="public-holidays-div center">
           <h2>Public Holidays</h2>
+          <div v-for="(holiday, index) in holidays" :key="index">
+            <!-- Your element content goes here -->
+            {{ holiday }}
+          </div>
         </div>
         <ion-content> </ion-content>
         <div class="buttons-container">
@@ -89,8 +93,9 @@ export default defineComponent({
   data() {
     return {
       message: ref(
-        "this modal example uses the modalController to present and dismiss modals"
+        "this modal example uses the modalController to present and dismiss modals",
       ),
+      holidays: [] as string []
     };
   },
   methods: {
@@ -106,7 +111,21 @@ export default defineComponent({
       });
       modal.present();
     },
+    async getHolidays() {
+      try {
+      const { data } = await axios.get("https://travel-app-api-8nj9.onrender.com/api/country_data/public_holidays", {params: {country_code: 'GB', year: 2022}});
+      console.log(data.publicHolidays)
+      return data.publicHolidays;
+    } catch (err) {}
+    }
   },
+  mounted() {
+    this.getHolidays().then((returnedHolidays) => {
+      returnedHolidays.forEach((holiday: any) => {
+        this.holidays.push(`${holiday.date} ${holiday.name}`)
+      })
+    })
+  }
 });
 </script>
 
