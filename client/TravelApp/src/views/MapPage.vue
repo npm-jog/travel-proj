@@ -27,7 +27,7 @@ import { ref, defineComponent, nextTick, toRaw } from "vue";
 import { countries } from "../../API";
 import { jsonData } from "../../countryData";
 import { IonSearchbar, IonPage, IonContent, IonIcon, modalController, IonPopover } from "@ionic/vue";
-import { GoogleMap, Marker } from "@capacitor/google-maps";
+import { GoogleMap, Marker, Polygon } from "@capacitor/google-maps";
 import apiKey from "@/components/APIKey.js";
 import MapModal from "@/components/MapModal.vue";
 
@@ -45,10 +45,10 @@ export default defineComponent({
   data() {
     return {
       searchQuery: "",
-      searchResult: [],
+      searchResult: [] as any,
       countriesArr: countries,
       countriesData: jsonData,
-      countries: [] as google.maps.Polygon[],
+      countries: [] as Polygon[],
       mapRef: ref<HTMLElement>(),
       newMap: null as any,
       newZoom: null as any,
@@ -75,7 +75,7 @@ export default defineComponent({
           zoom: 6,
         },
       });
-      this.addCustomMarkers(this.createMarkerData(toRaw(this.countriesArr)));
+      await this.addCustomMarkers(this.createMarkerData(toRaw(this.countriesArr)));
       await this.newMap.setOnMarkerClickListener(async (marker: any) => {
         openModal(marker);
       });
@@ -113,11 +113,6 @@ export default defineComponent({
           await this.newMap.setCamera({
             coordinate: this.newCoordinates,
             zoom: 5,
-          });
-          this.newMap.addListener("load", () => {
-            const bounds = this.newMap.getBounds();
-            // Add markers to the map.
-            this.addCustomMarkers(bounds);
           });
         }
       }
@@ -168,39 +163,25 @@ export default defineComponent({
       this.showCountries();
     },
 
-    showCountries() {
-      for (let i = 0; i < countries.length; i++) {
-        countries[i].setMap(this.newMap);
-
-        google.maps.event.addListener(countries[i], "mouseover", function () {
-          this.countrie[i].setOptions({ fillColor: "#f5c879", fillOpacity: 0.5 });
-        });
-
-        google.maps.event.addListener(countries[i], "mouseout", function () {
-          this.countrie[i].setOptions({ fillColor: "#f5c879", fillOpacity: 0 });
-        });
-
-        google.maps.event.addListener(countries[i], "click", function () {
-          alert(`${this.countrie[i].title} (${this.countrie[i].code})`);
-        });
-      }
+    async showCountries() {
+      await this.newMap.addPolygons(toRaw(this.countries));
     },
     createCountry(coords: any, country: any) {
-      const currentCountry = new google.maps.Polygon({
+      const polygon = {
+        title: country.country,
         paths: coords,
-        strokeOpacity: 0,
-        fillColor: country.color,
-        fillOpacity: 0,
-      });
-
-      this.countries.push(currentCountry);
-      console.log("country", this.countries);
+        strokeColor: "#fffffff",
+        strokeWeight: 1,
+        fillColor: "#71ACD6",
+        fillOpacity: 0.35,
+      };
+      this.countries.push(polygon);
     },
   },
   mounted() {
-    nextTick(() => {
-      this.createMap();
-      this.initCountry();
+    nextTick(async () => {
+      await this.createMap();
+      await this.initCountry();
     });
   },
 });
