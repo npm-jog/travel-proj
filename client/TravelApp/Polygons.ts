@@ -1,5 +1,6 @@
 import { jsonData } from "./countryData";
 import { Polygon } from "@capacitor/google-maps";
+import store from "../TravelApp/src/components/store";
 
 export const polygons: Polygon[] = [];
 export const countriesList: string[] = [];
@@ -9,28 +10,21 @@ function initCountry() {
     let countryCoords: any[];
     let ca: string[];
     let co: string[];
-
     if ("multi" in country) {
       const ccArray: any = [];
-
       for (const t in country.xml.Polygon) {
         countryCoords = [];
-
         co = country.xml.Polygon[t].outerBoundaryIs.LinearRing.coordinates.split(" ");
-
         for (const i in co) {
           ca = co[i].split(",");
           countryCoords.push({ lat: Number(ca[1]), lng: Number(ca[0]) });
         }
-
         ccArray.push(countryCoords);
       }
       createCountry(ccArray, country);
     } else {
       countryCoords = [];
-
       co = country.xml.outerBoundaryIs.LinearRing.coordinates.split(" ");
-
       for (const j in co) {
         ca = co[j].split(",");
         countryCoords.push({ lat: Number(ca[1]), lng: Number(ca[0]) });
@@ -40,7 +34,9 @@ function initCountry() {
   });
 }
 
-function createCountry(coords: any, country: any) {
+async function createCountry(coords: any, country: any) {
+  const userInfo = store.getters.getUserInfo || null;
+
   const polygon = {
     paths: coords,
     strokeColor: "#fffffff",
@@ -48,6 +44,19 @@ function createCountry(coords: any, country: any) {
     fillColor: "#71ACD6",
     fillOpacity: 0.55,
   };
+  if (userInfo) {
+    userInfo.wishlist.forEach((wish) => {
+      if (String(wish) === String(country.country)) {
+        polygon.fillColor = "#BB1D11";
+      }
+    });
+
+    userInfo.visited_locations.forEach((visited) => {
+      if (String(visited) === String(country.country)) {
+        polygon.fillColor = "#FFD61F";
+      }
+    });
+  }
 
   polygons.push(polygon);
   countriesList.push(country.country);
