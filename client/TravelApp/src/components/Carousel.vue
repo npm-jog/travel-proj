@@ -1,5 +1,4 @@
-<template>
-	<ion-page class="carouselContainer">
+<ion-page class="carouselContainer">
 		<ion-content>
 			<swiper class="carousel">
 				<swiper-slide v-for="pic in pics">
