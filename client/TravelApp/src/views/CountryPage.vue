@@ -188,6 +188,7 @@ function showSlides(n: number) {
 //   metric.rating.value = stars;
 //   console.log(`Rating ${metric.name}: ${stars} stars`);
 // }
+
 </script>
 
 <style scoped>

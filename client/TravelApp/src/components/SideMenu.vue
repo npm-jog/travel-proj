@@ -5,105 +5,46 @@
 	>
 		<ion-header>
 			<ion-toolbar>
-				<ion-title>Menu</ion-title>
+				<ion-menu-toggle>
+					<ion-title
+						v-if="userInfo"
+						@click="navigateTo('profile')"
+						>{{ userInfo.username }}</ion-title
+					>
+				</ion-menu-toggle>
 			</ion-toolbar>
 		</ion-header>
-		<ion-content class="ion-padding">
-			<ion-button
-				class="ion-padding"
-				expand="block"
-			>
-				Home
-				<ion-icon
-					slot="end"
-					:icon="home"
-				></ion-icon>
-			</ion-button>
-			<ion-button
-				class="ion-padding"
-				expand="block"
-			>
-				Profile
-				<ion-icon
-					slot="end"
-					:icon="personOutline"
-				></ion-icon>
-			</ion-button>
-			<ion-button
-				class="ion-padding"
-				expand="block"
-			>
-				Create Account
-				<ion-icon
-					slot="end"
-					:icon="personAddOutline"
-				></ion-icon>
-			</ion-button>
-			<ion-button
-				class="ion-padding"
-				expand="block"
-			>
-				Sign In
-				<ion-icon
-					slot="end"
-					:icon="logInOutline"
-				></ion-icon>
-			</ion-button>
-			<ion-button
-				class="ion-padding"
-				expand="block"
-			>
-				Sign Out
-				<ion-icon
-					slot="end"
-					:icon="logOutOutline"
-				></ion-icon>
-			</ion-button>
-			<ion-button
-				class="ion-padding"
-				expand="block"
-			>
-				Gallery
-				<ion-icon
-					slot="end"
-					:icon="imageOutline"
-				></ion-icon>
-			</ion-button>
-			<ion-button
-				class="ion-padding"
-				expand="block"
-			>
-				My Reviews
-				<ion-icon
-					slot="end"
-					:icon="starHalfOutline"
-				></ion-icon>
-			</ion-button>
-			<ion-button
-				class="ion-padding"
-				expand="block"
-			>
-				Conversations
-				<ion-icon
-					slot="end"
-					:icon="chatboxEllipsesOutline"
-				></ion-icon>
-			</ion-button>
-			<ion-button
-				class="ion-padding"
-				expand="block"
-			>
-				Wishlist
-				<ion-icon
-					slot="end"
-					:icon="giftOutline"
-				></ion-icon>
-			</ion-button>
+		<ion-content class="nav-menu ion-padding">
+			<ion-menu-toggle>
+				<img
+					class="nav-avatar"
+					v-if="userInfo"
+					:src="userInfo.avatar_url"
+					@click="navigateTo('profile')"
+				/>
+			</ion-menu-toggle>
+			<ion-menu-toggle v-for="x in pages">
+				<ion-button
+					v-model="x.value[0]"
+					@click="navigateTo(x.value[0])"
+					class="ion-padding"
+					expand="block"
+					>{{ x.value[2]
+					}}<ion-icon
+						slot="end"
+						:icon="x.value[1]"
+					></ion-icon>
+				</ion-button>
+			</ion-menu-toggle>
+			<ion-menu-toggle>
+				<LogoutButton />
+			</ion-menu-toggle>
 		</ion-content>
 	</ion-menu>
 </template>
 
 <script lang="ts">
+	import router from "@/router";
 	import {
 		IonContent,
 		IonHeader,
@@ -113,23 +54,38 @@
 		IonToolbar,
 		IonButton,
 		IonIcon,
+		IonMenuToggle,
+		IonCard,
 	} from "@ionic/vue";
 
 	import {
 		home,
-		personOutline,
-		personAddOutline,
-		logInOutline,
-		logOutOutline,
 		imageOutline,
-		starHalfOutline,
 		chatboxEllipsesOutline,
-		giftOutline,
+		airplaneOutline,
 	} from "ionicons/icons";
 
-	import { defineComponent } from "vue";
+	import { defineComponent, ref } from "vue";
+	import LogoutButton from "./LogoutButton.vue";
+	import { mapGetters } from "vuex";
 
 	export default defineComponent({
+		data() {
+			return {
+				// array to render buttons
+				pages: [
+					ref(["home", home, "Home"]),
+					ref(["mygalleries", imageOutline, "My Galleries"]),
+					ref(["wishlist", airplaneOutline, "Wishlist"]),
+					ref(["conversations", chatboxEllipsesOutline, "My Conversations"]),
+				],
+			};
+		},
+		methods: {
+			navigateTo(x: any) {
+				router.push(x);
+			},
+		},
 		components: {
 			IonContent,
 			IonHeader,
@@ -139,19 +95,41 @@
 			IonToolbar,
 			IonButton,
 			IonIcon,
+			IonMenuToggle,
+			LogoutButton,
+			IonCard,
 		},
-		setup() {
-			return {
-				home,
-				personOutline,
-				personAddOutline,
-				logInOutline,
-				logOutOutline,
-				imageOutline,
-				starHalfOutline,
-				chatboxEllipsesOutline,
-				giftOutline,
-			};
+		computed: {
+			// Use mapGetters to access the getUser getter from the store
+			...mapGetters(["getUserInfo"]),
+
+			// Use a computed property to get the user from the store
+			userInfo() {
+				return this.getUserInfo;
+			},
 		},
+		// setup() {
+		// 	return {
+		// 		home,
+		// 		personOutline,
+		// 		personAddOutline,
+		// 		logInOutline,
+		// 		logOutOutline,
+		// 		imageOutline,
+		// 		starHalfOutline,
+		// 		chatboxEllipsesOutline,
+		// 		giftOutline,
+		// 	};
+		// },
 	});
 </script>
+
+<style>
+	.nav-menu {
+		text-align: center;
+	}
+	.nav-avatar {
+		height: 20%;
+		aspect-ratio: 1;
+	}
+</style>

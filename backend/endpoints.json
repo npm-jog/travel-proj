@@ -1,62 +1,440 @@
 {
-    "GET /api":{},
-    "GET /api/users/:user_id": {
-        "description": "Returns a specified user by their id",
-        "queries": [],
-        "exampleResponse": {}
-    },
-    "POST /api/users": {
-        "description": "Adds a user to the database and returns the added user",
-        "queries": [],
-        "exampleResponse": {}
-    },
-    "DELETE /api/users/:user_id": {
-        "description": "Removes a user from the database",
-        "queries": [],
-        "exampleResponse": {}
+  "GET /api": {
+    "description": "serves up a json representation of all the available endpoints of the api"
+  },
+  "GET /api/users/:user_id": {
+    "description": "Returns a specified user by their id",
+    "queries": [],
+    "exampleResponse": {
+      "user": {
+        "_id": "ObjectId(654cb37b1898b12d9a6e5e19)",
+        "avatar_url": "https://as2.ftcdn.net/v2/jpg/01/07/24/47/1000_F_107244704_zUI5rk6tdHnk…",
+        "forename": "Paul",
+        "surname": "Henderson",
+        "username": "flyawaypaul",
+        "visited_locations": ["USA"],
+        "wishlist": ["USA"],
+        "albums": [{ "country": "France", "url": "http://...." }]
+      }
     }
-    ,
-    "PATCH /api/users/:user_id": {
-        "description": "Updates a users details and returns the updated user",
-        "queries": [],
-        "exampleResponse": {}
+  },
+  "GET /api/users/": {
+    "description": "Returns a specified user by their email",
+    "queries": ["email"],
+    "exampleResponse": {
+      "user": {
+        "_id": "ObjectId(654cb37b1898b12d9a6e5e19)",
+        "avatar_url": "https://as2.ftcdn.net/v2/jpg/01/07/24/47/1000_F_107244704_zUI5rk6tdHnk…",
+        "forename": "Paul",
+        "surname": "Henderson",
+        "username": "flyawaypaul",
+        "visited_locations": ["USA"],
+        "wishlist": ["USA"],
+        "albums": [{ "country": "France", "url": "http://...." }]
+      }
     }
-    ,
-    "GET /api/wishlist/:user_id": {
-        "description": "Returns a specified users wishlist by their user_id",
-        "queries": [],
-        "exampleResponse": {}
+  },
+  "POST /api/users": {
+    "description": "Adds a user to the database and returns the added user",
+    "queries": [],
+    "exampleResponse": {
+      "user": {
+        "_id": "ObjectId(654cb37b1898b12d9a6e5e19)",
+        "avatar_url": "https://as2.ftcdn.net/v2/jpg/01/07/24/47/1000_F_107244704_zUI5rk6tdHnk…",
+        "forename": "Paul",
+        "surname": "Henderson",
+        "username": "flyawaypaul",
+        "visited_locations": ["USA"],
+        "wishlist": ["USA"],
+        "albums": [{ "country": "France", "url": "http://...." }]
+      }
     }
-    ,
-    "POST /api/wishlist/:user_id": {
-        "description": "Adds a country to a users wishlist and returns their wishlist",
-        "queries": [],
-        "exampleResponse": {}
+  },
+  "DELETE /api/users/:user_id": {
+    "description": "Removes a user from the database",
+    "queries": [],
+    "exampleResponse": "204 with no body"
+  },
+  "PATCH /api/users/:user_id": {
+    "description": "Updates a users details and returns the updated user",
+    "queries": [],
+    "exampleResponse": {}
+  },
+
+  "GET /api/countries": {
+    "description": "Returns the list of all countries",
+    "queries": [],
+    "exampleResponse": {
+      "countries": {
+        "_id": "ObjectId(654cb37b1898b12d9a6e5e19)",
+        "name": "France",
+        "coordinates": { "lat": "00", "lon": "00" }
+      }
     }
-    ,
-    "DELETE /api/wishlist/:user_id/:country_name": {
-        "description": "Removes a location from a users wishlist",
-        "queries": [],
-        "exampleResponse": {}
-    },
-    "GET /api/reviews/:location": {
-        "description": "Returns a list of reviews for a location",
-        "queries": [],
-        "exampleResponse": {}
-    },
-    "POST /api/reviews/:location": {
-        "description": "Adds a review to a location and returns the added review",
-        "queries": [],
-        "exampleResponse": {}
-    },
-    "PATCH /api/reviews/:review_id": {
-        "description": "Updates a review by the users id and rerturns the updated review",
-        "queries": [],
-        "exampleResponse": {}
-    },
-    "DELETE /api/reviews/:review_id": {
-        "description": "Removes a review ",
-        "queries": [],
-        "exampleResponse": {}
+  },
+
+  "GET /api/questions": {
+    "description": "Returns a list of questions",
+    "queries": [],
+    "exampleResponse": [
+      {
+        "_id": "6551fcc77f12c05bbc5d9648",
+        "username": "SunshineLoz92",
+        "title": "Does Vietnam have good beaches?",
+        "body": "Are there lots of good beaches here? When is the best time of year to get the most sun?",
+        "likes": 2,
+        "topic": "beaches",
+        "country": "Vietnam",
+        "created_at": "2014-04-02T18:40:40.000Z",
+        "reported_count": 0,
+        "user_interactions": [],
+        "__v": 0
+      },
+      {
+        "_id": "6551fcc77f12c05bbc5d9649",
+        "username": "FoodieShaz",
+        "title": "Nightlife?",
+        "body": "Does this country have a lot of nightlife attractions?",
+        "likes": -1,
+        "topic": "activities",
+        "country": "Vietnam",
+        "created_at": "2011-01-31T08:54:00.000Z",
+        "reported_count": 0,
+        "user_interactions": [],
+        "__v": 0
+      }
+    ]
+  },
+
+  "POST /api/questions": {
+    "description": "Adds a question to the database and returns the added question",
+    "queries": [],
+    "exampleResponse": {
+      "question": {
+        "_id": "ObjectId(654cb37b1898b12d9a6e5e19)",
+        "username": "FoodieShaz",
+        "title": "I hear the food is great. Is this true?",
+        "body": "Read the title",
+        "likes": 2,
+        "topic": "food",
+        "country": "Italy",
+        "created_at": 1596464040000,
+        "reported_count": 0,
+        "user_interactions": [{ "username": "SunshineLoz92", "vote": 1, "reported": false }]
+      }
     }
+  },
+
+  "DELETE /api/questions/:question_id": {
+    "description": "Removes a question from the database",
+    "queries": [],
+    "exampleResponse": "204 with no body"
+  },
+  "PATCH /api/questions/:question_id": {
+    "description": "Update a question details and returns the updated question",
+    "queries": [],
+    "exampleResponse": {
+      "question": {
+        "_id": "ObjectId(654cb37b1898b12d9a6e5e19)",
+        "username": "FoodieShaz",
+        "title": "I hear the food is great. Is this true?",
+        "body": "Read the title",
+        "likes": 2,
+        "topic": "food",
+        "country": "Italy",
+        "created_at": 1596464040000,
+        "reported_count": 0,
+        "user_interactions": [{ "username": "SunshineLoz92", "vote": 1, "reported": false }]
+      }
+    }
+  },
+
+  "GET /api/questions/:question_id/comments": {
+    "description": "Returns the list of comments for a specific question_id",
+    "queries": [],
+    "exampleResponse": {
+      "comments": {
+        "_id": "ObjectId(654cb37b1898b12d9a6e5e19)",
+        "question_id": "ObjectId(654cb37b1898b12d9a6e5e19)",
+        "username": "SunshineLoz92",
+        "body": "Yes excellent! Every region has unique dishes!",
+        "likes": 2,
+        "reported_count": 0,
+        "created_at": 2196464040000,
+        "user_interactions": [
+          { "username": "flyawaypaul", "vote": 1, "reported": false },
+          { "username": "Backpacker2001", "vote": 1, "reported": false }
+        ]
+      }
+    }
+  },
+  "POST /api/questions/:question_id/comments": {
+    "description": "add a comment to a specific question_id and return the new comment",
+    "queries": [],
+    "exampleResponse": {
+      "comment": {
+        "_id": "ObjectId(654cb37b1898b12d9a6e5e19)",
+        "question_id": "ObjectId(654cb37b1898b12d9a6e5e19)",
+        "username": "SunshineLoz92",
+        "body": "Yes excellent! Every region has unique dishes!",
+        "likes": 2,
+        "reported_count": 0,
+        "created_at": 2196464040000,
+        "user_interactions": [
+          { "username": "flyawaypaul", "vote": 1, "reported": false },
+          { "username": "Backpacker2001", "vote": 1, "reported": false }
+        ]
+      }
+    }
+  },
+  "DELETE /api/comments/:comment_id": {
+    "description": "Removes a comment from the database",
+    "queries": [],
+    "exampleResponse": "204 with no body"
+  },
+  "PATCH /api/comments/:comment_id": {
+    "description": "Update a comment details and returns the updated comment",
+    "queries": [],
+    "exampleResponse": {
+      "comment": {
+        "_id": "ObjectId(654cb37b1898b12d9a6e5e19)",
+        "question_id": "ObjectId(654cb37b1898b12d9a6e5e19)",
+        "username": "SunshineLoz92",
+        "body": "Yes excellent! Every region has unique dishes!",
+        "likes": 2,
+        "reported_count": 0,
+        "created_at": 2196464040000,
+        "user_interactions": [
+          { "username": "flyawaypaul", "vote": 1, "reported": false },
+          { "username": "Backpacker2001", "vote": 1, "reported": false }
+        ]
+      }
+    }
+  },
+
+  "GET /api/reviews/:location": {
+    "description": "Returns a list of reviews for a location",
+    "queries": [],
+    "exampleResponse": {
+      "reviews": [
+        {
+          "ratings": {
+            "safety": 4,
+            "food": 5,
+            "activities": 4,
+            "cost": 1,
+            "scenery": 5
+          },
+          "_id": "654cf83b52de90f10c748b03",
+          "username": "SunshineLoz92",
+          "body": "Each state is like another country! So much to explore!",
+          "pictures": ["<picture link>", "<picture link>", "<picture link>"],
+          "country": "USA",
+          "reported_count": 0,
+          "user_interactions": [
+            {
+              "0": {
+                "username": "TD2382",
+                "reported": "true",
+                "_id": "654cc9d16d5611e2f3e12fd6"
+              }
+            },
+            {
+              "1": {
+                "username": "flyawaypaul",
+                "reported": "true",
+                "_id": "654cc9d16d5611e2f3e12fd7"
+              }
+            }
+          ],
+          "__v": 0
+        },
+        {
+          "ratings": {
+            "safety": 3,
+            "food": 4,
+            "activities": 4,
+            "cost": 4,
+            "scenery": 5
+          },
+          "_id": "654cc9d16d5611e2f3e12fd7",
+          "username": "flyawaypaul",
+          "body": "Loved this place. Always sunny, great hospitality and amazing beaches!",
+          "pictures": [],
+          "country": "England",
+          "reported_count": 0,
+          "user_interactions": [],
+          "__v": 0
+        }
+      ]
+    }
+  },
+  "POST /api/reviews/:location": {
+    "description": "Adds a review to a location and returns the added review",
+    "queries": [],
+    "exampleResponse": {
+      "postedReview": {
+        "username": "Johhny",
+        "body": "So sunny!",
+        "ratings": {
+          "safety": 5,
+          "food": 5,
+          "activities": 4,
+          "cost": 3,
+          "scenery": 5
+        },
+        "pictures": ["<pic link>"],
+        "country": "England",
+        "reported_count": 0,
+        "_id": "654cfcd8c0097a62f26c3344",
+        "user_interactions": [],
+        "__v": 0
+      }
+    }
+  },
+  "PATCH /api/reviews/:review_id": {
+    "description": "Updates a review by the users id and rerturns the updated review",
+    "queries": [],
+    "exampleResponse": {
+      "review": {
+        "ratings": {
+          "safety": 5,
+          "food": 5,
+          "activities": 4,
+          "cost": 4,
+          "scenery": 5
+        },
+        "_id": "654cff5ced48b000512a1f77",
+        "username": "Backpacker2001",
+        "body": "More than amazing. Would highly recomend",
+        "pictures": [],
+        "country": "Thailand",
+        "reported_count": 0,
+        "user_interactions": [],
+        "__v": 0
+      }
+    }
+  },
+  "DELETE /api/reviews/:review_id": {
+    "description": "Removes a review ",
+    "queries": [],
+    "exampleResponse": {}
+  },
+  "GET /public_holidays": {
+    "description": "returns the pbulic holidays and dates for a specified country on that year",
+    "queries": ["year", "country_code"],
+    "exampleResponse": [
+      {
+        "date": "2023-01-01",
+        "localName": "Neujahr",
+        "name": "New Year's Day",
+        "countryCode": "AT",
+        "fixed": true,
+        "global": true,
+        "counties": null,
+        "launchYear": 1967,
+        "types": ["Public"]
+      },
+      {
+        "date": "2023-01-06",
+        "localName": "Heilige Drei Könige",
+        "name": "Epiphany",
+        "countryCode": "AT",
+        "fixed": true,
+        "global": true,
+        "counties": null,
+        "launchYear": null,
+        "types": ["Public"]
+      }
+    ]
+  },
+  "GET /api/img_kit": {
+    "description": "Returns token for image kit",
+    "queries": [],
+    "exampleResponse": {
+      "token": "token",
+      "expire": 1699875225,
+      "signature": "signature"
+    }
+  },
+  "GET /api/country-data/weather/:city": {
+    "description": "return the current weather in the city specified",
+    "queries": [],
+    "exampleResponse": {
+      "weather": {
+        "name": "London",
+        "country": "United Kingdom",
+        "localtime": "2023-11-10 16:00",
+        "weather": {
+          "temp_c": 9,
+          "condition": "Partly cloudy",
+          "icon": "//cdn.weatherapi.com/weather/64x64/day/116.png",
+          "precip_mm": 0.02
+        }
+      }
+    }
+  },
+  "GET /country_safety/:country_code": {
+    "description": "returns safety data for a specific country",
+    "queries": [],
+    "exampleResponse": {
+      "score": 3,
+      "sources_active": 7,
+      "message": "United Kingdom has a current risk level of 3 (out of 5). We advise: Use some caution when travelling United Kingdom.",
+      "updated": "2023-11-13 07:29:15",
+      "source": "https://www.travel-advisory.info/united-kingdom"
+    }
+  },
+  "GET /images/:country": {
+    "description": "returns a list of images for a given country",
+    "queries": [],
+    "exampleResponse": {
+      "images": [
+        {
+          "id": 6580702,
+          "width": 3648,
+          "height": 5472,
+          "url": "https://www.pexels.com/photo/statue-of-christ-redeemer-on-mountain-under-blue-sky-6580702/",
+          "photographer": "Athena",
+          "photographer_url": "https://www.pexels.com/@athena",
+          "photographer_id": 307356,
+          "avg_color": "#7C8A7E",
+          "src": {
+            "original": "https://images.pexels.com/photos/6580702/pexels-photo-6580702.jpeg",
+            "large2x": "https://images.pexels.com/photos/6580702/pexels-photo-6580702.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+            "large": "https://images.pexels.com/photos/6580702/pexels-photo-6580702.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+            "medium": "https://images.pexels.com/photos/6580702/pexels-photo-6580702.jpeg?auto=compress&cs=tinysrgb&h=350",
+            "small": "https://images.pexels.com/photos/6580702/pexels-photo-6580702.jpeg?auto=compress&cs=tinysrgb&h=130",
+            "portrait": "https://images.pexels.com/photos/6580702/pexels-photo-6580702.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+            "landscape": "https://images.pexels.com/photos/6580702/pexels-photo-6580702.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200",
+            "tiny": "https://images.pexels.com/photos/6580702/pexels-photo-6580702.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280"
+          },
+          "liked": false,
+          "alt": "Aerial view of sculpture of Jesus Christ on green mount in Rio de Janeiro Brazil on summer day"
+        },
+        {
+          "id": 7675249,
+          "width": 3578,
+          "height": 4000,
+          "url": "https://www.pexels.com/photo/bare-tree-under-starry-sky-during-night-time-7675249/",
+          "photographer": "Nando Paz",
+          "photographer_url": "https://www.pexels.com/@nando-paz-49562026",
+          "photographer_id": 49562026,
+          "avg_color": "#394A3E",
+          "src": {
+            "original": "https://images.pexels.com/photos/7675249/pexels-photo-7675249.jpeg",
+            "large2x": "https://images.pexels.com/photos/7675249/pexels-photo-7675249.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+            "large": "https://images.pexels.com/photos/7675249/pexels-photo-7675249.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+            "medium": "https://images.pexels.com/photos/7675249/pexels-photo-7675249.jpeg?auto=compress&cs=tinysrgb&h=350",
+            "small": "https://images.pexels.com/photos/7675249/pexels-photo-7675249.jpeg?auto=compress&cs=tinysrgb&h=130",
+            "portrait": "https://images.pexels.com/photos/7675249/pexels-photo-7675249.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+            "landscape": "https://images.pexels.com/photos/7675249/pexels-photo-7675249.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200",
+            "tiny": "https://images.pexels.com/photos/7675249/pexels-photo-7675249.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280"
+          },
+          "liked": false,
+          "alt": "Bare Tree Under Starry Sky during Night Time"
+        }
+      ]
+    }
+  }
 }

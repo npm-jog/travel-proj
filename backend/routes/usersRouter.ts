@@ -1,12 +1,10 @@
-import express, { Request, Response } from "express";
-import { getUserById, postUser, deleteUserById, patchUserById } from "../controllers/users.controller";
-
+import express from "express";
+import { getUserById, postUser, deleteUserById, patchUserById, getUserByEmail } from "../controllers/users.controller";
+import { get } from "http";
 
 const usersRouter = express.Router();
 
-usersRouter.get("/:user_id", getUserById);
-usersRouter.post("/", postUser);
-usersRouter.delete("/:user_id", deleteUserById);
-usersRouter.patch("/:user_id", patchUserById);
+usersRouter.route("/").post(postUser).get(getUserByEmail);
+usersRouter.route("/:user_id").get(getUserById).delete(deleteUserById).patch(patchUserById);
 
 export default usersRouter;

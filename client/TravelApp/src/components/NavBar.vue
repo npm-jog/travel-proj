@@ -1,45 +1,42 @@
 <template>
   <ion-header>
-    <ion-toolbar>
-      <ion-buttons slot="start" @click="logger('Button works')">
-        <ion-menu-button></ion-menu-button>
+    <ion-toolbar class="select-toolbar">
+      <ion-buttons slot="start">
+        <ion-menu-button v-if="path"></ion-menu-button>
       </ion-buttons>
-      <ion-title>Menu</ion-title>
     </ion-toolbar>
   </ion-header>
 </template>
 
 <script lang="ts">
-import {
-  IonButtons,
-  IonHeader,
-  IonMenuButton,
-  IonTitle,
-  IonToolbar,
-} from "@ionic/vue";
-
-function logger(msg: string): void {
-  console.log(msg);
-}
-
+import { IonButtons, IonMenuButton, IonToolbar, IonHeader } from "@ionic/vue";
 import { defineComponent } from "vue";
 
 export default defineComponent({
   components: {
     IonButtons,
-    IonHeader,
     IonMenuButton,
-    IonTitle,
     IonToolbar,
+    IonHeader,
   },
-  methods: { logger },
+  data() {
+    return {
+      path: this.$route.path !== "/login",
+    };
+  },
+  watch: {
+    $route(to, from) {
+      this.path = to.path !== "/login";
+    },
+  },
 });
 </script>
 
 <style scoped>
-ion-buttons {
-  width: 50px;
-  height: 50px;
-  border: solid 1px;
+.select-toolbar {
+  position: absolute;
+  height: 3.5rem;
+  width: 15%;
+  float: left;
 }
 </style>

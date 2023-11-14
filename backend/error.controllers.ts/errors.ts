@@ -1,7 +1,12 @@
-import {Request, Response, NextFunction} from 'express'; 
+import { Request, Response, NextFunction } from "express";
+import { RequestError } from '../interfaces/response.interfaces';
 
-function handleErrors(err: Error, req: Request, res: Response, next: NextFunction) {
-    res.status(400).send();
+function handleErrors(err: RequestError | any, req: Request, res: Response, next: NextFunction) {
+  if (err.status) {
+    res.status(err.status).send({ msg: err.msg });
+  } else {
+    res.status(500).send('Internal server error');
+  } 
 }
 
 export default handleErrors;

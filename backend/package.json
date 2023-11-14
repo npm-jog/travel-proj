@@ -5,18 +5,23 @@
   "main": "listen.js",
   "scripts": {
     "test": "jest --runInBand",
-    "build": "npx tsc",
-    "start": "node dist/backend/listen.js",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/backend/listen.js\"",
-    "build-dev": "npm run build && npm run dev"
+    "build": "tsc",
+    "start": "node dist/listen.js",
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/listen.js\"",
+    "build-dev": "npm run build && npm run dev",
+    "seed": "node dist/Database/seed/run-seed.js",
+    "seed-prod": "NODE_ENV=production npm run seed",
+    "reset-db": "NODE_ENV=production node dist/Database/resetDatabase.js && NODE_ENV=development node dist/Database/resetDatabase.js && NODE_ENV=test node dist/Database/resetDatabase.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.6.1",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "imagekit": "^4.1.4",
     "mongoose": "^8.0.0"
   },
   "devDependencies": {
