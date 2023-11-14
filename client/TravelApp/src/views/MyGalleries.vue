@@ -25,8 +25,21 @@
 <script lang="ts">
 	import { mapGetters } from "vuex";
 	import router from "@/router";
+	import {
+		IonPage,
+		IonCard,
+		IonCardTitle,
+		IonImg,
+		IonContent,
+	} from "@ionic/vue";
 	export default defineComponent({
-		components: {},
+		components: {
+			IonPage,
+			IonCard,
+			IonCardTitle,
+			IonImg,
+			IonContent,
+		},
 		data() {
 			return {
 				albumNames: [],
