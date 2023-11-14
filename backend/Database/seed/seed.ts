@@ -36,10 +36,17 @@ async function seedDatabase({ commentData, questionData, reviewData, userData, c
       const countriesData = response.data;
 
       const countriesArray: any = [];
+      let lat;
+      let lng;
       countriesData.forEach((country: any) => {
         const name = country.name.common;
-        const lat = country.latlng[0];
-        const lng = country.latlng[1];
+        if (country.capitalInfo.latlng) {
+          lat = country.capitalInfo.latlng[0];
+          lng = country.capitalInfo.latlng[1];
+        } else {
+          lat = country.latlng[0];
+          lng = country.latlng[1];
+        }
 
         countriesArray.push({ name: name, coordinates: { lat: lat, lng: lng } });
       });
