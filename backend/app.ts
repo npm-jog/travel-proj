@@ -15,17 +15,17 @@ app.use(express.json());
   await connectDB();
 })();
 
+app.use("/api", apiRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/reviews", reviewsRouter);
 app.use("/api/questions", questionsRouter);
 app.use("/api/countries", countriesRouter);
 app.use("/api/comments", commentsRouter);
-app.use("/api/country_data", countryDataRouter)
-app.use("/api", apiRouter);
+app.use("/api/country_data", countryDataRouter);
 
-app.all('/*', (req: Request, res: Response, next: NextFunction) => {
-  next({status: 404, msg: 'Bad api endpoint'});
-})
+app.all("/*", (req: Request, res: Response, next: NextFunction) => {
+  next({ status: 404, msg: "Bad api endpoint" });
+});
 
 app.use(handleErrors);
 

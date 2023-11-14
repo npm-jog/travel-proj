@@ -3,7 +3,9 @@ import Review, { ReviewDocument } from "../models/review";
 import Question, { QuestionDocument } from "../models/question";
 import Country, { CountryDocument } from "../models/country";
 import Comment, { CommentDocument } from "../models/comment";
-import { Schema } from "mongoose";
+import axios from "axios";
+import { Types } from "mongoose";
+import { CountryType } from "../../interfaces/response.interfaces";
 
 interface SeedDatabaseArgs {
   commentData: CommentDocument[];
@@ -26,10 +28,26 @@ async function seedDatabase({ commentData, questionData, reviewData, userData, c
     await User.create(userData);
     await Review.create(reviewData);
     await Question.create(questionData);
-    await Country.create(countryData);
+
+    if (process.env.ENVIRONMENT === "test") {
+      await Country.create(countryData);
+    } else {
+      const response = await axios.get("https://restcountries.com/v3.1/all");
+      const countriesData = response.data;
+
+      const countriesArray: any = [];
+      countriesData.forEach((country: any) => {
+        const name = country.name.common;
+        const lat = country.latlng[0];
+        const lng = country.latlng[1];
+
+        countriesArray.push({ name: name, coordinates: { lat: lat, lng: lng } });
+      });
+      Country.create(countriesArray);
+    }
 
     const title = ["I hear the food is great. Is this true?", "How long should I stay?", "Nightlife?"];
-    const questionId: Schema.Types.ObjectId[] = [];
+    const questionId: Types.ObjectId[] = [];
     for (let i = 0; i < title.length; i++) {
       const question = await Question.findOne({ title: title[i] });
       if (question) {

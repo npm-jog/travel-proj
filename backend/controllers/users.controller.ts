@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import { UserType } from '../interfaces/response.interfaces';
-import { fetchUserById, insertUser, removeUserById, updateUserById } from "../models/users.models";
+import { UserType } from "../interfaces/response.interfaces";
+import { fetchUserById, fetchUserByEmail, insertUser, removeUserById, updateUserById } from "../models/users.models";
 import { Types } from "mongoose";
 import User from "../Database/models/user";
 
@@ -11,6 +11,18 @@ function getUserById(req: Request, res: Response, next: NextFunction) {
   const user_id: Types.ObjectId = new Types.ObjectId(req.params.user_id);
 
   fetchUserById(user_id)
+    .then((user: UserType | null) => {
+      res.status(200).send({ user });
+    })
+    .catch((err: Error) => {
+      next(err);
+    });
+}
+
+function getUserByEmail(req: Request, res: Response, next: NextFunction) {
+  const email: string | null = req.query.email as string;
+
+  fetchUserByEmail(email)
     .then((user: UserType | null) => {
       res.status(200).send({ user });
     })
@@ -66,4 +78,4 @@ function patchUserById(req: Request, res: Response, next: NextFunction) {
     });
 }
 
-export { getUserById, postUser, deleteUserById, patchUserById };
+export { getUserById, getUserByEmail, postUser, deleteUserById, patchUserById };

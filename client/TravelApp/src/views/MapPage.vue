@@ -178,4 +178,5 @@ export default defineComponent({
 .filtered-countries li {
   cursor: pointer;
 }
+
 </style>

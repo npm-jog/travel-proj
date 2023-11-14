@@ -36,3 +36,17 @@ export interface PublicHolidays {
     continent: string;
     advisory: SafetyData;
   }
+
+  export interface ImageResponse {
+    id: number;
+    width: number;
+    height: number;
+    url: string;
+    photographer: string;
+    photographer_url: string;
+    photographer_id: number;
+    avg_color: string;
+    src: object;
+    liked: boolean;
+    alt: string;
+  }

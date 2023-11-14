@@ -1,6 +1,6 @@
 import app from "../../app";
 import request from "supertest";
-import { UserType } from '../../interfaces/response.interfaces';
+import { UserType } from "../../interfaces/response.interfaces";
 
 import connectDB from "../../Database/connection";
 import seed from "../../Database/seed/seed";
@@ -33,6 +33,7 @@ describe("GET fetchUserById", () => {
         expect(typeof user.forename).toBe("string");
         expect(typeof user.surname).toBe("string");
         expect(typeof user.username).toBe("string");
+        expect(typeof user.email).toBe("string");
         expect(typeof user.avatar_url).toBe("string");
         expect(Array.isArray(user.visited_locations)).toBe(true);
         expect(Array.isArray(user.wishlist)).toBe(true);
@@ -44,12 +45,39 @@ describe("GET fetchUserById", () => {
   });
 });
 
+describe("GET fetchUserByEmail", () => {
+  test("200: should return a user object with the correct properties /api/users/", () => {
+    return request(app)
+      .get(`/api/users?email=test@test.com`)
+      .expect(200)
+      .then(({ body }) => {
+        const user: UserType = body.user;
+        expect(typeof user._id).toBe("string");
+        expect(typeof user.forename).toBe("string");
+        expect(typeof user.surname).toBe("string");
+        expect(typeof user.username).toBe("string");
+        expect(typeof user.email).toBe("string");
+        expect(typeof user.avatar_url).toBe("string");
+        expect(Array.isArray(user.visited_locations)).toBe(true);
+        expect(Array.isArray(user.wishlist)).toBe(true);
+        expect(typeof user.__v).toBe("number");
+      });
+  });
+  test("400: if no user email send", () => {
+    return request(app).get("/api/users").expect(400);
+  });
+  test("404: if no user found", () => {
+    return request(app).get("/api/users?email=rgfsdgv@test.com").expect(400);
+  });
+});
+
 describe("POST createUser", () => {
   test("201: should create a new user /api/users", () => {
     const newUser = {
       username: "newUser",
       forename: "Bob",
       surname: "Davis",
+      email: "test@test.com",
     };
     return request(app)
       .post("/api/users")
@@ -60,6 +88,7 @@ describe("POST createUser", () => {
         expect(user).toHaveProperty("forename", newUser.forename);
         expect(user).toHaveProperty("surname", newUser.surname);
         expect(user).toHaveProperty("username", newUser.username);
+        expect(user).toHaveProperty("email");
         expect(user).toHaveProperty("avatar_url");
         expect(user).toHaveProperty("visited_locations");
         expect(user).toHaveProperty("wishlist");
@@ -85,6 +114,7 @@ describe("PATCH updateUserById", () => {
       forename: "UpdatedForename",
       surname: "UpdatedSurname",
       username: "UpdatedUsername",
+      email: "test@test.com",
       avatar_url: "https://updated-avatar.com",
       visited_locations: ["newCountry", "newCountry2"],
       wishlist: ["anotherCountry", "anotherCountry2"],
@@ -103,6 +133,7 @@ describe("PATCH updateUserById", () => {
           forename: expect.any(String),
           surname: expect.any(String),
           username: expect.any(String),
+          email: expect.any(String),
           avatar_url: expect.any(String),
           visited_locations: expect.any(Array),
           wishlist: expect.any(Array),

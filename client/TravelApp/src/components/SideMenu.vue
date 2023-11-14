@@ -5,10 +5,24 @@
 	>
 		<ion-header>
 			<ion-toolbar>
-				<ion-title>Menu</ion-title>
+				<ion-menu-toggle>
+					<ion-title
+						v-if="userInfo"
+						@click="navigateTo('profile')"
+						>{{ userInfo.username }}</ion-title
+					>
+				</ion-menu-toggle>
 			</ion-toolbar>
 		</ion-header>
-		<ion-content class="ion-padding">
+		<ion-content class="nav-menu ion-padding">
+			<ion-menu-toggle>
+				<img
+					class="nav-avatar"
+					v-if="userInfo"
+					:src="userInfo.avatar_url"
+					@click="navigateTo('profile')"
+				/>
+			</ion-menu-toggle>
 			<ion-menu-toggle v-for="x in pages">
 				<ion-button
 					v-model="x.value[0]"
@@ -41,19 +55,19 @@
 		IonButton,
 		IonIcon,
 		IonMenuToggle,
+		IonCard,
 	} from "@ionic/vue";
 
 	import {
 		home,
-		personOutline,
 		imageOutline,
 		chatboxEllipsesOutline,
 		airplaneOutline,
 	} from "ionicons/icons";
 
 	import { defineComponent, ref } from "vue";
-	import { useAuth0 } from "@auth0/auth0-vue";
 	import LogoutButton from "./LogoutButton.vue";
+	import { mapGetters } from "vuex";
 
 	export default defineComponent({
 		data() {
@@ -61,8 +75,7 @@
 				// array to render buttons
 				pages: [
 					ref(["home", home, "Home"]),
-					ref(["profile", personOutline, "Profile"]),
-					ref(["mygallery", imageOutline, "My Gallery"]),
+					ref(["mygalleries", imageOutline, "My Galleries"]),
 					ref(["wishlist", airplaneOutline, "Wishlist"]),
 					ref(["conversations", chatboxEllipsesOutline, "My Conversations"]),
 				],
@@ -84,6 +97,16 @@
 			IonIcon,
 			IonMenuToggle,
 			LogoutButton,
+			IonCard,
+		},
+		computed: {
+			// Use mapGetters to access the getUser getter from the store
+			...mapGetters(["getUserInfo"]),
+
+			// Use a computed property to get the user from the store
+			userInfo() {
+				return this.getUserInfo;
+			},
 		},
 		// setup() {
 		// 	return {
@@ -101,6 +124,12 @@
 	});
 </script>
 
-<script setup lang="ts">
-	const { user } = useAuth0();
-</script>
+<style>
+	.nav-menu {
+		text-align: center;
+	}
+	.nav-avatar {
+		height: 20%;
+		aspect-ratio: 1;
+	}
+</style>
