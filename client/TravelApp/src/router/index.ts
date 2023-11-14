@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "@ionic/vue-router";
 import { RouteRecordRaw } from "vue-router";
 import MapPage from "@/views/MapPage.vue";
 import CountryPage from "@/views/CountryPage.vue";
+import MyGalleryPage from "@/views/MyGalleryPage.vue";
 
 const routes: Array<RouteRecordRaw> = [
 	{
@@ -42,8 +43,8 @@ const routes: Array<RouteRecordRaw> = [
 		component: () => import("@/views/MyGalleries.vue"),
 	},
 	{
-		path: "/mygalleries/:album",
-		component: () => import("@/views/MyGalleryPage.vue"),
+		path: "/mygalleries/:country",
+		component: MyGalleryPage,
 	},
 ];
 

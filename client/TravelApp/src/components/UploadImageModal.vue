@@ -1,18 +1,24 @@
 <template>
 	<ion-header class="questions-header">
-		<h1>Upload an image</h1>
+		<h2>Upload an image/Create a new album</h2>
 	</ion-header>
 	<ion-content class="ion-padding">
 		<form class="img-upload-form">
 			<ion-input
 				label="Album:"
-				placeholder="Enter Album name to upload to"
+				placeholder="New or existing album"
+				v-model="album"
 			></ion-input>
-			<ion-input
-				type="file"
-				label="Image:"
-				placeholder="Select an image"
-			></ion-input>
+			<IKUpload
+				:tags="['tag1', 'tag2']"
+				:responseFields="['tags']"
+				@error="onError"
+				@success="onSuccess"
+				@progress="onProgress"
+				customCoordinates="10,10,100,100"
+			/>
+			<p v-if="progress">Progress: {{ progress }}%</p>
+			<p v-if="uploadErr">Something went wrong!</p>
 		</form>
 	</ion-content>
 
@@ -29,29 +35,74 @@
 			<ion-button
 				@click="confirm"
 				:strong="true"
-				>Confirm
+				:disabled="!newURL"
+				>Upload
 			</ion-button>
 		</ion-buttons>
 	</ion-toolbar>
 </template>
 
 <script lang="ts">
-	import { mapGetters } from "vuex";
+	import { mapGetters, useStore } from "vuex";
 	import axios from "axios";
 
 	export default defineComponent({
 		data() {
 			return {
 				album: "",
-				selectedFile: null,
+				store: useStore(),
+				newURL: null,
+				progress: null,
+				uploadErr: false,
 			};
 		},
 		methods: {
-			onFileSelected(event: any) {
-				this.selectedFile = event.target.files[0];
+			confirm() {
+				const updatedUser = { ...this.userInfo };
+				console.log(updatedUser);
+				updatedUser.albums.push({
+					country: this.album.length > 0 ? this.album : "All",
+					url: this.newURL,
+				});
+				console.log(updatedUser.albums);
+
+				this.patchUserInfo(updatedUser)
+					.then((res: any) => {
+						console.log(res.data);
+						this.store.commit("setUserInfo", res.data.user);
+						console.log(this.userInfo);
+						modalController.dismiss(null, "confirm");
+					})
+					.catch((err) => {
+						console.log(err);
+						this.uploadErr = true;
+						setTimeout(() => {
+							this.uploadErr = false;
+						}, 5000);
+					});
 			},
-			onUpload() {
-				axios.post("https://ik.imagekit.io/pinpin");
+			onSuccess(res: any) {
+				console.log("Success");
+				console.log(res.url);
+				this.newURL = res.url;
+				this.progress = null;
+			},
+			onProgress(progress: any) {
+				console.log("Progress " + progress);
+				this.progress = progress;
+			},
+			onError(err: any) {
+				console.log("Error" + err);
+				this.uploadErr = true;
+				setTimeout(() => {
+					this.uploadErr = false;
+				}, 5000);
+			},
+			patchUserInfo(update: object) {
+				return axios.patch(
+					`https://travel-app-api-8nj9.onrender.com/api/users/${this.userInfo._id}`,
+					update
+				);
 			},
 		},
 		computed: {
@@ -77,10 +128,10 @@
 		modalController,
 	} from "@ionic/vue";
 	import { defineComponent, ref } from "vue";
+	import { IKUpload } from "imagekit-vue3";
 
 	const request = ref();
 	const cancel = () => modalController.dismiss(null, "cancel");
-	const confirm = () => modalController.dismiss(request.value, "confirm");
 </script>
 
 <style scoped>
