@@ -7,9 +7,8 @@
         <div class="title-div center">
           <h1>Country Name Here</h1>
         </div>
-
+        <Carousel :pics='picsArray'/>
         <div class="rating-wishlist-div center"></div>
-
         <div class="country-info-container">
           <h4 class="country-info-header">Country info</h4>
           <p class="country-info">
@@ -74,21 +73,18 @@ import axios from "axios";
 let safetyData: any;
 // safety info
 try {
-  const { data } = await axios.get(
-    "https://travel-app-api-8nj9.onrender.com/api/country_data/country_safety/GB"
-  );
-  console.log(data.safetyData);
-  safetyData = data.safetyData;
-} catch (err) {}
-//
-try {
-  const { data } = await axios.get(
-    "https://travel-app-api-8nj9.onrender.com/api/country_data/country_safety/GB"
-  );
-  console.log(data.safetyData);
+  const { data } = await axios.get("https://travel-app-api-8nj9.onrender.com/api/country_data/country_safety/GB");
   safetyData = data.safetyData;
 } catch (err) {}
 
+const picsArray: any = [];
+try {
+  const { data } = await axios.get("https://travel-app-api-8nj9.onrender.com/api/country_data/images/brazil");
+  data.images.forEach(({src}: any) => {
+    picsArray.push(src.medium)
+  })
+} catch (err) {}
+//
 export default defineComponent({
   data() {
     return {
@@ -115,6 +111,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
+import Carousel from '../components/Carousel.vue';
 const metrics = [
   { name: "Food", rating: ref(0) },
   { name: "Safety", rating: ref(0) },
@@ -195,4 +192,13 @@ main {
 .highlighted {
   color: gold;
 }
+.carouselContainer{
+		height: 25%;
+		margin-top: 200px;
+	}
+
+  .carouselPic{
+    height: 400px;
+    width: 300px;
+  }
 </style>

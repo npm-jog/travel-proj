@@ -1,9 +1,8 @@
-<template>
-	<ion-page>
+<ion-page class="carouselContainer">
 		<ion-content>
 			<swiper class="carousel">
 				<swiper-slide v-for="pic in pics">
-					<img :src="pic" />
+					<img class="carouselPic" :src="pic" />
 				</swiper-slide>
 			</swiper>
 		</ion-content>
@@ -33,7 +32,7 @@
 	});
 </script>
 
-<style>
+<style scoped>
 	.carousel {
 		height: 100%;
 	}
