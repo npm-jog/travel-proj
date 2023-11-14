@@ -106,6 +106,7 @@ describe("DELETE removeUserById", () => {
   test("404: can't delete a non-existent user", () => {
     return request(app).delete("/api/users/non_existent_id").expect(404);
   });
+  //
 });
 
 describe("PATCH updateUserById", () => {
