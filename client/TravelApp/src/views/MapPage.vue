@@ -8,28 +8,15 @@
         @ionInput="handleSearch()"
         @keyup.enter="resetMap(searchResult[0])"
       >
-        <ion-icon
-          name="close-circle"
-          slot="end"
-          @click="clearSearchQuery()"
-          class="search-clear-button"
-        ></ion-icon>
+        <ion-icon name="close-circle" slot="end" @click="clearSearchQuery()" class="search-clear-button"></ion-icon>
       </ion-searchbar>
       <ul class="filtered-countries" v-if="searchResult.length > 0">
-        <li
-          v-for="country in searchResult"
-          :key="country.name"
-          @click="resetMap(country)"
-        >
+        <li v-for="country in searchResult" :key="country.name" @click="resetMap(country)">
           {{ country.name }}
         </li>
       </ul>
       <div>
-        <capacitor-google-map
-          ref="mapRef"
-          style="display: inline-block; width: 100vw; height: 100vh"
-        >
-        </capacitor-google-map>
+        <capacitor-google-map ref="mapRef" style="display: inline-block; width: 100vw; height: 100vh"> </capacitor-google-map>
       </div>
     </ion-content>
   </ion-page>
@@ -38,14 +25,8 @@
 <script lang="ts">
 import { ref, defineComponent, nextTick, toRaw } from "vue";
 import { countries } from "../../API";
-import {
-  IonSearchbar,
-  IonPage,
-  IonContent,
-  IonIcon,
-  modalController,
-  IonPopover,
-} from "@ionic/vue";
+import { jsonData } from "../../countryData";
+import { IonSearchbar, IonPage, IonContent, IonIcon, modalController, IonPopover } from "@ionic/vue";
 import { GoogleMap, Marker } from "@capacitor/google-maps";
 import apiKey from "@/components/APIKey.js";
 import MapModal from "@/components/MapModal.vue";
@@ -66,6 +47,8 @@ export default defineComponent({
       searchQuery: "",
       searchResult: [],
       countriesArr: countries,
+      countriesData: jsonData,
+      countries: [] as google.maps.Polygon[],
       mapRef: ref<HTMLElement>(),
       newMap: null as any,
       newZoom: null as any,
@@ -74,9 +57,7 @@ export default defineComponent({
   },
   computed: {
     filteredCountries() {
-      return this.countriesArr.filter((country: any) =>
-        country.name.toLowerCase().includes(this.searchQuery.toLowerCase())
-      );
+      return this.countriesArr.filter((country: any) => country.name.toLowerCase().includes(this.searchQuery.toLowerCase()));
     },
   },
   methods: {
@@ -149,10 +130,77 @@ export default defineComponent({
       console.log(toRaw(passedData));
       return toRaw(passedData);
     },
+    initCountry() {
+      this.countriesData.forEach((country) => {
+        let countryCoords: any[];
+        let ca: string[];
+        let co: string[];
+
+        if ("multi" in country) {
+          const ccArray = [];
+
+          for (const t in country.xml.Polygon) {
+            countryCoords = [];
+
+            co = country.xml.Polygon[t].outerBoundaryIs.LinearRing.coordinates.split(" ");
+
+            for (const i in co) {
+              ca = co[i].split(",");
+              countryCoords.push({ lat: Number(ca[1]), lng: Number(ca[0]) });
+            }
+
+            ccArray.push(countryCoords);
+          }
+          this.createCountry(ccArray, country);
+        } else {
+          countryCoords = [];
+
+          co = country.xml.outerBoundaryIs.LinearRing.coordinates.split(" ");
+
+          for (const j in co) {
+            ca = co[j].split(",");
+            countryCoords.push({ lat: Number(ca[1]), lng: Number(ca[0]) });
+          }
+          this.createCountry(countryCoords, country);
+        }
+      });
+
+      this.showCountries();
+    },
+
+    showCountries() {
+      for (let i = 0; i < countries.length; i++) {
+        countries[i].setMap(this.newMap);
+
+        google.maps.event.addListener(countries[i], "mouseover", function () {
+          this.countrie[i].setOptions({ fillColor: "#f5c879", fillOpacity: 0.5 });
+        });
+
+        google.maps.event.addListener(countries[i], "mouseout", function () {
+          this.countrie[i].setOptions({ fillColor: "#f5c879", fillOpacity: 0 });
+        });
+
+        google.maps.event.addListener(countries[i], "click", function () {
+          alert(`${this.countrie[i].title} (${this.countrie[i].code})`);
+        });
+      }
+    },
+    createCountry(coords: any, country: any) {
+      const currentCountry = new google.maps.Polygon({
+        paths: coords,
+        strokeOpacity: 0,
+        fillColor: country.color,
+        fillOpacity: 0,
+      });
+
+      this.countries.push(currentCountry);
+      console.log("country", this.countries);
+    },
   },
   mounted() {
     nextTick(() => {
       this.createMap();
+      this.initCountry();
     });
   },
 });
@@ -178,5 +226,4 @@ export default defineComponent({
 .filtered-countries li {
   cursor: pointer;
 }
-
 </style>
