@@ -4,171 +4,27 @@
 			<main>
 				<div class="title-div center">
 					<h1>Gallery Name Here</h1>
-				</div>
-				<!-- Container for the image gallery -->
-				<div class="container">
-					<!-- Full-width images with number text -->
-					<div
-						class="image-div"
-						v-if="slides[0].toShow.value"
-					>
-						<div class="numbertext">1 / 6</div>
-						<img
-							class="carousel-image"
-							src="https://images.pexels.com/photos/461755/pexels-photo-461755.jpeg?auto=compress&cs=tinysrgb&w=400"
-							style="width: 100%"
-						/>
+					<Carousel />
+					<div class="buttons-div">
+						<ion-button
+							class="ion-padding"
+							expand="block"
+						>
+							<ion-icon
+								slot="icon-only"
+								:icon="trashOutline"
+							></ion-icon>
+						</ion-button>
+						<ion-button
+							class="ion-padding"
+							expand="block"
+						>
+							<ion-icon
+								slot="icon-only"
+								:icon="addOutline"
+							></ion-icon>
+						</ion-button>
 					</div>
-
-					<div
-						class="image-div"
-						v-if="slides[1].toShow.value"
-					>
-						<div class="numbertext">2 / 6</div>
-						<img
-							class="carousel-image"
-							src="https://images.pexels.com/photos/206648/pexels-photo-206648.jpeg?auto=compress&cs=tinysrgb&w=400"
-							style="width: 100%"
-						/>
-					</div>
-
-					<div
-						class="image-div"
-						v-if="slides[2].toShow.value"
-					>
-						<div class="numbertext">3 / 6</div>
-						<img
-							class="carousel-image"
-							src="https://images.pexels.com/photos/440731/pexels-photo-440731.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-							style="width: 100%"
-						/>
-					</div>
-
-					<div
-						class="image-div"
-						v-if="slides[3].toShow.value"
-					>
-						<div class="numbertext">4 / 6</div>
-						<img
-							class="carousel-image"
-							src="https://images.pexels.com/photos/3408744/pexels-photo-3408744.jpeg?auto=compress&cs=tinysrgb&w=400"
-							style="width: 100%"
-						/>
-					</div>
-
-					<div
-						class="image-div"
-						v-if="slides[4].toShow.value"
-					>
-						<div class="numbertext">5 / 6</div>
-						<img
-							class="carousel-image"
-							src="https://images.pexels.com/photos/4101555/pexels-photo-4101555.jpeg?auto=compress&cs=tinysrgb&w=400"
-							style="width: 100%"
-						/>
-					</div>
-
-					<div
-						class="image-div"
-						v-if="slides[5].toShow.value"
-					>
-						<div class="numbertext">6 / 6</div>
-						<img
-							class="carousel-image"
-							src="https://images.pexels.com/photos/23547/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=400"
-							style="width: 100%"
-						/>
-					</div>
-
-					<!-- Next and previous buttons -->
-					<a
-						class="prev"
-						@click="plusSlides(-1)"
-						>&#10094;</a
-					>
-					<a
-						class="next"
-						@click="plusSlides(1)"
-						>&#10095;</a
-					>
-
-					<!-- Thumbnail images -->
-				</div>
-				<div class="row">
-					<div class="column">
-						<img
-							class="demo cursor carousel-image"
-							src="https://images.pexels.com/photos/461755/pexels-photo-461755.jpeg?auto=compress&cs=tinysrgb&w=400"
-							style="width: 100%"
-							@click="currentSlide(1)"
-							alt="The Woods"
-						/>
-					</div>
-					<div class="column">
-						<img
-							class="demo cursor carousel-image"
-							src="https://images.pexels.com/photos/206648/pexels-photo-206648.jpeg?auto=compress&cs=tinysrgb&w=400"
-							style="width: 100%"
-							@click="currentSlide(2)"
-							alt="Cinque Terre"
-						/>
-					</div>
-					<div class="column">
-						<img
-							class="demo cursor carousel-image"
-							src="https://images.pexels.com/photos/440731/pexels-photo-440731.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-							style="width: 100%"
-							@click="currentSlide(3)"
-							alt="Mountains and fjords"
-						/>
-					</div>
-					<div class="column">
-						<img
-							class="demo cursor carousel-image"
-							src="https://images.pexels.com/photos/3408744/pexels-photo-3408744.jpeg?auto=compress&cs=tinysrgb&w=400"
-							style="width: 100%"
-							@click="currentSlide(4)"
-							alt="Northern Lights"
-						/>
-					</div>
-					<div class="column">
-						<img
-							class="demo cursor carousel-image"
-							src="https://images.pexels.com/photos/4101555/pexels-photo-4101555.jpeg?auto=compress&cs=tinysrgb&w=400"
-							style="width: 100%"
-							@click="currentSlide(5)"
-							alt="Nature and sunrise"
-						/>
-					</div>
-					<div class="column">
-						<img
-							class="demo cursor carousel-image"
-							src="https://images.pexels.com/photos/23547/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=400"
-							style="width: 100%"
-							@click="currentSlide(6)"
-							alt="Snowy Mountains"
-						/>
-					</div>
-				</div>
-				<div class="buttons-div">
-					<ion-button
-						class="ion-padding"
-						expand="block"
-					>
-						<ion-icon
-							slot="icon-only"
-							:icon="trashOutline"
-						></ion-icon>
-					</ion-button>
-					<ion-button
-						class="ion-padding"
-						expand="block"
-					>
-						<ion-icon
-							slot="icon-only"
-							:icon="addOutline"
-						></ion-icon>
-					</ion-button>
 				</div>
 			</main>
 		</ion-content>
@@ -177,8 +33,16 @@
 
 <script lang="ts">
 	import { mapGetters } from "vuex";
+	import Carousel from "@/components/Carousel.vue";
+	import { IonPage, IonContent, IonButton, IonIcon } from "@ionic/vue";
 
 	export default defineComponent({
+		components: {
+			IonPage,
+			IonContent,
+			IonButton,
+			IonIcon,
+		},
 		computed: {
 			// Use mapGetters to access the getUser getter from the store
 			...mapGetters(["getUserInfo"]),
@@ -192,59 +56,9 @@
 </script>
 
 <script setup lang="ts">
-	import { IonPage, IonContent, IonButton, IonIcon } from "@ionic/vue";
-
+	import axios from "axios";
 	import { addOutline, trashOutline } from "ionicons/icons";
-
-	import { defineComponent, ref } from "vue";
-
-	let slideIndex = 1;
-
-	const slides = [
-		{ toShow: ref(true) },
-		{ toShow: ref(false) },
-		{ toShow: ref(false) },
-		{ toShow: ref(false) },
-		{ toShow: ref(false) },
-		{ toShow: ref(false) },
-	];
-	const dots = [
-		{ className: "" },
-		{ className: "" },
-		{ className: "" },
-		{ className: "" },
-		{ className: "" },
-		{ className: "" },
-	];
-	showSlides(slideIndex);
-
-	// Next/previous controls
-	function plusSlides(n: number) {
-		showSlides((slideIndex += n));
-	}
-
-	// Thumbnail image controls
-	function currentSlide(n: number) {
-		showSlides((slideIndex = n));
-	}
-
-	function showSlides(n: number) {
-		let i;
-		if (n > slides.length) {
-			slideIndex = 1;
-		}
-		if (n < 1) {
-			slideIndex = slides.length;
-		}
-		for (i = 0; i < slides.length; i++) {
-			slides[i].toShow.value = false;
-		}
-		for (i = 0; i < dots.length; i++) {
-			dots[i].className = "";
-		}
-		slides[slideIndex - 1].toShow.value = true;
-		dots[slideIndex - 1].className = "active";
-	}
+	import { defineComponent } from "vue";
 </script>
 
 <style>

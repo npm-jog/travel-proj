@@ -8,7 +8,7 @@
 				<ion-menu-toggle>
 					<ion-title
 						v-if="userInfo"
-						@click="navigateTo('profile')"
+						@click="navigateTo('/profile')"
 						>{{ userInfo.username }}</ion-title
 					>
 				</ion-menu-toggle>
@@ -74,16 +74,16 @@
 			return {
 				// array to render buttons
 				pages: [
-					ref(["home", home, "Home"]),
-					ref(["mygalleries", imageOutline, "My Galleries"]),
-					ref(["wishlist", airplaneOutline, "Wishlist"]),
-					ref(["conversations", chatboxEllipsesOutline, "My Conversations"]),
+					ref(["/home", home, "Home"]),
+					ref(["/mygalleries", imageOutline, "My Galleries"]),
+					ref(["/wishlist", airplaneOutline, "Wishlist"]),
+					ref(["/conversations", chatboxEllipsesOutline, "My Conversations"]),
 				],
 			};
 		},
 		methods: {
 			navigateTo(x: any) {
-				router.push(x);
+				router.push({ path: x });
 			},
 		},
 		components: {

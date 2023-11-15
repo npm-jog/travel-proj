@@ -1,105 +1,110 @@
 <template>
-	<ion-page>
-		<ion-header>
-			<ion-toolbar>
-				<ion-title class="ion-text-center">Your Profile</ion-title>
-			</ion-toolbar>
-		</ion-header>
+  <ion-page>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title class="ion-text-center">Your Profile</ion-title>
+      </ion-toolbar>
+    </ion-header>
 
-		<ion-content :fullscreen="true">
-			<div class="content-container">
-				<h1 class="welcomeHeader">Welcome to your profile!</h1>
+    <ion-content :fullscreen="true">
+      <div class="content-container">
+        <h1 class="welcomeHeader">
+          Welcome to your profile {{ userInfo.forename }}!
+        </h1>
 
-				<!-- Profile Photo Section -->
-				<div>
-					<img
-						class="profile_pic"
-						src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlbPhSvnw2J3HeWJ4SjZf5ca8esFf_7jmtUhEmY9tKs2Tp6H4bUX2Kitm6Zq--lG73cpE&usqp=CAU"
-					/>
-				</div>
+        <!-- Profile Photo Section -->
+        <div>
+          <img
+            class="profile_pic"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlbPhSvnw2J3HeWJ4SjZf5ca8esFf_7jmtUhEmY9tKs2Tp6H4bUX2Kitm6Zq--lG73cpE&usqp=CAU"
+          />
+        </div>
 
-				<div class="profile-section">
-					<ion-title class="section-title">My Galleries</ion-title>
-				</div>
+        <div class="profile-section">
+          <ion-title class="section-title">My Galleries</ion-title>
+        </div>
 
-				<div class="profile-section">
-					<ion-title class="section-title">Wishlist</ion-title>
-				</div>
+        <div class="profile-section">
+          <ion-title class="section-title">Wishlist</ion-title>
+        </div>
 
-				<ion-button
-					@click="handleEditProfileClick"
-					class="editProfile"
-					>Edit profile</ion-button
-				>
-			</div>
-		</ion-content>
-	</ion-page>
+        <ion-button @click="openModal" class="editProfile"
+          >Edit profile</ion-button
+        >
+      </div>
+    </ion-content>
+  </ion-page>
 </template>
 
 <script lang="ts">
-	import { mapGetters } from "vuex";
+import { mapGetters } from "vuex";
+import EditProfileModal from "@/components/EditProfileModal.vue";
+import { modalController } from "@ionic/vue";
 
-	export default defineComponent({
-		computed: {
-			// Use mapGetters to access the getUser getter from the store
-			...mapGetters(["getUserInfo"]),
-
-			// Use a computed property to get the user from the store
-			userInfo() {
-				return this.getUserInfo;
-			},
-		},
-	});
+export default defineComponent({
+  computed: {
+    ...mapGetters(["getUserInfo"]),
+    userInfo() {
+      return this.getUserInfo;
+    },
+  },
+  methods: {
+    async openModal() {
+      const modal = await modalController.create({
+        component: EditProfileModal,
+      });
+      modal.present();
+    },
+  },
+});
 </script>
 
 <script setup lang="ts">
-	import {
-		IonPage,
-		IonHeader,
-		IonToolbar,
-		IonTitle,
-		IonContent,
-		IonButton,
-	} from "@ionic/vue";
-	import { defineComponent } from "vue";
-
-	const handleEditProfileClick = () => {
-		console.log("Edit profile button clicked!");
-	};
+import {
+  IonPage,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+  IonButton,
+} from "@ionic/vue";
+import { defineComponent } from "vue";
 </script>
 
 <style>
-	ion-title {
-		margin-top: 0;
-	}
+ion-title {
+  margin-top: 0;
+}
 
-	.content-container {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: start;
-		padding: 1.25em;
-	}
+.content-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  padding: 1.25em;
+}
 
-	.profile-section {
-		margin-top: 3.75em;
-	}
+.profile-section {
+  margin-top: 3.75em;
+  margin-bottom: 1em;
+}
 
-	.section-title {
-		font-size: 1.25em;
-		font-weight: bold;
-	}
+.section-title {
+  font-size: 1.25em;
+  font-weight: bold;
+  margin-bottom: 1em;
+}
 
-	.editProfile {
-		margin-top: 2em;
-		width: 12.5em;
-	}
+.editProfile {
+  margin-top: 2em;
+  width: 12.5em;
+}
 
-	.profile_pic {
-		margin-top: 2em;
-	}
+.profile_pic {
+  margin-top: 2em;
+}
 
-	.welcomeHeader {
-		font-size: 3.125em;
-	}
+.welcomeHeader {
+  font-size: 3.125em;
+}
 </style>
