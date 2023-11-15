@@ -40,20 +40,20 @@ async function createCountry(coords: any, country: any) {
   const polygon = {
     paths: coords,
     strokeColor: "#fffffff",
-    strokeWeight: 1,
-    fillColor: "#71ACD6",
-    fillOpacity: 0.55,
+    strokeWeight: 1.5,
+    fillColor: "#8C92A6",
+    fillOpacity: 0.6,
   };
   if (userInfo) {
     userInfo.wishlist.forEach((wish) => {
       if (String(wish) === String(country.country)) {
-        polygon.fillColor = "#BB1D11";
+        polygon.fillColor = "#D69F1F";
       }
     });
 
     userInfo.visited_locations.forEach((visited) => {
       if (String(visited) === String(country.country)) {
-        polygon.fillColor = "#FFD61F";
+        polygon.fillColor = "#598C2C";
       }
     });
   }

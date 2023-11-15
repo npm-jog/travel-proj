@@ -126,116 +126,108 @@ export default defineComponent({
     })
   }
 });
+
 </script>
 
 <script setup lang="ts">
-import Carousel from '../components/Carousel.vue';
-/*
-<div class="rating-card">
-          <h2>Rate Country</h2>
-          <div v-for="metric in metrics" :key="metric.name">
-            <p>{{ metric.name }}</p>
-            <div class="star-rating">
-              <span
-                v-for="star in 5"
-                :key="star"
-                class="star"
-                :class="{ highlighted: star <= metric.rating }"
-                @click="rateCountry(metric, star)"
-              >
-                &#9733;
-              </span>
-            </div>
-          </div>
-        </div>
-        */
-const metrics = [
-  { name: "Food", rating: ref(0) },
-  { name: "Safety", rating: ref(0) },
-  { name: "Activities", rating: ref(0) },
-  { name: "Cost", rating: ref(0) },
-];
+	// let totalRating = 0;
+	import Carousel from "../components/Carousel.vue";
 
-function rateCountry(metric, stars) {
-  metric.rating.value = stars;
-  console.log(`Rating ${metric.name}: ${stars} stars`);
-}
+	// const metrics = [
+	//   { name: "Safety", rating: ref(0) },
+	//   { name: "Food", rating: ref(0) },
+	//   { name: "Activities", rating: ref(0) },
+	//   { name: "Cost", rating: ref(0) },
+	//   { name: "Scenery", rating: ref(0) },
+	// ];
+
+	// totalRating = computed(() => {
+	//   return metrics.reduce((sum, metric) => sum + metric.rating.value, 0) / 4;
+	// });
+
+	// function rateCountry(metric, stars) {
+	//   metric.rating.value = stars;
+
+	//   metric.highlighted = true;
+	//   console.log(totalRating.value);
+	// }
+
+	// let submitted = ref(false);
+
+	// function submitRating() {
+	//   // Check if already submitted
+	//   if (submitted.value) {
+	//     console.warn("Rating already submitted!");
+	//     return;
+	//   }
+
+	//   // You can send the totalRating to your backend here using an HTTP request
+	//   console.log("Submitting Total Rating:", totalRating.value);
+
+	//   // Example: Send a POST request to your backend
+	//   axios
+	//     .post("https://your-backend-api/submit-rating", {
+	//       totalRating: totalRating.value,
+	//       // Include any other data you want to send to the backend
+	//     })
+	//     .then((response) => {
+	//       console.log("Rating submitted successfully:", response.data);
+	//       // You can handle success actions here
+
+	//       // Update the submitted state
+	//       submitted.value = true;
+	//     })
+	//     .catch((error) => {
+	//       console.error("Error submitting rating:", error);
+	//       // You can handle error actions here
+	//     });
+	// }
 </script>
 
 <style scoped>
-main {
-  margin-top: 1rem;
-  padding: 3rem 1rem 1rem !important;
-  display: grid;
-  grid-gap: 1rem;
-  grid-template-columns: 100%;
-  grid-template-rows: 4rem 19rem 5rem 4rem 4rem;
-  height: 90vh;
-  height: 90dvh;
-}
-* {
-  box-sizing: border-box;
-}
+	main {
+		margin-top: 1rem;
+		padding: 3rem 1rem 1rem !important;
+		display: grid;
+		grid-gap: 1rem;
+		grid-template-columns: 100%;
+		grid-template-rows: 4rem 19rem 5rem 4rem 4rem;
+		height: 90vh;
+		height: 90dvh;
+	}
+	* {
+		box-sizing: border-box;
+	}
 
-.star-rating {
-  font-size: 24px;
-}
+	.review-button {
+		margin-top: 0.5vh;
+		width: 80vw;
+		height: 2vh;
+	}
 
-.star {
-  cursor: pointer;
-  color: #ccc;
-  transition: color 0.3s ease-in-out;
-}
+	.questions-button {
+		grid-column: 4/5;
+		margin-top: 0.2vh;
+		width: 80vw;
+		height: 2vh;
+	}
 
-.star:hover {
-  color: gold;
-}
+	.country-info-container {
+		margin-bottom: 4vh;
+		padding-bottom: 3vh;
+	}
 
-.star.highlighted {
-  color: gold;
-}
+	.buttons-container {
+		margin-top: 300px;
+	}
 
-.review-button {
-  margin-top: 0.5vh;
-  width: 80vw;
-  height: 2vh;
-}
-
-.questions-button {
-  grid-column: 4/5;
-  margin-top: 0.2vh;
-  width: 80vw;
-  height: 2vh;
-}
-
-.country-info-container {
-  margin-bottom: 4vh;
-  padding-bottom: 3vh;
-}
-
-.buttons-container {
-  margin-top: 300px;
-}
-
-.star-rating {
-  font-size: 24px;
-  cursor: pointer;
-}
-
-.star {
-  margin-right: 5px;
-}
-
-.highlighted {
-  color: gold;
-}
-.carouselContainer{
+	.carouselContainer {
 		height: 25%;
 		margin-top: 200px;
 	}
 
-  .carouselPic{
-    height: 400px;
-    width: 300px;
-  }
+	.carouselPic {
+		height: 400px;
+		width: 300px;
+	}
 </style>
