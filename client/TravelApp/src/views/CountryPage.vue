@@ -66,8 +66,14 @@ import * as countriesData from "../../countryData";
 
 const currentUrl = window.location.href;
 const splitURL = currentUrl.split('/');
-const currentCountry = splitURL[splitURL.length - 1]
-const foundCountry = countriesData.jsonData.find(countryData => {return countryData.country?.toLowerCase() === currentCountry})
+console.log(splitURL)
+//const currentCountry = splitURL[splitURL.length - 1]
+const currentCountry = 'Italy'
+const foundCountry = countriesData.jsonData.find(countryData => {return countryData.country === currentCountry})
+countriesData.jsonData.forEach(x => {
+  console.log(x)
+})
+console.log(foundCountry)
 
 
 let safetyData: any;
