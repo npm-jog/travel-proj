@@ -8,15 +8,28 @@
         @ionInput="handleSearch()"
         @keyup.enter="resetMap(searchResult[0])"
       >
-        <ion-icon name="close-circle" slot="end" @click="clearSearchQuery()" class="search-clear-button"></ion-icon>
+        <ion-icon
+          name="close-circle"
+          slot="end"
+          @click="clearSearchQuery()"
+          class="search-clear-button"
+        ></ion-icon>
       </ion-searchbar>
       <ul class="filtered-countries" v-if="searchResult.length > 0">
-        <li v-for="country in searchResult" :key="country.name" @click="resetMap(country)">
+        <li
+          v-for="country in searchResult"
+          :key="country.name"
+          @click="resetMap(country)"
+        >
           {{ country.name }}
         </li>
       </ul>
       <div>
-        <capacitor-google-map ref="mapRef" style="display: inline-block; width: 100vw; height: 100vh"> </capacitor-google-map>
+        <capacitor-google-map
+          ref="mapRef"
+          style="display: inline-block; width: 100vw; height: 100vh"
+        >
+        </capacitor-google-map>
       </div>
     </ion-content>
   </ion-page>
@@ -25,21 +38,45 @@
 <script lang="ts">
 import { ref, defineComponent, nextTick, toRaw } from "vue";
 import { countries } from "../../API";
-import { polygons, countriesList, initCountry } from "../../Polygons";
-import { IonSearchbar, IonPage, IonContent, IonIcon, modalController, IonPopover } from "@ionic/vue";
-import { GoogleMap, Marker } from "@capacitor/google-maps";
+import { polygons, countriesList } from "../../Polygons";
+import {
+  IonSearchbar,
+  IonPage,
+  IonContent,
+  IonIcon,
+  modalController,
+  IonPopover,
+} from "@ionic/vue";
+import { GoogleMap, Marker, Polygon } from "@capacitor/google-maps";
 import apiKey from "@/components/APIKey.js";
 import MapModal from "@/components/MapModal.vue";
+import axios from "axios";
 import { mapGetters } from "vuex";
 
-const openModal = async (marker: any) => {
+const openModal = async (marker: any, picsArray: any) => {
   console.log(marker);
-  // const modal = await modalController.create({
-  //   component: MapModal,
-  //   componentProps: { marker },
-  // });
-  // modal.present();
-  // const { data, role } = await modal.onWillDismiss();
+  const modal = await modalController.create({
+    component: MapModal,
+    componentProps: { marker, picsArray },
+  });
+  modal.present();
+  const { data, role } = await modal.onWillDismiss();
+};
+
+const fetchCarouselPictures = async (country: any) => {
+  const picsArray: any = [];
+  try {
+    const { data } = await axios.get(
+      `https://travel-app-api-8nj9.onrender.com/api/country_data/images/${country}}`
+    );
+    data.images.forEach(({ src }: any) => {
+      picsArray.push(src.large);
+      if (picsArray.length === data.images.length) {
+        console.log(picsArray);
+        openModal(country, picsArray);
+      }
+    });
+  } catch (err) {}
 };
 
 export default defineComponent({
@@ -57,7 +94,9 @@ export default defineComponent({
   },
   computed: {
     filteredCountries() {
-      return this.countriesArr.filter((country: any) => country.name.toLowerCase().includes(this.searchQuery.toLowerCase()));
+      return this.countriesArr.filter((country: any) =>
+        country.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
     },
     // Use mapGetters to access the getUser getter from the store
     ...mapGetters(["getUserInfo"]),
@@ -94,13 +133,15 @@ export default defineComponent({
 
       initCountry();
 
-      await this.newMap.addMarkers(this.createMarkerData(toRaw(this.countriesArr)));
+      await this.newMap.addMarkers(
+        this.createMarkerData(toRaw(this.countriesArr))
+      );
       await this.newMap.setOnMarkerClickListener(async (marker: any) => {
-        openModal(marker);
+        fetchCarouselPictures(marker.title);
       });
       await this.newMap.addPolygons(polygons);
       await this.newMap.setOnPolygonClickListener(async (polygon: any) => {
-        openModal(countriesList[Number(polygon.polygonId)]);
+        fetchCarouselPictures(countriesList[Number(polygon.polygonId)]);
       });
       // Get the bounds after the map is fully loaded
       google.maps.event.addListenerOnce(this.newMap, "idle", () => {
