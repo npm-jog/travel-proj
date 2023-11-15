@@ -8,28 +8,25 @@
 
     <ion-content :fullscreen="true">
       <div class="content-container">
-        <h1 class="welcomeHeader">
-          Welcome to your profile {{ userInfo.forename }}!
-        </h1>
+        <h1 class="welcomeHeader">Welcome to your profile {{ userInfo.forename }}!</h1>
 
         <!-- Profile Photo Section -->
         <img
           class="profile_pic"
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlbPhSvnw2J3HeWJ4SjZf5ca8esFf_7jmtUhEmY9tKs2Tp6H4bUX2Kitm6Zq--lG73cpE&usqp=CAU"
         />
-        <ion-title class="section-title">My Galleries</ion-title>
+        <ion-button @click="navigateTo('/mygalleries')" class="button">My Galleries</ion-button>
 
-        <ion-title class="section-title">Wishlist</ion-title>
+        <ion-button @click="navigateTo('/wishlist')" class="button">Wishlist</ion-button>
 
-        <ion-button @click="openModal" class="editProfile"
-          >Edit profile</ion-button
-        >
+        <ion-button @click="openModal" class="button">Edit profile</ion-button>
       </div>
     </ion-content>
   </ion-page>
 </template>
 
 <script lang="ts">
+import router from "@/router";
 import { mapGetters } from "vuex";
 import EditProfileModal from "@/components/EditProfileModal.vue";
 import { modalController } from "@ionic/vue";
@@ -42,6 +39,9 @@ export default defineComponent({
     },
   },
   methods: {
+    navigateTo(x: any) {
+      router.push({ path: x });
+    },
     async openModal() {
       const modal = await modalController.create({
         component: EditProfileModal,
@@ -53,18 +53,11 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import {
-  IonPage,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonContent,
-  IonButton,
-} from "@ionic/vue";
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton } from "@ionic/vue";
 import { defineComponent } from "vue";
 </script>
 
-<style>
+<style scoped>
 ion-title {
   margin-top: 0;
 }
@@ -76,30 +69,21 @@ ion-title {
   justify-content: start;
   padding: 1.25em;
 }
-
-.profile-section {
-  margin-top: 3.75em;
-  margin-bottom: 1em;
+.content-container > * {
+  margin: 1rem;
 }
 
-.section-title {
-  font-size: 1.25em;
-  font-weight: bold;
-  margin-bottom: 1em;
-}
-
-.editProfile {
-  margin-top: 2em;
-  width: 12.5em;
+.button {
+  padding: 0.3rem;
+  width: 40%;
 }
 
 .profile_pic {
-  margin-top: 2em;
-  width: 30%;
-  height: 30%;
+  width: 40%;
+  height: 40%;
 }
 
 .welcomeHeader {
-  font-size: 3.125em;
+  font-size: 2rem;
 }
 </style>
