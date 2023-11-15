@@ -1,45 +1,28 @@
 <template>
-	<ion-page>
-		<ion-content>
-			<ion-searchbar
-				class="home-search"
-				placeholder="Search for country"
-				v-model="searchQuery"
-				@ionInput="handleSearch()"
-				@keyup.enter="resetMap(searchResult[0])"
-			>
-				<ion-icon
-					name="close-circle"
-					slot="end"
-					@click="clearSearchQuery()"
-					class="search-clear-button"
-				></ion-icon>
-			</ion-searchbar>
-			<ul
-				class="filtered-countries"
-				v-if="searchResult.length > 0"
-			>
-				<li
-					v-for="country in searchResult"
-					:key="country.name"
-					@click="resetMap(country)"
-				>
-					{{ country.name }}
-				</li>
-			</ul>
-			<div>
-				<capacitor-google-map
-					ref="mapRef"
-					style="display: inline-block; width: 100vw; height: 100vh"
-				>
-				</capacitor-google-map>
-			</div>
-		</ion-content>
-	</ion-page>
+  <ion-page id="map-content" class="mapppp">
+    <ion-content>
+      <ion-searchbar
+        class="home-search"
+        placeholder="Search for country"
+        v-model="searchQuery"
+        @ionInput="handleSearch()"
+        @keyup.enter="resetMap(searchResult[0])"
+      >
+        <ion-icon name="close-circle" slot="end" @click="clearSearchQuery()" class="search-clear-button"></ion-icon>
+      </ion-searchbar>
+      <ul class="filtered-countries" v-if="searchResult.length > 0">
+        <li v-for="country in searchResult" :key="country.name" @click="resetMap(country)">
+          {{ country.name }}
+        </li>
+      </ul>
+      <div>
+        <capacitor-google-map ref="mapRef" style="display: inline-block; width: 100vw; height: 100vh"> </capacitor-google-map>
+      </div>
+    </ion-content>
+  </ion-page>
 </template>
 
 <script lang="ts">
-
 import { ref, defineComponent, nextTick, toRaw } from "vue";
 import { countries } from "../../API";
 import { polygons, countriesList, initCountry } from "../../Polygons";
@@ -74,27 +57,25 @@ const fetchCarouselPictures = async (country: any) => {
   } catch (err) {}
 };
 
-	export default defineComponent({
-		components: { IonSearchbar, IonPage, IonContent, IonIcon },
-		data() {
-			return {
-				searchQuery: "",
-				searchResult: [] as any,
-				countriesArr: countries,
-				mapRef: ref<HTMLElement>(),
-				newMap: null as any,
-				newZoom: null as any,
-				newCoordinates: null as any,
-			};
-		},
-		computed: {
-			filteredCountries() {
-				return this.countriesArr.filter((country: any) =>
-					country.name.toLowerCase().includes(this.searchQuery.toLowerCase())
-				);
-			},
-			// Use mapGetters to access the getUser getter from the store
-			...mapGetters(["getUserInfo"]),
+export default defineComponent({
+  components: { IonSearchbar, IonPage, IonContent, IonIcon },
+  data() {
+    return {
+      searchQuery: "",
+      searchResult: [] as any,
+      countriesArr: countries,
+      mapRef: ref<HTMLElement>(),
+      newMap: null as any,
+      newZoom: null as any,
+      newCoordinates: null as any,
+    };
+  },
+  computed: {
+    filteredCountries() {
+      return this.countriesArr.filter((country: any) => country.name.toLowerCase().includes(this.searchQuery.toLowerCase()));
+    },
+    // Use mapGetters to access the getUser getter from the store
+    ...mapGetters(["getUserInfo"]),
 
     // Use a computed property to get the user from the store
     userInfo() {
@@ -156,13 +137,13 @@ const fetchCarouselPictures = async (country: any) => {
       return markers;
     },
 
-			handleSearch() {
-				if (this.searchQuery === "") {
-					this.searchResult = [];
-				} else {
-					this.searchResult = this.filteredCountries;
-				}
-			},
+    handleSearch() {
+      if (this.searchQuery === "") {
+        this.searchResult = [];
+      } else {
+        this.searchResult = this.filteredCountries;
+      }
+    },
     async resetMap(result: any) {
       this.searchQuery = result.name;
       this.searchResult = [];
@@ -186,6 +167,9 @@ const fetchCarouselPictures = async (country: any) => {
   },
   mounted() {
     //to remove when done
+    const mapElements = document.getElementsByClassName("mapppp")[0];
+    mapElements.classList.remove("ion-page-invisible");
+    console.log("map", mapElements);
     nextTick(() => {
       this.createMap();
     });
