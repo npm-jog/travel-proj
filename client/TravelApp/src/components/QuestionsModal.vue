@@ -103,8 +103,7 @@ const state = reactive({
   topic: ''
 });
 
-let { questionsArray } = defineProps(["questionsArray"]);
-console.log(questionsArray, "this is props");
+let {questionsArray, commentsArray} = defineProps(["questionsArray", "commentsArray"]);
 
 async function getQuestions() {
   try {
@@ -155,7 +154,8 @@ const openSecondModal = async (questionId, questionTitle) => {
     cssClass: "second-modal-css", // Add styling if needed
     componentProps: {
       question: questionTitle,
-      questionId: questionId
+      questionId: questionId,
+      commentsArray: commentsArray
       // You can pass data to the second modal if needed
     },
   });

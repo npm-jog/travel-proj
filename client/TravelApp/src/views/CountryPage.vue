@@ -99,6 +99,7 @@
 				safetyData: { message: "" },
 				temp: "",
 				condition: "",
+				commentsArray: ref([]),
 			};
 		},
 		methods: {
@@ -116,6 +117,7 @@
 					component: QuestionsModal,
 					componentProps: {
 						questionsArray: this.questionsArray,
+						commentsArray: this.commentsArray,
 					},
 				});
 				modal.present();

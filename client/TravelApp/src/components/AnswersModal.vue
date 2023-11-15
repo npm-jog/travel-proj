@@ -7,15 +7,15 @@
       <!-- Dummy Reviews Section -->
       <ion-card
         class="review-card"
-        v-for="review in dummyReviews"
-        :key="review.id">
+        v-for="comment in commentsArray"
+        :key="comment.id">
         <ion-card-content>
           <ion-avatar slot="start">
-            <ion-img :src="review.userAvatar" alt="User Avatar"></ion-img>
+            <ion-img :src="comment.userAvatar" alt="User Avatar"></ion-img>
           </ion-avatar>
-          <ion-card-title>{{ review.username }}</ion-card-title>
-          <ion-card-subtitle>{{ review.date }}</ion-card-subtitle>
-          <p>{{ review.comment }}</p>
+          <ion-card-title>{{ comment.username }}</ion-card-title>
+          <ion-card-subtitle>{{ comment.created_at }}</ion-card-subtitle>
+          <p>{{ comment.body }}</p>
         </ion-card-content>
       </ion-card>
     </div>
@@ -23,6 +23,7 @@
   <form class="Review form">
     <ion-item class="userRev">
       <ion-input
+        v-model = "state.body"
         label-placement="stacked"
         label=""
         type: any ="review"
@@ -61,59 +62,55 @@ import {
   IonCardContent,
 } from "@ionic/vue";
 import { emit } from "process";
-import { DefineComponent, ref } from "vue";
+import { defineComponent, ref, reactive } from "vue";
+import {useStore} from 'vuex';
 import axios from "axios";
+
+const store = useStore();
+const userInfo = store.state.userInfo.username;
 
 //get props
 import { defineProps } from 'vue';
-const props = defineProps(['question']);
+const props = defineProps(['question', 'questionId', 'commentsArray']);
 //get props
 
 const name = ref();
 const cancel = () => modalController.dismiss(null, "cancel");
-const confirm = () => modalController.dismiss(name.value, "confirm");
+
+const state = reactive({
+  body: '',
+});
 
 async function getComments(){
   try {
-    const { data } = await axios.get("https://travel-app-api-8nj9.onrender.com/api/questions/6553666e2561daa8212b0fc8/comments");
-    console.log(data) 
-     data.questions.forEach((comment) => {
-    commentsArray.push(question);
+    //6553666e2561daa8212b0fc8
+    props.commentsArray.length = 0;
+    const { data } = await axios.get(`https://travel-app-api-8nj9.onrender.com/api/questions/${props.questionId}/comments`);
+    data.comments.forEach((comment) => {
+      props.commentsArray.push(comment);
      });
-    console.log(commentsArray)
+    //console.log(commentsArray)
   } catch (err) {}
 }
 getComments();
 
+const currentUrl = window.location.href.split('/');
+const currentCountry = currentUrl[currentUrl.length - 1]
 
-
-
-// example data
-const dummyReviews = [
-  {
-    id: 1,
-    username: "Lawrence1234",
-    date: "Nov 13, 2023",
-    userAvatar: "url-to-avatar-image",
-    comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-  },
-  {
-    id: 2,
-    username: "Dave1234",
-    date: "Nov 11, 2023",
-    userAvatar: "url-to-avatar-image",
-    comment:
-      "Lorem ipsum do.  ipsum dolor sit amet, consectetur adipiscing   ipsum dolor sit amet, consectetur adipiscing   ipsum dolor sit amet, consectetur adipiscing ",
-  },
-  {
-    id: 2,
-    username: "Dean1234",
-    date: "Nov 10, 2023",
-    userAvatar: "url-to-avatar-image",
-    comment:
-      "Lorem ipsum do.  ipsum dolor sit amet, consectetur adipiscing   ipsum dolor sit amet, consectetur adipiscing   ipsum dolor sit amet, consectetur adipiscing ",
-  },
-];
+const confirm = async () => {
+  console.log("Submit button clicked");
+  const commentData = {
+    country: currentCountry,
+    username: userInfo,
+    body: state.body,
+  };
+  try {
+    const comment = await axios.post(`https://travel-app-api-8nj9.onrender.com/api/questions/${props.questionId}/comments`, commentData);
+    console.log(comment);
+    getComments();
+    await modalController.dismiss();
+  } catch (err) {}
+};
 
 // export default {
 //   props: { msg: String },
