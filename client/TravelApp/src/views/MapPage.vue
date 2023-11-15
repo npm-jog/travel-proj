@@ -91,6 +91,9 @@ export default defineComponent({
           coordinate: arr[i].coordinates,
           title: arr[i].name,
           snippet: "placeholder",
+          iconUrl: "./assets/pin.png",
+          iconSize: new google.maps.Size(20, 20),
+          iconAnchor: new google.maps.Point(10, 20),
         });
       }
       return markers;
