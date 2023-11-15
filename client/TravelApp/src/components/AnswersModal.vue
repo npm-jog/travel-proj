@@ -72,6 +72,8 @@ const name = ref();
 const cancel = () => modalController.dismiss(null, "cancel");
 const confirm = () => modalController.dismiss(name.value, "confirm");
 
+console.log('kkkkkkkkkkk')
+
 // example data
 const dummyReviews = [
   {

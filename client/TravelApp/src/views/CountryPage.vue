@@ -101,19 +101,25 @@ export default defineComponent({
       ),
       holidays: [] as string[],
       reviewsArray: ref([]),
+      questionsArray: ref([]),
     };
   },
   methods: {
     async openModal() {
       const modal = await modalController.create({
         component: ReviewModal,
-        componentProps: { reviewsArray: this.reviewsArray },
+        componentProps: { 
+          reviewsArray: this.reviewsArray, 
+        },
       });
       modal.present();
     },
     async openQuestionsModal() {
       const modal = await modalController.create({
         component: QuestionsModal,
+        componentProps: {
+          questionsArray: this.questionsArray 
+        }
       });
       modal.present();
     },
