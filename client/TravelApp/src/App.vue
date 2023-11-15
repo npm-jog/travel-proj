@@ -3,9 +3,14 @@
 		<template v-if="!user">
 			<LoginPage />
 		</template>
-		<template v-if="!userRetrieved">
-			<p>Loading...</p>
+		<template v-else-if="!userRetrieved && user">
+			<ion-loading
+				isOpen="user"
+				message="Loading..."
+				spinner="circles"
+			></ion-loading>
 		</template>
+
 		<template v-else>
 			<side-menu />
 			<nav-bar />
@@ -17,8 +22,8 @@
 
 <script lang="ts">
 	import { useAuth0 } from "@auth0/auth0-vue";
-	import { IonApp, IonRouterOutlet } from "@ionic/vue";
-	import { defineComponent, ref, watchEffect, toRaw } from "vue";
+	import { IonApp, IonRouterOutlet, IonLoading } from "@ionic/vue";
+	import { defineComponent, ref, watchEffect, toRaw, reactive } from "vue";
 	import { App as CapApp } from "@capacitor/app";
 	import { Browser } from "@capacitor/browser";
 	import { useStore } from "vuex";
@@ -31,6 +36,7 @@
 			IonApp,
 			IonRouterOutlet,
 			LoginPage,
+			IonLoading,
 		},
 		setup() {
 			const { handleRedirectCallback, user, isLoading } = useAuth0();
@@ -67,7 +73,6 @@
 						.then((res: any) => {
 							console.log("Sucessfully found user");
 							store.commit("setUserInfo", res.data.user);
-							userRetrieved.value = true;
 						})
 						.catch((err: any) => {
 							if (err.response.data.msg === "User does not exist") {
@@ -86,7 +91,6 @@
 										console.log("new user posted, setting new user");
 										console.log(res.data.user);
 										store.commit("setUserInfo", res.data.user);
-										userRetrieved.value = true;
 									})
 									.catch((err: any) => {});
 							} else {
