@@ -69,7 +69,6 @@
 				router.push({ path: `/mygalleries/${x}` });
 			},
 			async openModal() {
-				console.log("openModal called");
 				const modal = await modalController.create({
 					component: UploadImageModal,
 				});
