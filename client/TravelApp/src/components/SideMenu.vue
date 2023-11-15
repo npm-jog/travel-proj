@@ -15,30 +15,32 @@
 			</ion-toolbar>
 		</ion-header>
 		<ion-content class="nav-menu ion-padding">
-			<ion-menu-toggle>
-				<img
-					class="nav-avatar"
-					v-if="userInfo"
-					:src="userInfo.avatar_url"
-					@click="navigateTo('profile')"
-				/>
-			</ion-menu-toggle>
-			<ion-menu-toggle v-for="x in pages">
-				<ion-button
-					v-model="x.value[0]"
-					@click="navigateTo(x.value[0])"
-					class="ion-padding"
-					expand="block"
-					>{{ x.value[2]
-					}}<ion-icon
-						slot="end"
-						:icon="x.value[1]"
-					></ion-icon>
-				</ion-button>
-			</ion-menu-toggle>
-			<ion-menu-toggle>
-				<LogoutButton />
-			</ion-menu-toggle>
+			<div class="nav-container">
+				<ion-menu-toggle>
+					<img
+						class="nav-avatar"
+						v-if="userInfo"
+						:src="userInfo.avatar_url"
+						@click="navigateTo('profile')"
+					/>
+				</ion-menu-toggle>
+				<ion-menu-toggle v-for="x in pages">
+					<ion-button
+						v-model="x.value[0]"
+						@click="navigateTo(x.value[0])"
+						class="ion-padding"
+						expand="block"
+						>{{ x.value[2]
+						}}<ion-icon
+							slot="end"
+							:icon="x.value[1]"
+						></ion-icon>
+					</ion-button>
+				</ion-menu-toggle>
+				<ion-menu-toggle>
+					<LogoutButton />
+				</ion-menu-toggle>
+			</div>
 		</ion-content>
 	</ion-menu>
 </template>
@@ -58,12 +60,7 @@
 		IonCard,
 	} from "@ionic/vue";
 
-	import {
-		home,
-		imageOutline,
-		chatboxEllipsesOutline,
-		airplaneOutline,
-	} from "ionicons/icons";
+	import { home, imageOutline, airplaneOutline } from "ionicons/icons";
 
 	import { defineComponent, ref } from "vue";
 	import LogoutButton from "./LogoutButton.vue";
@@ -77,7 +74,6 @@
 					ref(["/home", home, "Home"]),
 					ref(["/mygalleries", imageOutline, "My Galleries"]),
 					ref(["/wishlist", airplaneOutline, "Wishlist"]),
-					ref(["/conversations", chatboxEllipsesOutline, "My Conversations"]),
 				],
 			};
 		},
@@ -124,12 +120,20 @@
 	});
 </script>
 
-<style>
+<style scoped>
 	.nav-menu {
 		text-align: center;
 	}
+	.nav-container {
+		height: 100%;
+		margin-top: 8rem;
+	}
 	.nav-avatar {
-		height: 20%;
 		aspect-ratio: 1;
+		border-radius: 50%;
+	}
+
+	ion-title {
+		text-align: center;
 	}
 </style>
