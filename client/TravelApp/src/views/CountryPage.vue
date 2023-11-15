@@ -39,6 +39,7 @@
           <h2 class="country-info-header">Current Weather</h2>
           <p class="temp">{{ currentCountry }}s current weather condition is {{ condition.toLowerCase() }} with a temperature of {{ temp }} degrees celcius.</p>
         </div>
+
       </main>
     </ion-content>
   </ion-page>
@@ -58,12 +59,16 @@ import ReviewModal from "../components/ReviewModal.vue";
 import QuestionsModal from "../components/QuestionsModal.vue";
 import AnswersModal from "@/components/AnswersModal.vue";
 import axios from "axios";
+
+import { mapGetters } from "vuex";
+
 import * as countriesData from "../../countryData";
 
 const currentUrl = window.location.href;
 const splitURL = currentUrl.split('/');
 const currentCountry = splitURL[splitURL.length - 1]
 const foundCountry = countriesData.jsonData.find(countryData => {return countryData.country?.toLowerCase() === currentCountry})
+
 
 let safetyData: any;
 let temp: any;
@@ -92,15 +97,17 @@ export default defineComponent({
   data() {
     return {
       message: ref(
-        "this modal example uses the modalController to present and dismiss modals",
+        "this modal example uses the modalController to present and dismiss modals"
       ),
-      holidays: [] as string []
+      holidays: [] as string[],
+      reviewsArray: ref([]),
     };
   },
   methods: {
     async openModal() {
       const modal = await modalController.create({
         component: ReviewModal,
+        componentProps: { reviewsArray: this.reviewsArray },
       });
       modal.present();
     },
@@ -112,6 +119,7 @@ export default defineComponent({
     },
     async getHolidays() {
       try {
+
       const currentYear = new Date().getFullYear();
       const { data } = await axios.get("https://travel-app-api-8nj9.onrender.com/api/country_data/public_holidays", {params: {country_code: foundCountry?.iso, year: currentYear}});
       return data.publicHolidays;
@@ -121,15 +129,26 @@ export default defineComponent({
   mounted() {
     this.getHolidays().then((returnedHolidays) => {
       returnedHolidays.forEach((holiday: any) => {
-        this.holidays.push(`${holiday.date} ${holiday.name}`)
-      })
-    })
-  }
+        this.holidays.push(`${holiday.date} ${holiday.name}`);
+        console.log(this.userInfo);
+      });
+    });
+  },
+  computed: {
+    // Use mapGetters to access the getUser getter from the store
+    ...mapGetters(["getUserInfo"]),
+
+    // Use a computed property to get the user from the store
+    userInfo() {
+      return this.getUserInfo;
+    },
+  },
 });
 
 </script>
 
 <script setup lang="ts">
+
 	// let totalRating = 0;
 	import Carousel from "../components/Carousel.vue";
 
