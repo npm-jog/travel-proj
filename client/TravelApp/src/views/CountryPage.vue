@@ -106,6 +106,7 @@ export default defineComponent({
         "this modal example uses the modalController to present and dismiss modals"
       ),
       holidays: [] as string[],
+      commentsArray: ref([]),
       reviewsArray: ref([]),
       questionsArray: ref([]),
     };
@@ -124,7 +125,8 @@ export default defineComponent({
       const modal = await modalController.create({
         component: QuestionsModal,
         componentProps: {
-          questionsArray: this.questionsArray 
+          questionsArray: this.questionsArray,
+          commentsArray: this.commentsArray 
         }
       });
       modal.present();
