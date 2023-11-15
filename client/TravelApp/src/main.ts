@@ -30,8 +30,20 @@ import config from "../capacitor.config";
 /*Components added manually*/
 import NavBar from "@/components/NavBar.vue";
 import SideMenu from "@/components/SideMenu.vue";
+import { createImageKitVue } from "imagekit-vue3";
 
-const app = createApp(App).use(IonicVue).use(router).use(store);
+const app = createApp(App)
+	.use(IonicVue)
+	.use(router)
+	.use(store)
+	.use(
+		createImageKitVue({
+			urlEndpoint: "https://ik.imagekit.io/pinpin",
+			publicKey: "public_w3xAdF/JzWrdmQNjNT/NTcF2nlM=",
+			authenticationEndpoint:
+				"https://travel-app-api-8nj9.onrender.com/api/img_kit",
+		})
+	);
 
 app.use(
 	createAuth0({

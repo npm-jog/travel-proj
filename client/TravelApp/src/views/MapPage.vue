@@ -8,28 +8,15 @@
         @ionInput="handleSearch()"
         @keyup.enter="resetMap(searchResult[0])"
       >
-        <ion-icon
-          name="close-circle"
-          slot="end"
-          @click="clearSearchQuery()"
-          class="search-clear-button"
-        ></ion-icon>
+        <ion-icon name="close-circle" slot="end" @click="clearSearchQuery()" class="search-clear-button"></ion-icon>
       </ion-searchbar>
       <ul class="filtered-countries" v-if="searchResult.length > 0">
-        <li
-          v-for="country in searchResult"
-          :key="country.name"
-          @click="resetMap(country)"
-        >
+        <li v-for="country in searchResult" :key="country.name" @click="resetMap(country)">
           {{ country.name }}
         </li>
       </ul>
       <div>
-        <capacitor-google-map
-          ref="mapRef"
-          style="display: inline-block; width: 100vw; height: 100vh"
-        >
-        </capacitor-google-map>
+        <capacitor-google-map ref="mapRef" style="display: inline-block; width: 100vw; height: 100vh"> </capacitor-google-map>
       </div>
     </ion-content>
   </ion-page>
@@ -38,25 +25,20 @@
 <script lang="ts">
 import { ref, defineComponent, nextTick, toRaw } from "vue";
 import { countries } from "../../API";
-import {
-  IonSearchbar,
-  IonPage,
-  IonContent,
-  IonIcon,
-  modalController,
-  IonPopover,
-} from "@ionic/vue";
-import { GoogleMap, Marker } from "@capacitor/google-maps";
+import { polygons, countriesList } from "../../Polygons";
+import { IonSearchbar, IonPage, IonContent, IonIcon, modalController, IonPopover } from "@ionic/vue";
+import { GoogleMap, Marker, Polygon } from "@capacitor/google-maps";
 import apiKey from "@/components/APIKey.js";
 import MapModal from "@/components/MapModal.vue";
 
 const openModal = async (marker: any) => {
-  const modal = await modalController.create({
-    component: MapModal,
-    componentProps: { marker },
-  });
-  modal.present();
-  const { data, role } = await modal.onWillDismiss();
+  console.log(marker);
+  // const modal = await modalController.create({
+  //   component: MapModal,
+  //   componentProps: { marker },
+  // });
+  // modal.present();
+  // const { data, role } = await modal.onWillDismiss();
 };
 
 export default defineComponent({
@@ -64,7 +46,7 @@ export default defineComponent({
   data() {
     return {
       searchQuery: "",
-      searchResult: [],
+      searchResult: [] as any,
       countriesArr: countries,
       mapRef: ref<HTMLElement>(),
       newMap: null as any,
@@ -74,9 +56,7 @@ export default defineComponent({
   },
   computed: {
     filteredCountries() {
-      return this.countriesArr.filter((country: any) =>
-        country.name.toLowerCase().includes(this.searchQuery.toLowerCase())
-      );
+      return this.countriesArr.filter((country: any) => country.name.toLowerCase().includes(this.searchQuery.toLowerCase()));
     },
   },
   methods: {
@@ -94,9 +74,14 @@ export default defineComponent({
           zoom: 6,
         },
       });
-      this.addCustomMarkers(this.createMarkerData(toRaw(this.countriesArr)));
+
+      await this.newMap.addMarkers(this.createMarkerData(toRaw(this.countriesArr)));
       await this.newMap.setOnMarkerClickListener(async (marker: any) => {
         openModal(marker);
+      });
+      await this.newMap.addPolygons(polygons);
+      await this.newMap.setOnPolygonClickListener(async (polygon: any) => {
+        openModal(countriesList[Number(polygon.polygonId)]);
       });
     },
     createMarkerData(arr: any) {
@@ -110,9 +95,6 @@ export default defineComponent({
       }
       return markers;
     },
-    async addCustomMarkers(markers: any) {
-      await this.newMap.addMarkers(markers);
-    },
 
     handleSearch() {
       if (this.searchQuery === "") {
@@ -123,7 +105,6 @@ export default defineComponent({
     },
 
     async resetMap(result: any) {
-      console.log(toRaw(result.coordinates));
       this.searchQuery = result.name;
       this.searchResult = [];
       if (result) {
@@ -133,11 +114,6 @@ export default defineComponent({
             coordinate: this.newCoordinates,
             zoom: 5,
           });
-          this.newMap.addListener("load", () => {
-            const bounds = this.newMap.getBounds();
-            // Add markers to the map.
-            this.addCustomMarkers(bounds);
-          });
         }
       }
     },
@@ -146,7 +122,6 @@ export default defineComponent({
       this.searchResult = [];
     },
     convertToRaw(passedData: any) {
-      console.log(toRaw(passedData));
       return toRaw(passedData);
     },
   },
@@ -178,5 +153,4 @@ export default defineComponent({
 .filtered-countries li {
   cursor: pointer;
 }
-
 </style>
