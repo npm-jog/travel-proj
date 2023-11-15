@@ -23,14 +23,15 @@
 import router from "@/router";
 import { mapGetters, useStore } from "vuex";
 import { ref, onMounted, defineProps, defineComponent } from "vue";
-import { IonPage, IonContent, IonCard, IonCardContent, IonCardHeader, IonCardTitle } from "@ionic/vue";
+import { IonPage, IonContent, IonCard, IonButton, IonCardTitle } from "@ionic/vue";
 import axios from "axios";
 export default defineComponent({
   components: {
+    IonPage,
+    IonContent,
     IonCard,
-    IonCardContent,
-    IonCardHeader,
     IonCardTitle,
+    IonButton,
   },
   data() {
     return {
