@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from "@ionic/vue-router";
 import { RouteRecordRaw } from "vue-router";
-import MyGalleryPage from "@/views/MyGalleryPage.vue";
 
 const routes: Array<RouteRecordRaw> = [
 	{
@@ -49,6 +48,21 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
 	routes,
+});
+
+// Add a navigation guard to handle the transition from /callback to /home
+router.beforeEach((to, from, next) => {
+	// Check if the navigation is from /callback to /home
+	if (from.path === "/callback" && to.path === "/home") {
+		// Use the replace method to replace the current history entry
+		router.replace("/home").then(() => {
+			// Call next to continue the navigation
+			next();
+		});
+	} else {
+		// Continue with the regular navigation
+		next();
+	}
 });
 
 export default router;

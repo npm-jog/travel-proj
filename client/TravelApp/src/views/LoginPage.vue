@@ -43,7 +43,7 @@
 	import { ref, defineComponent } from "vue";
 </script>
 
-<style>
+<style scoped>
 	.login-form-div {
 		height: 115%;
 		display: flex;
