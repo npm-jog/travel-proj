@@ -50,7 +50,6 @@
             {{ holiday }}
           </div>
         </div>
-
       </main>
     </ion-content>
   </ion-page>
@@ -70,6 +69,7 @@ import ReviewModal from "../components/ReviewModal.vue";
 import QuestionsModal from "../components/QuestionsModal.vue";
 import AnswersModal from "@/components/AnswersModal.vue";
 import axios from "axios";
+import { mapGetters } from "vuex";
 
 let safetyData: any;
 // safety info
@@ -94,15 +94,17 @@ export default defineComponent({
   data() {
     return {
       message: ref(
-        "this modal example uses the modalController to present and dismiss modals",
+        "this modal example uses the modalController to present and dismiss modals"
       ),
-      holidays: [] as string []
+      holidays: [] as string[],
+      reviewsArray: ref([]),
     };
   },
   methods: {
     async openModal() {
       const modal = await modalController.create({
         component: ReviewModal,
+        componentProps: { reviewsArray: this.reviewsArray },
       });
       modal.present();
     },
@@ -114,24 +116,36 @@ export default defineComponent({
     },
     async getHolidays() {
       try {
-      const { data } = await axios.get("https://travel-app-api-8nj9.onrender.com/api/country_data/public_holidays", {params: {country_code: 'GB', year: 2023}});
-      console.log(data.publicHolidays)
-      return data.publicHolidays;
-    } catch (err) {}
-    }
+        const { data } = await axios.get(
+          "https://travel-app-api-8nj9.onrender.com/api/country_data/public_holidays",
+          { params: { country_code: "GB", year: 2023 } }
+        );
+        console.log(data.publicHolidays);
+        return data.publicHolidays;
+      } catch (err) {}
+    },
   },
   mounted() {
     this.getHolidays().then((returnedHolidays) => {
       returnedHolidays.forEach((holiday: any) => {
-        this.holidays.push(`${holiday.date} ${holiday.name}`)
-      })
-    })
-  }
+        this.holidays.push(`${holiday.date} ${holiday.name}`);
+        console.log(this.userInfo);
+      });
+    });
+  },
+  computed: {
+    // Use mapGetters to access the getUser getter from the store
+    ...mapGetters(["getUserInfo"]),
+
+    // Use a computed property to get the user from the store
+    userInfo() {
+      return this.getUserInfo;
+    },
+  },
 });
 </script>
 
 <script setup lang="ts">
-
 // let totalRating = 0;
 import Carousel from "../components/Carousel.vue";
 
@@ -184,9 +198,6 @@ import Carousel from "../components/Carousel.vue";
 //       // You can handle error actions here
 //     });
 // }
-
-import Carousel from '../components/Carousel.vue';
-
 </script>
 
 <style scoped>

@@ -2,12 +2,12 @@
   <ion-header class="reviews-header">
     <h1 class="reviews-heading">User Reviews</h1>
   </ion-header>
-  <ion-content class="ion-padding">
+  <!-- <ion-content class="ion-padding">
     <div class="dummy-reviews">
-      <!-- Dummy Reviews Section -->
+    
       <ion-card
         class="review-card"
-        v-for="review in dummyReviews"
+        v-for="review in reviewsArray"
         :key="review.id">
         <ion-card-content>
           <ion-avatar slot="start">
@@ -15,18 +15,35 @@
           </ion-avatar>
           <ion-card-title>{{ review.username }}</ion-card-title>
           <ion-card-subtitle>{{ review.date }}</ion-card-subtitle>
-          <p>{{ review.comment }}</p>
+        </ion-card-content>
+      </ion-card>
+  
+    </div>
+  </ion-content> -->
+
+  <ion-content>
+    <div class="dummy-reviews">
+      <ion-card
+        class="review-card"
+        v-for="review in reviewsArray"
+        :key="review.id">
+        <ion-card-content>
+          <ion-avatar slot="start">
+            <ion-img :src="review.userAvatar" alt="User Avatar"></ion-img>
+          </ion-avatar>
+          <ion-card-title>{{ review.username }}</ion-card-title>
+          <ion-card-subtitle>{{ review.date }}</ion-card-subtitle>
+          <p>{{ review.body }}</p>
         </ion-card-content>
       </ion-card>
     </div>
-  </ion-content>
 
- <ion-content>
     <!-- Rate country card -->
     <div class="rating-card">
       <h2>Rate your experience:</h2>
       <div v-for="metric in metrics" :key="metric.name">
         <p>{{ metric.name }}</p>
+
         <div class="star-rating">
           <span
             v-for="star in 5"
@@ -42,18 +59,18 @@
       </div>
     </div>
   </ion-content>
-    <!-- Review form and submit buttons -->
-    <ion-toolbar>
+  <!-- Review form and submit buttons -->
+  <ion-toolbar>
     <form class="Review form">
-    <ion-item class="userRev">
-      <ion-input
-        label-placement="stacked"
-        label=""
-        type: any ="review"
-        placeholder="Write your review here:">
-      </ion-input>
-    </ion-item>
-  </form>
+      <ion-item class="userRev">
+        <ion-input
+          v-model="state.reviewText"
+          label-placement="stacked"
+          label=""
+          type="text"
+          placeholder="Write your review here:"></ion-input>
+      </ion-item>
+    </form>
     <ion-buttons slot="start">
       <ion-button color="medium" @click="cancel">cancel</ion-button>
     </ion-buttons>
@@ -81,37 +98,71 @@ import {
   IonCardSubtitle,
   IonCardContent,
 } from "@ionic/vue";
-import { DefineComponent, ref } from "vue";
-const name = ref();
-const cancel = () => modalController.dismiss(null, "cancel");
-const confirm = () => modalController.dismiss(name.value, "confirm");
+import { DefineComponent, reactive, ref, defineProps } from "vue";
+import axios from "axios";
+let { reviewsArray } = defineProps(["reviewsArray"]);
+console.log(reviewsArray, "this is props");
 
-// example data
-const dummyReviews = [
-  {
-    id: 1,
-    username: "Lawrence1234",
-    date: "Nov 13, 2023",
-    userAvatar: "url-to-avatar-image",
-    comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-  },
-  {
-    id: 2,
-    username: "Dave1234",
-    date: "Nov 11, 2023",
-    userAvatar: "url-to-avatar-image",
-    comment:
-      "Lorem ipsum do.  ipsum dolor sit amet, consectetur adipiscing   ipsum dolor sit amet, consectetur adipiscing   ipsum dolor sit amet, consectetur adipiscing ",
-  },
-  {
-    id: 2,
-    username: "Dean1234",
-    date: "Nov 10, 2023",
-    userAvatar: "url-to-avatar-image",
-    comment:
-      "Lorem ipsum do.  ipsum dolor sit amet, consectetur adipiscing   ipsum dolor sit amet, consectetur adipiscing   ipsum dolor sit amet, consectetur adipiscing ",
-  },
-];
+const name = ref();
+const state = reactive({
+  reviewText: "",
+});
+
+const currentUrl = window.location.href;
+const splitURL = currentUrl.split("/");
+const currentCountry = splitURL[splitURL.length - 1];
+
+const cancel = () => modalController.dismiss(null, "cancel");
+
+async function getReviews() {
+  try {
+    const { data } = await axios.get(
+      "https://travel-app-api-8nj9.onrender.com/api/reviews/Spain"
+    );
+    console.log(data);
+    if (reviewsArray.length) {
+      reviewsArray.length = 0;
+    }
+
+    console.log(reviewsArray.length, "this is reviews array");
+    data.reviews.forEach((review) => {
+      reviewsArray.push(review);
+    });
+  } catch (err) {}
+}
+
+getReviews();
+
+const confirm = async () => {
+  console.log("Submit button clicked");
+  const ratings = {
+    safety: 0,
+    food: 0,
+    activities: 0,
+    cost: 0,
+    scenery: 0,
+  };
+  metrics.forEach((metric) => {
+    ratings[metric.name.toLowerCase()] = metric.rating.value;
+  });
+  const reviewData = {
+    username: "James",
+    body: state.reviewText,
+    ratings: ratings,
+    pictures: [],
+    country: "Spain" /*currentCountry,*/,
+    reported_count: 0,
+  };
+  try {
+    const reviews = await axios.post(
+      "https://travel-app-api-8nj9.onrender.com/api/reviews/Spain",
+      reviewData
+    );
+    console.log(reviews);
+    getReviews();
+    await modalController.dismiss();
+  } catch (err) {}
+};
 
 const metrics = [
   { name: "Safety", rating: ref(0) },
