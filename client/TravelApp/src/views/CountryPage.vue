@@ -21,19 +21,23 @@
           </div>
         </div>
         <div class="rating-wishlist-div center"></div>
-        <div class="country-info-container">
-          <h4 class="country-info-header">Country info</h4>
+        <div class="country-info-container axios-content">
+          <h2 class="country-info-header">Country info</h2>
           <p class="country-info">
             {{ safetyData.message }}
             <br />
           </p>
         </div>
         <br />
-        <div class="public-holidays-div center">
+        <div class="public-holidays-div center axios-content">
           <h2>Public Holidays</h2>
           <div v-for="(holiday, index) in holidays" :key="index">
             {{ holiday }}
           </div>
+        </div>
+        <div class="weather-container axios-content">
+          <h2 class="country-info-header">Current Weather</h2>
+          <p class="temp">{{ currentCountry }}s current weather condition is {{ condition.toLowerCase() }} with a temperature of {{ temp }} degrees celcius.</p>
         </div>
       </main>
     </ion-content>
@@ -54,20 +58,34 @@ import ReviewModal from "../components/ReviewModal.vue";
 import QuestionsModal from "../components/QuestionsModal.vue";
 import AnswersModal from "@/components/AnswersModal.vue";
 import axios from "axios";
+import * as countriesData from "../../countryData";
+
+const currentUrl = window.location.href;
+const splitURL = currentUrl.split('/');
+const currentCountry = splitURL[splitURL.length - 1]
+const foundCountry = countriesData.jsonData.find(countryData => {return countryData.country?.toLowerCase() === currentCountry})
 
 let safetyData: any;
+let temp: any;
+let condition: any;
 // safety info
 try {
-  const { data } = await axios.get("https://travel-app-api-8nj9.onrender.com/api/country_data/country_safety/GB");
+  const { data } = await axios.get(`https://travel-app-api-8nj9.onrender.com/api/country_data/country_safety/${foundCountry?.iso}`);
   safetyData = data.safetyData;
 } catch (err) {}
 
 const picsArray: any = [];
 try {
-  const { data } = await axios.get("https://travel-app-api-8nj9.onrender.com/api/country_data/images/brazil");
+  const { data } = await axios.get(`https://travel-app-api-8nj9.onrender.com/api/country_data/images/${currentCountry}`);
   data.images.forEach(({src}: any) => {
     picsArray.push(src.medium)
   })
+} catch (err) {}
+try {
+  const { data } = await axios.get(`https://travel-app-api-8nj9.onrender.com/api/country_data/weather/${foundCountry?.capital}`);
+  const weatherData = data.weather.weather;
+  temp = weatherData.temp_c;
+  condition = weatherData.condition;
 } catch (err) {}
 //
 export default defineComponent({
@@ -94,8 +112,8 @@ export default defineComponent({
     },
     async getHolidays() {
       try {
-      const { data } = await axios.get("https://travel-app-api-8nj9.onrender.com/api/country_data/public_holidays", {params: {country_code: 'GB', year: 2023}});
-      console.log(data.publicHolidays)
+      const currentYear = new Date().getFullYear();
+      const { data } = await axios.get("https://travel-app-api-8nj9.onrender.com/api/country_data/public_holidays", {params: {country_code: foundCountry?.iso, year: currentYear}});
       return data.publicHolidays;
     } catch (err) {}
     }

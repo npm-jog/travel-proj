@@ -23,7 +23,7 @@ const routes: Array<RouteRecordRaw> = [
 		name: "home",
 	},
 	{
-		path: "/country",
+		path: "/country/:country",
 		component: CountryPage,
 	},
 	{
