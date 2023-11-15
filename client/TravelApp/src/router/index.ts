@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from "@ionic/vue-router";
 import { RouteRecordRaw } from "vue-router";
-import MyGalleryPage from "@/views/MyGalleryPage.vue";
 
 const routes: Array<RouteRecordRaw> = [
 	{
