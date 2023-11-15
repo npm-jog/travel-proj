@@ -62,6 +62,7 @@ import {
 } from "@ionic/vue";
 import { emit } from "process";
 import { DefineComponent, ref } from "vue";
+import axios from "axios";
 
 //get props
 import { defineProps } from 'vue';
@@ -72,7 +73,20 @@ const name = ref();
 const cancel = () => modalController.dismiss(null, "cancel");
 const confirm = () => modalController.dismiss(name.value, "confirm");
 
-console.log('kkkkkkkkkkk')
+async function getComments(){
+  try {
+    const { data } = await axios.get("https://travel-app-api-8nj9.onrender.com/api/questions/6553666e2561daa8212b0fc8/comments");
+    console.log(data) 
+     data.questions.forEach((comment) => {
+    commentsArray.push(question);
+     });
+    console.log(commentsArray)
+  } catch (err) {}
+}
+getComments();
+
+
+
 
 // example data
 const dummyReviews = [
