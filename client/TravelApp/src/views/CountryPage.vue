@@ -69,7 +69,6 @@ const splitURL = currentUrl.split('/');
 console.log(splitURL)
 //const currentCountry = splitURL[splitURL.length - 1]
 const currentCountry = 'Italy'
-console.log(currentCountry, 'here')
 const foundCountry = countriesData.jsonData.find(countryData => {return countryData.country === currentCountry})
 countriesData.jsonData.forEach(x => {
   console.log(x)
