@@ -81,7 +81,6 @@
         },
         methods: {
             patchUser() {
-              console.log(this.userInfo);
               const newUserInfo = {
                     _id: this.userInfo._id,
                     forename: this.forenameInput.length > 0 ? this.forenameInput : this.userInfo.forename,
@@ -90,7 +89,7 @@
                     email: this.userInfo.email,
                     avatar_url: this.avatarInput.length > 0 ? this.avatarInput : this.userInfo.avatar_url,
                     visited_locations: this.userInfo.visited_locations,
-                    wishlist: this.userInfo.albums,
+                    wishlist: this.userInfo.wishlist,
                     albums: this.userInfo.albums,
                 };
 
