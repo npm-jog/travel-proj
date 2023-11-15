@@ -39,31 +39,40 @@
 </template>
 
 <script lang="ts">
-	import { ref, defineComponent, nextTick, toRaw } from "vue";
-	import { countries } from "../../API";
-	import { polygons, countriesList } from "../../Polygons";
-	import {
-		IonSearchbar,
-		IonPage,
-		IonContent,
-		IonIcon,
-		modalController,
-		IonPopover,
-	} from "@ionic/vue";
-	import { GoogleMap, Marker, Polygon } from "@capacitor/google-maps";
-	import apiKey from "@/components/APIKey.js";
-	import MapModal from "@/components/MapModal.vue";
-	import { mapGetters } from "vuex";
 
-	const openModal = async (marker: any) => {
-		console.log(marker);
-		// const modal = await modalController.create({
-		//   component: MapModal,
-		//   componentProps: { marker },
-		// });
-		// modal.present();
-		// const { data, role } = await modal.onWillDismiss();
-	};
+import { ref, defineComponent, nextTick, toRaw } from "vue";
+import { countries } from "../../API";
+import { polygons, countriesList, initCountry } from "../../Polygons";
+import { IonSearchbar, IonPage, IonContent, IonIcon, modalController, IonPopover } from "@ionic/vue";
+import { GoogleMap, Marker } from "@capacitor/google-maps";
+import apiKey from "@/components/APIKey.js";
+import MapModal from "@/components/MapModal.vue";
+import axios from "axios";
+import { mapGetters } from "vuex";
+
+const openModal = async (marker: any, picsArray: any) => {
+  console.log(marker);
+  const modal = await modalController.create({
+    component: MapModal,
+    componentProps: { marker, picsArray },
+  });
+  modal.present();
+  const { data, role } = await modal.onWillDismiss();
+};
+
+const fetchCarouselPictures = async (country: any) => {
+  const picsArray: any = [];
+  try {
+    const { data } = await axios.get(`https://travel-app-api-8nj9.onrender.com/api/country_data/images/${country}}`);
+    data.images.forEach(({ src }: any) => {
+      picsArray.push(src.large);
+      if (picsArray.length === data.images.length) {
+        console.log(picsArray);
+        openModal(country, picsArray);
+      }
+    });
+  } catch (err) {}
+};
 
 	export default defineComponent({
 		components: { IonSearchbar, IonPage, IonContent, IonIcon },
@@ -87,60 +96,65 @@
 			// Use mapGetters to access the getUser getter from the store
 			...mapGetters(["getUserInfo"]),
 
-			// Use a computed property to get the user from the store
-			userInfo() {
-				return this.getUserInfo;
-			},
-		},
-		watch: {
-			userInfo: "awaitUserInfo", // Watch userInfo changes and call createMap
-		},
-		methods: {
-			awaitUserInfo() {
-				nextTick(() => {
-					this.createMap();
-				});
-			},
-			async createMap() {
-				if (!this.$refs.mapRef) return;
-				this.newMap = await GoogleMap.create({
-					id: "Travel-Map",
-					element: this.$refs.mapRef,
-					apiKey: apiKey.mapsKey,
-					config: {
-						center: {
-							lat: 54,
-							lng: -2,
-						},
-						zoom: 6,
-					},
-				});
+    // Use a computed property to get the user from the store
+    userInfo() {
+      return this.getUserInfo;
+    },
+  },
+  watch: {
+    userInfo: "awaitUserInfo", // Watch userInfo changes and call createMap
+  },
+  methods: {
+    awaitUserInfo() {
+      console.log("userInfo loaded, creating new map");
+      nextTick(() => {
+        this.createMap();
+      });
+    },
+    async createMap() {
+      if (!this.$refs.mapRef) return;
+      this.newMap = await GoogleMap.create({
+        id: "Travel-Map",
+        element: this.$refs.mapRef as HTMLElement,
+        apiKey: apiKey.mapsKey,
+        config: {
+          center: {
+            lat: 54,
+            lng: -2,
+          },
+          zoom: 6,
+        },
+      });
 
-				await this.newMap.addMarkers(
-					this.createMarkerData(toRaw(this.countriesArr))
-				);
-				await this.newMap.setOnMarkerClickListener(async (marker: any) => {
-					openModal(marker);
-				});
-				await this.newMap.addPolygons(polygons);
-				await this.newMap.setOnPolygonClickListener(async (polygon: any) => {
-					openModal(countriesList[Number(polygon.polygonId)]);
-				});
-			},
-			createMarkerData(arr: any) {
-				const markers: Marker[] = [];
-				for (let i = 0; i < arr.length; i++) {
-					markers.push({
-						coordinate: arr[i].coordinates,
-						title: arr[i].name,
-						snippet: "placeholder",
-						iconUrl: "./assets/pin.png",
-						iconSize: new google.maps.Size(20, 20),
-						iconAnchor: new google.maps.Point(10, 20),
-					});
-				}
-				return markers;
-			},
+      initCountry();
+
+      await this.newMap.addMarkers(this.createMarkerData(toRaw(this.countriesArr)));
+      await this.newMap.setOnMarkerClickListener(async (marker: any) => {
+        fetchCarouselPictures(marker.title);
+      });
+      await this.newMap.addPolygons(polygons);
+      await this.newMap.setOnPolygonClickListener(async (polygon: any) => {
+        fetchCarouselPictures(countriesList[Number(polygon.polygonId)]);
+      });
+      // Get the bounds after the map is fully loaded
+      google.maps.event.addListenerOnce(this.newMap, "idle", () => {
+        const bounds = this.newMap.getBounds();
+      });
+    },
+    createMarkerData(arr: any) {
+      const markers: Marker[] = [];
+      for (let i = 0; i < arr.length; i++) {
+        markers.push({
+          coordinate: arr[i].coordinates,
+          title: arr[i].name,
+          snippet: "placeholder",
+          iconUrl: "./assets/pin.png",
+          iconSize: new google.maps.Size(20, 20),
+          iconAnchor: new google.maps.Point(10, 20),
+        });
+      }
+      return markers;
+    },
 
 			handleSearch() {
 				if (this.searchQuery === "") {
@@ -149,54 +163,58 @@
 					this.searchResult = this.filteredCountries;
 				}
 			},
-
-			async resetMap(result: any) {
-				this.searchQuery = result.name;
-				this.searchResult = [];
-				if (result) {
-					this.newCoordinates = toRaw(result.coordinates);
-					if (this.newMap) {
-						await this.newMap.setCamera({
-							coordinate: this.newCoordinates,
-							zoom: 5,
-						});
-					}
-				}
-			},
-			clearSearchQuery() {
-				this.searchQuery = "";
-				this.searchResult = [];
-			},
-			convertToRaw(passedData: any) {
-				return toRaw(passedData);
-			},
-		},
-		mounted() {
-			nextTick(() => {
-				this.createMap();
-			});
-		},
-	});
+    async resetMap(result: any) {
+      this.searchQuery = result.name;
+      this.searchResult = [];
+      if (result) {
+        this.newCoordinates = toRaw(result.coordinates);
+        if (this.newMap) {
+          await this.newMap.setCamera({
+            coordinate: this.newCoordinates,
+            zoom: 6,
+          });
+        }
+      }
+    },
+    clearSearchQuery() {
+      this.searchQuery = "";
+      this.searchResult = [];
+    },
+    convertToRaw(passedData: any) {
+      return toRaw(passedData);
+    },
+  },
+  mounted() {
+    //to remove when done
+    nextTick(() => {
+      this.createMap();
+    });
+  },
+});
 </script>
 
 <style scoped>
-	.home-search {
-		width: 85%;
-		float: right;
-	}
-	.filtered-countries {
-		background-color: rgba(0, 0, 0, 0.7);
-		border-radius: 10px;
-		padding: 10px;
-		width: 75%;
-		float: right;
-		list-style-type: none;
-		z-index: 4;
-		position: absolute;
-		top: 40px;
-		left: 20%;
-	}
-	.filtered-countries li {
-		cursor: pointer;
-	}
+.home-search {
+  width: 85%;
+  float: right;
+}
+.filtered-countries {
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  border-radius: 10px;
+  padding: 10px;
+  width: 75%;
+  float: right;
+  list-style-type: none;
+  z-index: 4;
+  position: absolute;
+  top: 40px;
+  left: 20%;
+
+  max-height: 50%;
+  overflow-y: scroll;
+}
+.filtered-countries li {
+  cursor: pointer;
+}
 </style>

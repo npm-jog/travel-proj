@@ -61,7 +61,7 @@
 	import {
 		home,
 		imageOutline,
-		// chatboxEllipsesOutline,
+		chatboxEllipsesOutline,
 		airplaneOutline,
 	} from "ionicons/icons";
 
@@ -77,7 +77,7 @@
 					ref(["/home", home, "Home"]),
 					ref(["/mygalleries", imageOutline, "My Galleries"]),
 					ref(["/wishlist", airplaneOutline, "Wishlist"]),
-					// ref(["/conversations", chatboxEllipsesOutline, "My Conversations"]),
+					ref(["/conversations", chatboxEllipsesOutline, "My Conversations"]),
 				],
 			};
 		},
@@ -108,6 +108,19 @@
 				return this.getUserInfo;
 			},
 		},
+		// setup() {
+		// 	return {
+		// 		home,
+		// 		personOutline,
+		// 		personAddOutline,
+		// 		logInOutline,
+		// 		logOutOutline,
+		// 		imageOutline,
+		// 		starHalfOutline,
+		// 		chatboxEllipsesOutline,
+		// 		giftOutline,
+		// 	};
+		// },
 	});
 </script>
 
@@ -118,6 +131,5 @@
 	.nav-avatar {
 		height: 20%;
 		aspect-ratio: 1;
-		border-radius: 50%;
 	}
 </style>
