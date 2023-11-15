@@ -1,13 +1,13 @@
 <template>
-  <ion-page class="carouselContainer">
-    <ion-content>
-      <swiper class="carousel">
-        <swiper-slide v-for="pic in pics">
-          <img class="carouselPic" :src="pic" />
-        </swiper-slide>
-      </swiper>
-    </ion-content>
-  </ion-page>
+	<ion-page class="carouselContainer">
+		<ion-content>
+			<swiper class="carousel">
+				<swiper-slide v-for="pic in pics">
+					<img class="carouselPic" :src="pic" />
+				</swiper-slide>
+			</swiper>
+		</ion-content>
+	</ion-page>
 </template>
 
 <script setup lang="ts">
