@@ -1,32 +1,13 @@
 <template>
   <ion-page>
-    <IonHeader>
-      <IonButton slot="start" class="country-album-back-button">
-        <IonIcon name="arrow-back-sharp"></IonIcon>
-        <IonBackButton></IonBackButton>
-      </IonButton>
-    </IonHeader>
-
     <ion-content :fullscreen="true">
       <main>
-        <div class="title-div center">
-          <h1>{{ countryRoute }}</h1>
-        </div>
+        <h1>{{ countryRoute }}</h1>
         <Carousel :pics="countryPics" />
 
         <div class="buttons-div">
-          <!-- <ion-button
-						class="ion-padding"
-						expand="block"
-					>
-						<ion-icon
-							slot="icon-only"
-							:icon="trashOutline"
-						></ion-icon>
-					</ion-button> -->
-          <ion-button class="ion-padding" expand="block" @click="openModal">
-            <ion-icon slot="icon-only" :icon="addOutline"></ion-icon>
-          </ion-button>
+          <ion-button @click="navigateTo('/mygalleries')" class="button">Go back</ion-button>
+          <ion-button class="button" @click="openModal">+</ion-button>
         </div>
       </main>
     </ion-content>
@@ -36,15 +17,9 @@
 <script lang="ts">
 import { mapGetters } from "vuex";
 import Carousel from "@/components/Carousel.vue";
-import {
-  IonPage,
-  IonContent,
-  IonButton,
-  IonIcon,
-  IonHeader,
-  IonBackButton,
-} from "@ionic/vue";
+import { IonPage, IonContent, IonButton, IonIcon, IonHeader, IonBackButton } from "@ionic/vue";
 import { modalController } from "@ionic/vue";
+import router from "@/router";
 import GalleryImgUploadModal from "@/components/GalleryImgUploadModal.vue";
 
 export default defineComponent({
@@ -55,10 +30,11 @@ export default defineComponent({
     };
   },
   methods: {
+    navigateTo(x: any) {
+      router.push({ path: x });
+    },
     setGallery() {
-      this.countryPics = this.userInfo.albums
-        .filter((pic: any) => pic.country === this.countryRoute)
-        .map((pic: any) => pic.url);
+      this.countryPics = this.userInfo.albums.filter((pic: any) => pic.country === this.countryRoute).map((pic: any) => pic.url);
     },
     async openModal() {
       const modal = await modalController.create({
@@ -122,14 +98,11 @@ h1 {
 
 .buttons-div {
   display: flex;
-  justify-content: space-evenly;
-  grid-row: 3 / 4;
+  align-items: center;
+  justify-content: center;
 }
-
-.buttons-div ion-button {
-  width: 40%;
-  height: 20%;
-  color: black;
+.buttons-div > * {
+  width: 20%;
 }
 
 Carousel {
