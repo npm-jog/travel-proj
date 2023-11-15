@@ -13,20 +13,13 @@
         </h1>
 
         <!-- Profile Photo Section -->
-        <div>
-          <img
-            class="profile_pic"
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlbPhSvnw2J3HeWJ4SjZf5ca8esFf_7jmtUhEmY9tKs2Tp6H4bUX2Kitm6Zq--lG73cpE&usqp=CAU"
-          />
-        </div>
+        <img
+          class="profile_pic"
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlbPhSvnw2J3HeWJ4SjZf5ca8esFf_7jmtUhEmY9tKs2Tp6H4bUX2Kitm6Zq--lG73cpE&usqp=CAU"
+        />
+        <ion-title class="section-title">My Galleries</ion-title>
 
-        <div class="profile-section">
-          <ion-title class="section-title">My Galleries</ion-title>
-        </div>
-
-        <div class="profile-section">
-          <ion-title class="section-title">Wishlist</ion-title>
-        </div>
+        <ion-title class="section-title">Wishlist</ion-title>
 
         <ion-button @click="openModal" class="editProfile"
           >Edit profile</ion-button
@@ -102,6 +95,8 @@ ion-title {
 
 .profile_pic {
   margin-top: 2em;
+  width: 30%;
+  height: 30%;
 }
 
 .welcomeHeader {
