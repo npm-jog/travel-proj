@@ -1,4 +1,5 @@
 <template>
+
   <ion-page class="carouselContainer">
     <ion-content>
       <swiper class="carousel">
@@ -8,6 +9,7 @@
       </swiper>
     </ion-content>
   </ion-page>
+
 </template>
 
 <script setup lang="ts">

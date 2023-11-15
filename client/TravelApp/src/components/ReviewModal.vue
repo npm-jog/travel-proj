@@ -20,7 +20,31 @@
       </ion-card>
     </div>
   </ion-content>
-  <form class="Review form">
+
+ <ion-content>
+    <!-- Rate country card -->
+    <div class="rating-card">
+      <h2>Rate your experience:</h2>
+      <div v-for="metric in metrics" :key="metric.name">
+        <p>{{ metric.name }}</p>
+        <div class="star-rating">
+          <span
+            v-for="star in 5"
+            :key="star"
+            class="star"
+            :class="{
+              highlighted: star <= metric.rating.value && metric.highlighted,
+            }"
+            @click="rateCountry(metric, star)">
+            &#9733;
+          </span>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+    <!-- Review form and submit buttons -->
+    <ion-toolbar>
+    <form class="Review form">
     <ion-item class="userRev">
       <ion-input
         label-placement="stacked"
@@ -30,12 +54,11 @@
       </ion-input>
     </ion-item>
   </form>
-  <ion-toolbar>
     <ion-buttons slot="start">
       <ion-button color="medium" @click="cancel">cancel</ion-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button @click="confirm" :strong="true">Confirm </ion-button>
+      <ion-button @click="confirm" :strong="true">Submit </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </template>
@@ -89,6 +112,20 @@ const dummyReviews = [
       "Lorem ipsum do.  ipsum dolor sit amet, consectetur adipiscing   ipsum dolor sit amet, consectetur adipiscing   ipsum dolor sit amet, consectetur adipiscing ",
   },
 ];
+
+const metrics = [
+  { name: "Safety", rating: ref(0) },
+  { name: "Food", rating: ref(0) },
+  { name: "Activities", rating: ref(0) },
+  { name: "Cost", rating: ref(0) },
+  { name: "Scenery", rating: ref(0) },
+];
+
+function rateCountry(metric, stars) {
+  metric.rating.value = stars;
+
+  metric.highlighted = true;
+}
 </script>
 <style scoped>
 .reviews-header {
@@ -101,5 +138,18 @@ const dummyReviews = [
 
 .review-card {
   margin-bottom: 5%;
+}
+
+.star-rating {
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.star {
+  margin-right: 5px;
+}
+
+.highlighted {
+  color: gold;
 }
 </style>
