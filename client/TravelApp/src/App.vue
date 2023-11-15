@@ -1,17 +1,9 @@
 <template>
 	<ion-app>
-		<template v-if="!user">
-			<LoginPage />
-		</template>
-		<template v-if="!userRetrieved">
-			<p>Loading...</p>
-		</template>
-		<template v-else>
-			<side-menu />
-			<nav-bar />
+		<side-menu />
+		<nav-bar />
 
-			<ion-router-outlet id="main-content" />
-		</template>
+		<ion-router-outlet id="main-content" />
 	</ion-app>
 </template>
 
@@ -23,19 +15,16 @@
 	import { Browser } from "@capacitor/browser";
 	import { useStore } from "vuex";
 	import axios from "axios";
-	import LoginPage from "@/views/LoginPage.vue";
 
 	export default defineComponent({
 		name: "App",
 		components: {
 			IonApp,
 			IonRouterOutlet,
-			LoginPage,
 		},
 		setup() {
 			const { handleRedirectCallback, user, isLoading } = useAuth0();
 			const store = useStore();
-			const userRetrieved = ref(false);
 
 			// Handle the 'appUrlOpen' event and call `handleRedirectCallback`
 			CapApp.addListener("appUrlOpen", async ({ url }) => {
@@ -49,13 +38,6 @@
 				await Browser.close();
 			});
 
-			// watching for user information being retrieved from our database
-			watchEffect(() => {
-				if (store.state.userInfo) {
-					userRetrieved.value = true;
-				}
-			});
-
 			// Use watchEffect to observe changes in user and isLoading
 			watchEffect(() => {
 				if (!isLoading.value && user.value) {
@@ -67,7 +49,6 @@
 						.then((res: any) => {
 							console.log("Sucessfully found user");
 							store.commit("setUserInfo", res.data.user);
-							userRetrieved.value = true;
 						})
 						.catch((err: any) => {
 							if (err.response.data.msg === "User does not exist") {
@@ -86,7 +67,6 @@
 										console.log("new user posted, setting new user");
 										console.log(res.data.user);
 										store.commit("setUserInfo", res.data.user);
-										userRetrieved.value = true;
 									})
 									.catch((err: any) => {});
 							} else {
@@ -102,7 +82,6 @@
 			return {
 				user,
 				isLoading,
-				userRetrieved,
 			};
 		},
 	});
