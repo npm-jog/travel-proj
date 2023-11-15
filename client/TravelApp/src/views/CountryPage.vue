@@ -71,6 +71,7 @@
 	import ReviewModal from "../components/ReviewModal.vue";
 	import QuestionsModal from "../components/QuestionsModal.vue";
 	import AnswersModal from "@/components/AnswersModal.vue";
+	import router from "@/router";
 	import axios from "axios";
 
 	import { mapGetters } from "vuex";
@@ -78,17 +79,15 @@
 	import * as countriesData from "../../countryData";
 
 	//const currentCountry = splitURL[splitURL.length - 1]
-
+	const foundCountry = countriesData.jsonData.find((countryData: any) => {
+		return countryData.country === "Spain";
+	});
 	//
 	export default defineComponent({
 		data() {
 			return {
-				currentCountry: this.$route.params.country as string,
-				foundCountry: this.currentCountry
-					? countriesData.jsonData.find((countryData) => {
-							return countryData.country === this.currentCountry;
-					  })
-					: null,
+				currentCountry: this.$route.params.country,
+
 				message: ref(
 					"this modal example uses the modalController to present and dismiss modals"
 				),
@@ -129,11 +128,12 @@
 						"https://travel-app-api-8nj9.onrender.com/api/country_data/public_holidays",
 						{
 							params: {
-								country_code: this.foundCountry?.iso,
+								country_code: foundCountry?.iso,
 								year: currentYear,
 							},
 						}
 					);
+					console.log("getHolidays DATA: " + data);
 					return data.publicHolidays;
 				} catch (err) {}
 			},
@@ -143,7 +143,9 @@
 					const { data } = await axios.get(
 						`https://travel-app-api-8nj9.onrender.com/api/country_data/country_safety/${foundCountry?.iso}`
 					);
+					console.log(data);
 					this.safetyData = data.safetyData;
+					console.log("safety data: " + this.safetyData);
 				} catch (err) {}
 
 				try {
@@ -165,17 +167,13 @@
 			},
 		},
 		mounted() {
+			this.getAllData();
 			this.getHolidays().then((returnedHolidays: object[]) => {
+				console.log(foundCountry);
 				returnedHolidays.forEach((holiday: any) => {
 					this.holidays.push(`${holiday.date} ${holiday.name}`);
-					console.log(this.userInfo);
 				});
 			});
-
-			countriesData.jsonData.forEach((x) => {
-				console.log(x);
-			});
-			console.log(this.foundCountry);
 		},
 		computed: {
 			// Use mapGetters to access the getUser getter from the store
