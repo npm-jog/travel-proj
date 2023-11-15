@@ -58,7 +58,9 @@
 			// watching for user information being retrieved from our database
 			watchEffect(() => {
 				if (store.state.userInfo) {
-					userRetrieved.value = true;
+					setTimeout(() => {
+						userRetrieved.value = true;
+					}, 1000);
 				}
 			});
 
