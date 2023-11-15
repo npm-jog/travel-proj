@@ -27,7 +27,7 @@ import { ref, defineComponent, nextTick, toRaw } from "vue";
 import { countries } from "../../API";
 import { polygons, countriesList, initCountry } from "../../Polygons";
 import { IonSearchbar, IonPage, IonContent, IonIcon, modalController, IonPopover } from "@ionic/vue";
-import { GoogleMap, Marker, Polygon } from "@capacitor/google-maps";
+import { GoogleMap, Marker } from "@capacitor/google-maps";
 import apiKey from "@/components/APIKey.js";
 import MapModal from "@/components/MapModal.vue";
 import { mapGetters } from "vuex";
@@ -81,7 +81,7 @@ export default defineComponent({
       if (!this.$refs.mapRef) return;
       this.newMap = await GoogleMap.create({
         id: "Travel-Map",
-        element: this.$refs.mapRef,
+        element: this.$refs.mapRef as HTMLElement,
         apiKey: apiKey.mapsKey,
         config: {
           center: {
@@ -105,7 +105,6 @@ export default defineComponent({
       // Get the bounds after the map is fully loaded
       google.maps.event.addListenerOnce(this.newMap, "idle", () => {
         const bounds = this.newMap.getBounds();
-        console.log(bounds);
       });
     },
     createMarkerData(arr: any) {

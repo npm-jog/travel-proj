@@ -357,7 +357,7 @@
       "signature": "signature"
     }
   },
-  "GET /api/country-data/weather/:city": {
+  "GET /api/country_data/weather/:city": {
     "description": "return the current weather in the city specified",
     "queries": [],
     "exampleResponse": {
@@ -374,7 +374,7 @@
       }
     }
   },
-  "GET /country_safety/:country_code": {
+  "GET /api/country_data/country_safety/:country_code": {
     "description": "returns safety data for a specific country",
     "queries": [],
     "exampleResponse": {
@@ -385,7 +385,7 @@
       "source": "https://www.travel-advisory.info/united-kingdom"
     }
   },
-  "GET /images/:country": {
+  "GET /api/country_data/images/:country": {
     "description": "returns a list of images for a given country",
     "queries": [],
     "exampleResponse": {
