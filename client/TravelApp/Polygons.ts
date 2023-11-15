@@ -5,7 +5,7 @@ import store from "../TravelApp/src/components/store";
 export const polygons: Polygon[] = [];
 export const countriesList: string[] = [];
 
-function initCountry() {
+export function initCountry() {
   jsonData.forEach((country) => {
     let countryCoords: any[];
     let ca: string[];
@@ -34,26 +34,28 @@ function initCountry() {
   });
 }
 
-async function createCountry(coords: any, country: any) {
+function createCountry(coords: any, country: any) {
   const userInfo = store.getters.getUserInfo || null;
 
   const polygon = {
     paths: coords,
     strokeColor: "#fffffff",
     strokeWeight: 1,
-    fillColor: "#71ACD6",
-    fillOpacity: 0.55,
+    fillColor: "#D7D7D5",
+    fillOpacity: 0.6,
   };
   if (userInfo) {
     userInfo.wishlist.forEach((wish) => {
       if (String(wish) === String(country.country)) {
-        polygon.fillColor = "#BB1D11";
+        polygon.fillColor = "#D69F1F";
+        polygon.fillOpacity = 0.8;
       }
     });
 
     userInfo.visited_locations.forEach((visited) => {
       if (String(visited) === String(country.country)) {
-        polygon.fillColor = "#FFD61F";
+        polygon.fillColor = "#598C2C";
+        polygon.fillOpacity = 0.8;
       }
     });
   }
@@ -61,5 +63,3 @@ async function createCountry(coords: any, country: any) {
   polygons.push(polygon);
   countriesList.push(country.country);
 }
-
-initCountry();

@@ -4,8 +4,9 @@
   </ion-header>
   <ion-content class="ion-padding">
     <form class="edit-profile-form">
-        <ion-item>
+        <ion-item class="item">
             <ion-input 
+            class="input"
             v-model="usernameInput"
             label-placement="stacked"
             label="Change username"
@@ -13,8 +14,9 @@
             :placeholder= "[[userInfo.username]]">
             </ion-input>
         </ion-item>
-        <ion-item>
+        <ion-item class="item">
             <ion-input
+            class="input"
             v-model="forenameInput"
             label-placement="stacked"
             label="Change forename"
@@ -22,8 +24,9 @@
             :placeholder="[[userInfo.forename]]">
             </ion-input>
         </ion-item>
-        <ion-item>
+        <ion-item class="item">
             <ion-input
+            class="input"
             v-model="surnameInput"
             label-placement="stacked"
             label="Change surname"
@@ -31,8 +34,9 @@
             :placeholder="[[userInfo.surname]]">
             </ion-input>
         </ion-item>
-        <ion-item>
+        <ion-item class="item">
             <ion-input
+            class="input"
             v-model="avatarInput"
             label-placement="stacked"
             label="Change avatar"
@@ -72,12 +76,13 @@
                 forenameInput: "",
                 surnameInput: "",
                 avatarInput: "",
+                store: useStore(),
             }
         },
         methods: {
             patchUser() {
-                axios
-                .patch(`https://travel-app-api-8nj9.onrender.com/api/users/${this.userInfo._id}`, {
+              const newUserInfo = {
+                    _id: this.userInfo._id,
                     forename: this.forenameInput.length > 0 ? this.forenameInput : this.userInfo.forename,
                     surname: this.surnameInput.length > 0 ? this.surnameInput : this.userInfo.surname,
                     username: this.usernameInput.length > 0 ? this.usernameInput : this.userInfo.username,
@@ -86,14 +91,16 @@
                     visited_locations: this.userInfo.visited_locations,
                     wishlist: this.userInfo.wishlist,
                     albums: this.userInfo.albums,
-                })
+                };
+
+              this.store.commit("setUserInfo", newUserInfo);
+
+                axios
+                .patch(`https://travel-app-api-8nj9.onrender.com/api/users/${this.userInfo._id}`, newUserInfo)
                 .then((res: any) => {
-                    console.log("user patched!")
-                    console.log(res.data)
                     modalController.dismiss(res.data, "confirm");
                 })
                 .catch((err: any) => {
-                    console.log(err)
                     modalController.dismiss(err, "confirm");
                 })
             }
@@ -127,6 +134,13 @@ const confirm = () => modalController.dismiss(name.value, "confirm");
 
 </script>
 <style scoped>
+
+.input{
+  padding: 0.5rem;
+}
+.item{
+  margin: 0.5rem 0;
+}
 .edit-profile-header {
   display: flex;
   justify-content: center;

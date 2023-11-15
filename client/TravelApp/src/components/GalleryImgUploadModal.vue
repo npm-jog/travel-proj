@@ -4,11 +4,6 @@
 	</ion-header>
 	<ion-content class="ion-padding">
 		<form class="img-upload-form">
-			<ion-input
-				label="Album:"
-				placeholder="New or existing album"
-				v-model="album"
-			></ion-input>
 			<IKUpload
 				:tags="['tag1', 'tag2']"
 				:responseFields="['tags']"
@@ -49,7 +44,7 @@
 	export default defineComponent({
 		data() {
 			return {
-				album: "",
+				album: this.$route.params.country,
 				store: useStore(),
 				newURL: null,
 				progress: null,

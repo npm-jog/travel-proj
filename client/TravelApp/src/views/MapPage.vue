@@ -25,11 +25,12 @@
 <script lang="ts">
 import { ref, defineComponent, nextTick, toRaw } from "vue";
 import { countries } from "../../API";
-import { polygons, countriesList } from "../../Polygons";
+import { polygons, countriesList, initCountry } from "../../Polygons";
 import { IonSearchbar, IonPage, IonContent, IonIcon, modalController, IonPopover } from "@ionic/vue";
 import { GoogleMap, Marker, Polygon } from "@capacitor/google-maps";
 import apiKey from "@/components/APIKey.js";
 import MapModal from "@/components/MapModal.vue";
+import { mapGetters } from "vuex";
 
 const openModal = async (marker: any) => {
   console.log(marker);
@@ -58,8 +59,24 @@ export default defineComponent({
     filteredCountries() {
       return this.countriesArr.filter((country: any) => country.name.toLowerCase().includes(this.searchQuery.toLowerCase()));
     },
+    // Use mapGetters to access the getUser getter from the store
+    ...mapGetters(["getUserInfo"]),
+
+    // Use a computed property to get the user from the store
+    userInfo() {
+      return this.getUserInfo;
+    },
+  },
+  watch: {
+    userInfo: "awaitUserInfo", // Watch userInfo changes and call createMap
   },
   methods: {
+    awaitUserInfo() {
+      console.log("userInfo loaded, creating new map");
+      nextTick(() => {
+        this.createMap();
+      });
+    },
     async createMap() {
       if (!this.$refs.mapRef) return;
       this.newMap = await GoogleMap.create({
@@ -75,6 +92,8 @@ export default defineComponent({
         },
       });
 
+      initCountry();
+
       await this.newMap.addMarkers(this.createMarkerData(toRaw(this.countriesArr)));
       await this.newMap.setOnMarkerClickListener(async (marker: any) => {
         openModal(marker);
@@ -82,6 +101,11 @@ export default defineComponent({
       await this.newMap.addPolygons(polygons);
       await this.newMap.setOnPolygonClickListener(async (polygon: any) => {
         openModal(countriesList[Number(polygon.polygonId)]);
+      });
+      // Get the bounds after the map is fully loaded
+      google.maps.event.addListenerOnce(this.newMap, "idle", () => {
+        const bounds = this.newMap.getBounds();
+        console.log(bounds);
       });
     },
     createMarkerData(arr: any) {
@@ -91,6 +115,9 @@ export default defineComponent({
           coordinate: arr[i].coordinates,
           title: arr[i].name,
           snippet: "placeholder",
+          iconUrl: "./assets/pin.png",
+          iconSize: new google.maps.Size(20, 20),
+          iconAnchor: new google.maps.Point(10, 20),
         });
       }
       return markers;
@@ -112,7 +139,7 @@ export default defineComponent({
         if (this.newMap) {
           await this.newMap.setCamera({
             coordinate: this.newCoordinates,
-            zoom: 5,
+            zoom: 6,
           });
         }
       }
@@ -126,6 +153,7 @@ export default defineComponent({
     },
   },
   mounted() {
+    //to remove when done
     nextTick(() => {
       this.createMap();
     });
@@ -149,6 +177,9 @@ export default defineComponent({
   position: absolute;
   top: 40px;
   left: 20%;
+
+  max-height: 50%;
+  overflow-y: scroll;
 }
 .filtered-countries li {
   cursor: pointer;
