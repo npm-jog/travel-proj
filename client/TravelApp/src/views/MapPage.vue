@@ -151,6 +151,7 @@ export default defineComponent({
 }
 .filtered-countries {
   background-color: rgba(0, 0, 0, 0.7);
+  color: white;
   border-radius: 10px;
   padding: 10px;
   width: 75%;

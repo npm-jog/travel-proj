@@ -4,28 +4,10 @@
   </ion-header>
   <ion-content class="ion-padding">
     <form class="img-upload-form">
-      <ion-searchbar
-        class="album-search"
-        placeholder="Search for country"
-        v-model="searchQuery"
-        @ionInput="handleSearch()"
-      >
-        <ion-icon
-          name="close-circle"
-          slot="end"
-          @click="clearSearchQuery()"
-          class="search-clear-button"
-        ></ion-icon>
+      <ion-searchbar class="album-search" placeholder="Search for country" v-model="searchQuery" @ionInput="handleSearch()">
+        <ion-icon name="close-circle" slot="end" @click="clearSearchQuery()" class="search-clear-button"></ion-icon>
       </ion-searchbar>
-      <ul class="filtered-countries" v-if="searchResult.length > 0">
-        <li
-          v-for="country in searchResult"
-          :key="country.name"
-          @click="manageSearch(country)"
-        >
-          {{ country.name }}
-        </li>
-      </ul>
+
       <IKUpload
         :tags="['tag1', 'tag2']"
         :responseFields="['tags']"
@@ -37,6 +19,11 @@
       <p v-if="progress">Progress: {{ progress }}%</p>
       <p v-if="uploadErr">Something went wrong!</p>
     </form>
+    <ul class="filtered-countries" v-if="searchResult.length > 0">
+      <li v-for="country in searchResult" :key="country.name" @click="manageSearch(country)">
+        {{ country.name }}
+      </li>
+    </ul>
   </ion-content>
 
   <!-- Toolbar -->
@@ -45,9 +32,7 @@
       <ion-button color="medium" @click="cancel">Cancel</ion-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button @click="confirm" :strong="true" :disabled="!newURL"
-        >Upload
-      </ion-button>
+      <ion-button @click="confirm" :strong="true" :disabled="!newURL">Upload </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </template>
@@ -75,14 +60,13 @@ export default defineComponent({
       const updatedUser = { ...this.userInfo };
 
       updatedUser.albums.push({
-        country: this.album.length > 0 ? this.album : "All",
+        country: this.searchQuery.length > 0 ? this.searchQuery : "All",
         url: this.newURL,
       });
 
       this.patchUserInfo(updatedUser)
         .then((res: any) => {
           this.store.commit("setUserInfo", res.data.user);
-
           modalController.dismiss(null, "confirm");
         })
         .catch((err) => {
@@ -92,6 +76,7 @@ export default defineComponent({
             this.uploadErr = false;
           }, 5000);
         });
+      //reload the album
     },
     onSuccess(res: any) {
       this.newURL = res.url;
@@ -108,16 +93,12 @@ export default defineComponent({
       }, 5000);
     },
     patchUserInfo(update: object) {
-      return axios.patch(
-        `https://travel-app-api-8nj9.onrender.com/api/users/${this.userInfo._id}`,
-        update
-      );
+      return axios.patch(`https://travel-app-api-8nj9.onrender.com/api/users/${this.userInfo._id}`, update);
     },
     handleSearch() {
       if (this.searchQuery === "") {
         this.searchResult = [];
       } else {
-        console.log(this.searchQuery);
         this.searchResult = this.filteredCountries;
       }
     },
@@ -139,24 +120,14 @@ export default defineComponent({
       return this.getUserInfo;
     },
     filteredCountries() {
-      return this.countriesArr.filter((country: any) =>
-        country.name.toLowerCase().includes(this.searchQuery.toLowerCase())
-      );
+      return this.countriesArr.filter((country: any) => country.name.toLowerCase().includes(this.searchQuery.toLowerCase()));
     },
   },
 });
 </script>
 
 <script lang="ts" setup>
-import {
-  IonContent,
-  IonHeader,
-  IonToolbar,
-  IonButtons,
-  IonButton,
-  IonInput,
-  modalController,
-} from "@ionic/vue";
+import { IonContent, IonSearchbar, IonHeader, IonToolbar, IonButtons, IonButton, IonInput, modalController } from "@ionic/vue";
 import { defineComponent, ref } from "vue";
 import { IKUpload } from "imagekit-vue3";
 
@@ -169,20 +140,24 @@ const cancel = () => modalController.dismiss(null, "cancel");
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   height: 100%;
+}
+.img-upload-form > * {
+  margin: 1rem;
 }
 .filtered-countries {
   background-color: rgba(0, 0, 0, 0.7);
+  color: white;
   border-radius: 10px;
   padding: 10px;
   width: 75%;
-  float: right;
   list-style-type: none;
   z-index: 4;
   position: absolute;
-  top: 40px;
-  left: 20%;
+  top: 70px;
+  left: 80px;
+  max-height: 40%;
+  overflow-y: scroll;
 }
 .filtered-countries li {
   cursor: pointer;
