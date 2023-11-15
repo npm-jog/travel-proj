@@ -1,7 +1,5 @@
 import { createRouter, createWebHistory } from "@ionic/vue-router";
 import { RouteRecordRaw } from "vue-router";
-import MapPage from "@/views/MapPage.vue";
-import CountryPage from "@/views/CountryPage.vue";
 import MyGalleryPage from "@/views/MyGalleryPage.vue";
 
 const routes: Array<RouteRecordRaw> = [
@@ -19,12 +17,12 @@ const routes: Array<RouteRecordRaw> = [
 	},
 	{
 		path: "/home",
-		component: MapPage,
 		name: "home",
+		component: () => import("@/views/MapPage.vue"),
 	},
 	{
 		path: "/country/:country",
-		component: CountryPage,
+		component: () => import("@/views/CountryPage.vue"),
 	},
 	{
 		path: "/wishlist",
@@ -44,7 +42,7 @@ const routes: Array<RouteRecordRaw> = [
 	},
 	{
 		path: "/mygalleries/:country",
-		component: MyGalleryPage,
+		component: () => import("@/views/MyGalleryPage.vue"),
 	},
 ];
 

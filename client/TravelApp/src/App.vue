@@ -1,7 +1,20 @@
 <template>
 	<ion-app>
-		<side-menu />
-		<nav-bar />
+		<template v-if="!user">
+			<LoginPage />
+		</template>
+		<template v-else-if="!userRetrieved && user">
+			<ion-loading
+				isOpen="user"
+				message="Loading..."
+				spinner="circles"
+			></ion-loading>
+		</template>
+
+		<template v-else>
+			<side-menu />
+			<nav-bar />
+
 
 		<ion-router-outlet id="main-content" />
 	</ion-app>
@@ -9,8 +22,8 @@
 
 <script lang="ts">
 	import { useAuth0 } from "@auth0/auth0-vue";
-	import { IonApp, IonRouterOutlet } from "@ionic/vue";
-	import { defineComponent, ref, watchEffect, toRaw } from "vue";
+	import { IonApp, IonRouterOutlet, IonLoading } from "@ionic/vue";
+	import { defineComponent, ref, watchEffect, toRaw, reactive } from "vue";
 	import { App as CapApp } from "@capacitor/app";
 	import { Browser } from "@capacitor/browser";
 	import { useStore } from "vuex";
@@ -21,6 +34,8 @@
 		components: {
 			IonApp,
 			IonRouterOutlet,
+			LoginPage,
+			IonLoading,
 		},
 		setup() {
 			const { handleRedirectCallback, user, isLoading } = useAuth0();
@@ -37,6 +52,16 @@
 				// No-op on Android
 				await Browser.close();
 			});
+
+			// watching for user information being retrieved from our database
+			watchEffect(() => {
+				if (store.state.userInfo) {
+					setTimeout(() => {
+						userRetrieved.value = true;
+					}, 1000);
+				}
+			});
+
 
 			// Use watchEffect to observe changes in user and isLoading
 			watchEffect(() => {
