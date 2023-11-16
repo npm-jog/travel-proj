@@ -34,7 +34,6 @@ import axios from "axios";
 import { mapGetters } from "vuex";
 
 const openModal = async (marker: any, picsArray: any) => {
-  console.log(marker);
   const modal = await modalController.create({
     component: MapModal,
     componentProps: { marker, picsArray },
@@ -50,7 +49,6 @@ const fetchCarouselPictures = async (country: any) => {
     data.images.forEach(({ src }: any) => {
       picsArray.push(src.large);
       if (picsArray.length === data.images.length) {
-        console.log(picsArray);
         openModal(country, picsArray);
       }
     });
@@ -87,13 +85,15 @@ export default defineComponent({
   },
   methods: {
     awaitUserInfo() {
-      console.log("userInfo loaded, creating new map");
-      nextTick(() => {
-        this.createMap();
-      });
+      //nextTick(() => {
+      this.createMap();
+      //});
     },
     async createMap() {
       if (!this.$refs.mapRef) return;
+      if (this.newMap) {
+        await this.newMap.destroy();
+      }
       this.newMap = await GoogleMap.create({
         id: "Travel-Map",
         element: this.$refs.mapRef as HTMLElement,
@@ -103,19 +103,29 @@ export default defineComponent({
             lat: 54,
             lng: -2,
           },
-          zoom: 6,
+          zoom: 3,
         },
       });
 
       initCountry();
+      console.log("polygon length, countries length", polygons.length, countriesList.length);
 
       await this.newMap.addMarkers(this.createMarkerData(toRaw(this.countriesArr)));
-      await this.newMap.setOnMarkerClickListener(async (marker: any) => {
-        fetchCarouselPictures(marker.title);
-      });
       await this.newMap.addPolygons(polygons);
+      let polygonClickTimer: any = null;
+
       await this.newMap.setOnPolygonClickListener(async (polygon: any) => {
-        fetchCarouselPictures(countriesList[Number(polygon.polygonId)]);
+        if (polygonClickTimer) {
+          clearTimeout(polygonClickTimer);
+          polygonClickTimer = null;
+        }
+
+        polygonClickTimer = setTimeout(async () => {
+          clearTimeout(polygonClickTimer);
+          polygonClickTimer = null;
+
+          fetchCarouselPictures(countriesList[Number(polygon.polygonId) % 249]);
+        }, 200);
       });
       // Get the bounds after the map is fully loaded
       google.maps.event.addListenerOnce(this.newMap, "idle", () => {
@@ -166,13 +176,11 @@ export default defineComponent({
     },
   },
   mounted() {
-    //to remove when done
     const mapElements = document.getElementsByClassName("mapppp")[0];
     mapElements.classList.remove("ion-page-invisible");
-    console.log("map", mapElements);
-    nextTick(() => {
-      this.createMap();
-    });
+    // nextTick(() => {
+    this.createMap();
+    // });
   },
 });
 </script>
