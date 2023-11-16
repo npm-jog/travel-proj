@@ -1,26 +1,18 @@
 <template>
 	<ion-button
-		class="wishlist-button"
-		v-if="!inWishlist"
+		class="visited-button add-button"
+		v-if="!inVisited"
 		color="success"
-		@click="addToWishlist"
-		>+ wishlist
-		<ion-icon
-			slot="end"
-			icon="flag"
-		></ion-icon
-	></ion-button>
+		@click="addTovisited"
+		>+ visited
+	</ion-button>
 	<ion-button
-		class="wishlist-button remove-button"
+		class="visited-button remove-button"
 		color="danger"
 		v-else
-		@click="removeFromWishlist"
-		>- wishlist
-		<ion-icon
-			slot="end"
-			icon="flag"
-		></ion-icon
-	></ion-button>
+		@click="removeFromvisited"
+		>- visited</ion-button
+	>
 </template>
 
 <script lang="ts">
@@ -38,7 +30,7 @@
 			return {
 				store: useStore(),
 				flag,
-				inWishlist: false,
+				inVisited: false,
 			};
 		},
 		components: {
@@ -46,41 +38,38 @@
 			IonIcon,
 		},
 		methods: {
-			addToWishlist() {
+			addTovisited() {
 				console.log(this.country);
 				const updatedUser = { ...this.userInfo };
 
-				updatedUser.wishlist.push(this.country);
+				updatedUser.visited_locations.push(this.country);
 
 				this.patchUserInfo(updatedUser)
 					.then((res: any) => {
 						this.store.commit("setUserInfo", res.data.user);
-						this.checkWishlist();
+						this.checkVisited();
 					})
 					.catch((err) => {
 						console.log(err);
 					});
-				//reload the album
 			},
-			removeFromWishlist() {
+			removeFromvisited() {
 				console.log(this.country);
 				const updatedUser = { ...this.userInfo };
-				const index = updatedUser.wishlist.indexOf(this.country);
+				const index = updatedUser.visited_locations.indexOf(this.country);
 
 				if (index !== -1) {
-					// Remove the country using splice
-					updatedUser.wishlist.splice(index, 1);
+					updatedUser.visited_locations.splice(index, 1);
 				}
 
 				this.patchUserInfo(updatedUser)
 					.then((res: any) => {
 						this.store.commit("setUserInfo", res.data.user);
-						this.checkWishlist();
+						this.checkVisited();
 					})
 					.catch((err) => {
 						console.log(err);
 					});
-				//reload the album
 			},
 			patchUserInfo(update: object) {
 				return axios.patch(
@@ -88,19 +77,19 @@
 					update
 				);
 			},
-			checkWishlist() {
-				if (this.userInfo.wishlist.includes(this.country)) {
-					this.inWishlist = true;
+			checkVisited() {
+				if (this.userInfo.visited_locations.includes(this.country)) {
+					this.inVisited = true;
 				} else {
-					this.inWishlist = false;
+					this.inVisited = false;
 				}
 			},
 		},
 		mounted() {
-			this.checkWishlist();
+			this.checkVisited();
 		},
 		watch: {
-			userInfo: "checkWishlist",
+			userInfo: "checkVisited",
 		},
 		computed: {
 			// Use mapGetters to access the getUser getter from the store
@@ -115,7 +104,7 @@
 </script>
 
 <style scoped>
-	.wishlist-button {
+	.visited-button {
 		width: 50%;
 	}
 </style>

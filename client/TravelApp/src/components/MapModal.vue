@@ -33,6 +33,7 @@ import Carousel from "../components/Carousel.vue";
 import WishlistButton from "../components/WishlistButton.vue";
 import { defineComponent } from "vue";
 
+
 const props = defineProps<{
   marker: any;
   picsArray: any;
@@ -59,8 +60,14 @@ const close = () => modalController.dismiss(null, "close");
   margin-top: 200px;
 }
 
-.carouselPic {
-  height: 400px;
-  width: 300px;
-}
+	.carouselPic {
+		height: 400px;
+		width: 300px;
+	}
+
+	.list-buttons {
+		display: flex;
+		width: 100%;
+	}
+
 </style>
