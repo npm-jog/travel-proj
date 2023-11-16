@@ -71,7 +71,6 @@
 		IonModal,
 		modalController,
 	} from "@ionic/vue";
-	import { toggle } from "ionicons/icons";
 	import ReviewModal from "../components/ReviewModal.vue";
 	import QuestionsModal from "../components/QuestionsModal.vue";
 	import AnswersModal from "@/components/AnswersModal.vue";
@@ -84,23 +83,18 @@
 
 	import * as countriesData from "../../countryData";
 
-	//const currentCountry = splitURL[splitURL.length - 1]
-	const foundCountry = countriesData.jsonData.find((countryData: any) => {
-		return countryData.country === "Spain";
-	});
-	//
 	export default defineComponent({
 		data() {
 			return {
 				currentCountry: this.$route.params.country,
-
+				countryData: {} as any,
 				message: ref(
 					"this modal example uses the modalController to present and dismiss modals"
 				),
 				holidays: [] as string[],
 				reviewsArray: ref([]),
 				questionsArray: ref([]),
-				picsArray: [],
+				picsArray: [] as any,
 				safetyData: { message: "" },
 				temp: "",
 				condition: "",
@@ -116,6 +110,11 @@
 					},
 				});
 				modal.present();
+			},
+			setCountry() {
+				this.countryData = countriesData.jsonData.find((countryData: any) => {
+					return countryData.country === this.currentCountry;
+				});
 			},
 			async openQuestionsModal() {
 				const modal = await modalController.create({
@@ -134,12 +133,11 @@
 						"https://travel-app-api-8nj9.onrender.com/api/country_data/public_holidays",
 						{
 							params: {
-								country_code: foundCountry?.iso,
+								country_code: this.countryData?.iso,
 								year: currentYear,
 							},
 						}
 					);
-					console.log("getHolidays DATA: " + data);
 					return data.publicHolidays;
 				} catch (err) {}
 			},
@@ -147,11 +145,9 @@
 				// safety info
 				try {
 					const { data } = await axios.get(
-						`https://travel-app-api-8nj9.onrender.com/api/country_data/country_safety/${foundCountry?.iso}`
+						`https://travel-app-api-8nj9.onrender.com/api/country_data/country_safety/${this.countryData?.iso}`
 					);
-					console.log(data);
 					this.safetyData = data.safetyData;
-					console.log("safety data: " + this.safetyData);
 				} catch (err) {}
 
 				try {
@@ -164,7 +160,7 @@
 				} catch (err) {}
 				try {
 					const { data } = await axios.get(
-						`https://travel-app-api-8nj9.onrender.com/api/country_data/weather/${foundCountry?.capital}`
+						`https://travel-app-api-8nj9.onrender.com/api/country_data/weather/${this.countryData?.capital}`
 					);
 					const weatherData = data.weather.weather;
 					this.temp = weatherData.temp_c;
@@ -173,9 +169,9 @@
 			},
 		},
 		mounted() {
+			this.setCountry();
 			this.getAllData();
 			this.getHolidays().then((returnedHolidays: object[]) => {
-				console.log(foundCountry);
 				returnedHolidays.forEach((holiday: any) => {
 					this.holidays.push(`${holiday.date} ${holiday.name}`);
 				});
