@@ -135,12 +135,13 @@ export default defineComponent({
           costTotal += Number(review.ratings.cost);
           sceneryTotal += Number(review.ratings.scenery);
         });
-
-        this.averageReviews.safety = Math.floor(Number(safetyTotal / totalReview) * 10) / 10;
-        this.averageReviews.food = Math.floor(Number(foodTotal / totalReview) * 10) / 10;
-        this.averageReviews.activities = Math.floor(Number(activitiesTotal / totalReview) * 10) / 10;
-        this.averageReviews.cost = Math.floor(Number(costTotal / totalReview) * 10) / 10;
-        this.averageReviews.scenery = Math.floor(Number(sceneryTotal / totalReview) * 10) / 10;
+        if (totalReview !== 0) {
+          this.averageReviews.safety = Math.floor(Number(safetyTotal / totalReview) * 10) / 10;
+          this.averageReviews.food = Math.floor(Number(foodTotal / totalReview) * 10) / 10;
+          this.averageReviews.activities = Math.floor(Number(activitiesTotal / totalReview) * 10) / 10;
+          this.averageReviews.cost = Math.floor(Number(costTotal / totalReview) * 10) / 10;
+          this.averageReviews.scenery = Math.floor(Number(sceneryTotal / totalReview) * 10) / 10;
+        }
       } catch (err) {}
     },
     async getHolidays() {
