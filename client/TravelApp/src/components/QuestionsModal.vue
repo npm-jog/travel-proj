@@ -101,7 +101,7 @@ async function getQuestions() {
   try {
     const { data } = await axios.get("https://travel-app-api-8nj9.onrender.com/api/questions?country=Italy");
     console.log(data.questions) 
-    data.questions.forEach((question) => {
+    data.questions.forEach((question: any) => {
       const dateString = question.created_at;
       const dateObject = new Date(dateString);
 
