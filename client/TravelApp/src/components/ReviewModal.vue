@@ -78,8 +78,8 @@ import {
 } from "@ionic/vue";
 import { DefineComponent, reactive, ref, defineProps } from "vue";
 import axios from "axios";
+import { useStore } from "vuex";
 let { reviewsArray } = defineProps(["reviewsArray"]);
-console.log(reviewsArray, "this is props");
 
 const name = ref();
 const state = reactive({
@@ -89,6 +89,7 @@ const state = reactive({
 const currentUrl = window.location.href;
 const splitURL = currentUrl.split("/");
 const currentCountry = splitURL[splitURL.length - 1];
+const store = useStore();
 
 const cancel = () => modalController.dismiss(null, "cancel");
 
@@ -119,7 +120,7 @@ const confirm = async () => {
     ratings[metric.name.toLowerCase()] = metric.rating.value;
   });
   const reviewData = {
-    username: "James",
+    username: store.state.userInfo.username,
     body: state.reviewText,
     ratings: ratings,
     pictures: [],
