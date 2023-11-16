@@ -2,10 +2,14 @@ import { jsonData } from "./countryData";
 import { Polygon } from "@capacitor/google-maps";
 import store from "../TravelApp/src/components/store";
 
-export const polygons: Polygon[] = [];
-export const countriesList: string[] = [];
+export let polygons: Polygon[] = [];
+export let countriesList: string[] = [];
 
 export function initCountry() {
+  // Reset arrays at the beginning
+  polygons = [];
+  countriesList = [];
+
   jsonData.forEach((country) => {
     let countryCoords: any[];
     let ca: string[];
@@ -60,6 +64,6 @@ function createCountry(coords: any, country: any) {
     });
   }
 
-  polygons.push(polygon);
   countriesList.push(country.country);
+  polygons.push(polygon);
 }
