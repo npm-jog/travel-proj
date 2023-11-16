@@ -10,9 +10,6 @@
         v-for="comment in commentsArray"
         :key="comment.id">
         <ion-card-content>
-          <ion-avatar slot="start">
-            <ion-img :src="comment.userAvatar" alt="User Avatar"></ion-img>
-          </ion-avatar>
           <ion-card-title>{{ comment.username }}</ion-card-title>
           <ion-card-subtitle>{{ comment.created_at }}</ion-card-subtitle>
           <p>{{ comment.body }}</p>
@@ -27,7 +24,7 @@
         label-placement="stacked"
         label=""
         type: any ="review"
-        placeholder="Write your review here:">
+        placeholder="Write your answer here:">
       </ion-input>
     </ion-item>
   </form>
@@ -87,6 +84,16 @@ async function getComments(){
     props.commentsArray.length = 0;
     const { data } = await axios.get(`https://travel-app-api-8nj9.onrender.com/api/questions/${props.questionId}/comments`);
     data.comments.forEach((comment) => {
+      const dateString = comment.created_at;
+      const dateObject = new Date(dateString);
+
+      const day = dateObject.getDay();
+const month = dateObject.getMonth() + 1; // Months are zero-indexed, so add 1
+const year = dateObject.getFullYear();
+
+const formattedDate = `The ${day} / ${month} / ${year}`;
+comment.created_at = formattedDate;
+
       props.commentsArray.push(comment);
      });
     //console.log(commentsArray)
