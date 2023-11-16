@@ -10,18 +10,10 @@
         v-for="question in questionsArray"
         :key="question.id">
         <ion-card-content test="test" :questionId=question._id>
-          <ion-avatar slot="start">
-            <ion-img :src="question.userAvatar" alt="User Avatar"></ion-img>
-          </ion-avatar>
-          <ion-card-title>{{ question.username }} <span>{{question.created_at}}</span></ion-card-title>
+          <ion-card-title>{{ question.username }} </ion-card-title>
+          <!-- <ion-card-subtitle>{{ question.created_at }}</ion-card-subtitle> -->
           <ion-card-subtitle>About {{ question.topic }}</ion-card-subtitle>
           <p>{{ question.body }}</p>
-          <p display="hidden">{{ question._id }}</p>
-
-          <!-- Reply Button -->
-          <!-- <ion-button @click="toggleReplyForm(question.id)" expand="full">
-            Reply
-          </ion-button> -->
 
           <ion-button @click="openSecondModal(question._id, question.body)" expand="full">
             See responses
@@ -110,6 +102,15 @@ async function getQuestions() {
     const { data } = await axios.get("https://travel-app-api-8nj9.onrender.com/api/questions?country=Italy");
     console.log(data.questions) 
     data.questions.forEach((question) => {
+      const dateString = question.created_at;
+      const dateObject = new Date(dateString);
+
+      const day = dateObject.getDay();
+      const month = dateObject.getMonth() + 1; // Months are zero-indexed, so add 1
+        const year = dateObject.getFullYear();
+
+      const formattedDate = `The ${day} / ${month} / ${year}`;
+      question.created_at = formattedDate;
       questionsArray.push(question);
     });
     console.log(questionsArray)

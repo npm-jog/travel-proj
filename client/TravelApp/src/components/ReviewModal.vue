@@ -23,14 +23,8 @@
 
   <ion-content>
     <div class="dummy-reviews">
-      <ion-card
-        class="review-card"
-        v-for="review in reviewsArray"
-        :key="review.id">
+      <ion-card class="review-card" v-for="review in reviewsArray" :key="review.id">
         <ion-card-content>
-          <ion-avatar slot="start">
-            <ion-img :src="review.userAvatar" alt="User Avatar"></ion-img>
-          </ion-avatar>
           <ion-card-title>{{ review.username }}</ion-card-title>
           <ion-card-subtitle>{{ review.date }}</ion-card-subtitle>
           <p>{{ review.body }}</p>
@@ -52,7 +46,8 @@
             :class="{
               highlighted: star <= metric.rating.value && metric.highlighted,
             }"
-            @click="rateCountry(metric, star)">
+            @click="rateCountry(metric, star)"
+          >
             &#9733;
           </span>
         </div>
@@ -63,12 +58,7 @@
   <ion-toolbar>
     <form class="Review form">
       <ion-item class="userRev">
-        <ion-input
-          v-model="state.reviewText"
-          label-placement="stacked"
-          label=""
-          type="text"
-          placeholder="Write your review here:"></ion-input>
+        <ion-input v-model="state.reviewText" label-placement="stacked" label="" type="text" placeholder="Write your review here:"></ion-input>
       </ion-item>
     </form>
     <ion-buttons slot="start">
@@ -116,9 +106,7 @@ const cancel = () => modalController.dismiss(null, "cancel");
 
 async function getReviews() {
   try {
-    const { data } = await axios.get(
-      "https://travel-app-api-8nj9.onrender.com/api/reviews/Spain"
-    );
+    const { data } = await axios.get("https://travel-app-api-8nj9.onrender.com/api/reviews/Spain");
     console.log(data);
     if (reviewsArray.length) {
       reviewsArray.length = 0;
@@ -154,10 +142,7 @@ const confirm = async () => {
     reported_count: 0,
   };
   try {
-    const reviews = await axios.post(
-      "https://travel-app-api-8nj9.onrender.com/api/reviews/Spain",
-      reviewData
-    );
+    const reviews = await axios.post("https://travel-app-api-8nj9.onrender.com/api/reviews/Spain", reviewData);
     console.log(reviews);
     getReviews();
     await modalController.dismiss();

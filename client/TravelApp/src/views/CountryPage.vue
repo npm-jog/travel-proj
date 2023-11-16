@@ -5,7 +5,7 @@
     <ion-content :fullscreen="true" id="main-content">
       <main>
         <div class="title-div center">
-          <h1>Country Name Here</h1>
+          <h1>{{ currentCountry }}</h1>
         </div>
         <Carousel :pics="picsArray" />
         <div class="buttons-container">
@@ -16,7 +16,6 @@
             <ion-button class="questions-button" @click="openQuestionsModal">View questions</ion-button>
           </div>
         </div>
-        <div class="rating-wishlist-div center"></div>
         <div class="country-info-container axios-content">
           <h2 class="country-info-header">Country info</h2>
           <p class="country-info">
@@ -25,17 +24,17 @@
           </p>
         </div>
         <br />
-        <div class="public-holidays-div center axios-content">
-          <h2>Public Holidays</h2>
-          <div v-for="(holiday, index) in holidays" :key="index">
-            {{ holiday }}
-          </div>
-        </div>
         <div class="weather-container axios-content">
           <h2 class="country-info-header">Current Weather</h2>
           <p class="temp">
             {{ currentCountry }}s current weather condition is {{ condition.toLowerCase() }} with a temperature of {{ temp }} degrees celcius.
           </p>
+        </div>
+        <div class="public-holidays-div center axios-content">
+          <h2>Public Holidays</h2>
+          <div class="public-info">
+            <p v-for="(holiday, index) in holidays" :key="index">{{ holiday }}</p>
+          </div>
         </div>
       </main>
     </ion-content>
@@ -43,127 +42,108 @@
 </template>
 
 <script lang="ts">
-	import Vue, { ref, defineComponent, VueElement, reactive } from "vue";
-	import {
-		IonPage,
-		IonContent,
-		IonButton,
-		IonModal,
-		modalController,
-	} from "@ionic/vue";
-	import { toggle } from "ionicons/icons";
-	import ReviewModal from "../components/ReviewModal.vue";
-	import QuestionsModal from "../components/QuestionsModal.vue";
-	import AnswersModal from "@/components/AnswersModal.vue";
-	import router from "@/router";
-	import axios from "axios";
-
+import Vue, { ref, defineComponent, VueElement, reactive } from "vue";
+import { IonPage, IonContent, IonButton, IonModal, modalController } from "@ionic/vue";
+import { toggle } from "ionicons/icons";
+import ReviewModal from "../components/ReviewModal.vue";
+import QuestionsModal from "../components/QuestionsModal.vue";
+import AnswersModal from "@/components/AnswersModal.vue";
+import router from "@/router";
+import axios from "axios";
 
 import { mapGetters } from "vuex";
 
 import * as countriesData from "../../countryData";
 
-	//const currentCountry = splitURL[splitURL.length - 1]
-	const foundCountry = countriesData.jsonData.find((countryData: any) => {
-		return countryData.country === "Spain";
-	});
-	//
-	export default defineComponent({
-		data() {
-			return {
-				currentCountry: this.$route.params.country,
+//const currentCountry = splitURL[splitURL.length - 1]
+const foundCountry = countriesData.jsonData.find((countryData: any) => {
+  return countryData.country === "Spain";
+});
+//
+export default defineComponent({
+  data() {
+    return {
+      currentCountry: this.$route.params.country,
 
-				message: ref(
-					"this modal example uses the modalController to present and dismiss modals"
-				),
-				holidays: [] as string[],
-				reviewsArray: ref([]),
-				questionsArray: ref([]),
-				picsArray: [],
-				safetyData: { message: "" },
-				temp: "",
-				condition: "",
-				commentsArray: ref([]),
-			};
-		},
-		methods: {
-			async openModal() {
-				const modal = await modalController.create({
-					component: ReviewModal,
-					componentProps: {
-						reviewsArray: this.reviewsArray,
-					},
-				});
-				modal.present();
-			},
-			async openQuestionsModal() {
-				const modal = await modalController.create({
-					component: QuestionsModal,
-					componentProps: {
-						questionsArray: this.questionsArray,
-						commentsArray: this.commentsArray,
-					},
-				});
-				modal.present();
-			},
-			async getHolidays() {
-				try {
-					const currentYear = new Date().getFullYear();
-					const { data } = await axios.get(
-						"https://travel-app-api-8nj9.onrender.com/api/country_data/public_holidays",
-						{
-							params: {
-								country_code: foundCountry?.iso,
-								year: currentYear,
-							},
-						}
-					);
-					console.log("getHolidays DATA: " + data);
-					return data.publicHolidays;
-				} catch (err) {}
-			},
-			async getAllData() {
-				// safety info
-				try {
-					const { data } = await axios.get(
-						`https://travel-app-api-8nj9.onrender.com/api/country_data/country_safety/${foundCountry?.iso}`
-					);
-					console.log(data);
-					this.safetyData = data.safetyData;
-					console.log("safety data: " + this.safetyData);
-				} catch (err) {}
+      message: ref("this modal example uses the modalController to present and dismiss modals"),
+      holidays: [] as string[],
+      reviewsArray: ref([]),
+      questionsArray: ref([]),
+      picsArray: [],
+      safetyData: { message: "" },
+      temp: "",
+      condition: "",
+      commentsArray: ref([]),
+    };
+  },
+  methods: {
+    async openModal() {
+      const modal = await modalController.create({
+        component: ReviewModal,
+        componentProps: {
+          reviewsArray: this.reviewsArray,
+        },
+      });
+      modal.present();
+    },
+    async openQuestionsModal() {
+      const modal = await modalController.create({
+        component: QuestionsModal,
+        componentProps: {
+          questionsArray: this.questionsArray,
+          commentsArray: this.commentsArray,
+        },
+      });
+      modal.present();
+    },
+    async getHolidays() {
+      try {
+        const currentYear = new Date().getFullYear();
+        const { data } = await axios.get("https://travel-app-api-8nj9.onrender.com/api/country_data/public_holidays", {
+          params: {
+            country_code: foundCountry?.iso,
+            year: currentYear,
+          },
+        });
+        console.log("getHolidays DATA: " + data);
+        return data.publicHolidays;
+      } catch (err) {}
+    },
+    async getAllData() {
+      // safety info
+      try {
+        const { data } = await axios.get(`https://travel-app-api-8nj9.onrender.com/api/country_data/country_safety/${foundCountry?.iso}`);
+        console.log(data);
+        this.safetyData = data.safetyData;
+        console.log("safety data: " + this.safetyData);
+      } catch (err) {}
 
-				try {
-					const { data } = await axios.get(
-						`https://travel-app-api-8nj9.onrender.com/api/country_data/images/${this.currentCountry}`
-					);
-					data.images.forEach(({ src }: any) => {
-						this.picsArray.push(src.medium);
-					});
-				} catch (err) {}
-				try {
-					const { data } = await axios.get(
-						`https://travel-app-api-8nj9.onrender.com/api/country_data/weather/${foundCountry?.capital}`
-					);
-					const weatherData = data.weather.weather;
-					this.temp = weatherData.temp_c;
-					this.condition = weatherData.condition;
-				} catch (err) {}
-			},
-		},
-		mounted() {
-			this.getAllData();
-			this.getHolidays().then((returnedHolidays: object[]) => {
-				console.log(foundCountry);
-				returnedHolidays.forEach((holiday: any) => {
-					this.holidays.push(`${holiday.date} ${holiday.name}`);
-				});
-			});
-		},
-		computed: {
-			// Use mapGetters to access the getUser getter from the store
-			...mapGetters(["getUserInfo"]),
-
+      try {
+        const { data } = await axios.get(`https://travel-app-api-8nj9.onrender.com/api/country_data/images/${this.currentCountry}`);
+        data.images.forEach(({ src }: any) => {
+          this.picsArray.push(src.medium);
+        });
+      } catch (err) {}
+      try {
+        const { data } = await axios.get(`https://travel-app-api-8nj9.onrender.com/api/country_data/weather/${foundCountry?.capital}`);
+        const weatherData = data.weather.weather;
+        this.temp = weatherData.temp_c;
+        this.condition = weatherData.condition;
+      } catch (err) {}
+    },
+  },
+  mounted() {
+    this.getAllData();
+    this.getHolidays().then((returnedHolidays: object[]) => {
+      console.log(foundCountry);
+      returnedHolidays.forEach((holiday: any) => {
+        this.holidays.push(`${holiday.date} ${holiday.name}`);
+      });
+    });
+  },
+  computed: {
+    // Use mapGetters to access the getUser getter from the store
+    ...mapGetters(["getUserInfo"]),
 
     // Use a computed property to get the user from the store
     userInfo() {
@@ -235,12 +215,16 @@ main {
   display: grid;
   grid-gap: 1rem;
   grid-template-columns: 100%;
-  grid-template-rows: 4rem 19rem 5rem 4rem 4rem;
+  grid-template-rows: 4rem 15rem 5rem 2rem 2rem;
   height: 90vh;
   height: 90dvh;
 }
 * {
   box-sizing: border-box;
+}
+.title-div {
+  justify-self: center;
+  align-self: center;
 }
 
 .review-button {
@@ -250,28 +234,42 @@ main {
 }
 
 .questions-button {
-  grid-column: 4/5;
   margin-top: 0.2vh;
   width: 80vw;
   height: 2vh;
 }
 
 .country-info-container {
-  margin-bottom: 4vh;
-  padding-bottom: 3vh;
+  margin-top: 15px;
+  justify-self: center;
+  align-self: center;
+}
+.country-info-header {
+  text-align: center;
+  padding-top: 20px;
+}
+.country-info {
+  width: 80%;
+  margin: 0 auto;
+}
+.public-holidays-div {
+  justify-self: center;
+  align-self: center;
+}
+.public-holidays-div > h2 {
+  text-align: center;
+}
+.weather-container > p {
+  width: 80%;
+  margin: 0 auto;
 }
 
 .buttons-container {
-  margin-top: 300px;
+  justify-self: center;
+  align-self: center;
 }
-
-.carouselContainer {
-  height: 25%;
-  margin-top: 200px;
-}
-
-.carouselPic {
-  height: 400px;
-  width: 300px;
+.public-info {
+  max-height: 300px;
+  overflow-y: scroll;
 }
 </style>
