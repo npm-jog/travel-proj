@@ -1,5 +1,6 @@
 <template>
 	<ion-button
+		class="wishlist-button"
 		v-if="!inWishlist"
 		@click="addToWishlist"
 		>Add to wishlist
@@ -9,6 +10,7 @@
 		></ion-icon
 	></ion-button>
 	<ion-button
+		class="wishlist-button"
 		v-else
 		@click="removeFromWishlist"
 		>Remove from wishlist
@@ -109,3 +111,9 @@
 		},
 	});
 </script>
+
+<style scoped>
+	.wishlist-button {
+		width: 100%;
+	}
+</style>
