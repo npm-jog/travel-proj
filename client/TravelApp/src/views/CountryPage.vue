@@ -12,18 +12,23 @@
 				</div>
 				<Carousel :pics="picsArray" />
 				<div class="buttons-container">
-					<WishlistButton :country="currentCountry" />
-					<ion-button
-						class="review-button"
-						@click="openModal"
-						>Reviews</ion-button
-					>
+					<div class="list-buttons">
+						<VisitedButton :country="currentCountry" />
+						<WishlistButton :country="currentCountry" />
+					</div>
+					<div class="list-buttons">
+						<ion-button
+							class="review-button"
+							@click="openModal"
+							>Reviews</ion-button
+						>
 
-					<ion-button
-						class="questions-button"
-						@click="openQuestionsModal"
-						>View questions</ion-button
-					>
+						<ion-button
+							class="questions-button"
+							@click="openQuestionsModal"
+							>Questions</ion-button
+						>
+					</div>
 				</div>
 				<div class="country-info-container axios-content">
 					<h2 class="country-info-header">Country info</h2>
@@ -73,6 +78,7 @@
 	import router from "@/router";
 	import axios from "axios";
 	import WishlistButton from "@/components/WishlistButton.vue";
+	import VisitedButton from "@/components/VisitedButton.vue";
 
 	import { mapGetters } from "vuex";
 
@@ -262,15 +268,13 @@
 	}
 
 	.review-button {
-		margin-top: 0.5vh;
-		width: 100%;
-		height: 2vh;
+		font-size: 0.8rem;
+		width: 50%;
 	}
 
 	.questions-button {
-		margin-top: 0.2vh;
-		width: 100%;
-		height: 2vh;
+		font-size: 0.8rem;
+		max-width: 50%;
 	}
 
 	.country-info-container {
@@ -310,5 +314,14 @@
 	.public-info {
 		max-height: 300px;
 		overflow-y: scroll;
+	}
+	.list-buttons {
+		display: flex;
+		width: 100%;
+	}
+
+	.buttons-container ion-button {
+		font-size: 0.8rem;
+		width: 50%;
 	}
 </style>
