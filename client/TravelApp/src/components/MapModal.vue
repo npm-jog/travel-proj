@@ -8,7 +8,10 @@
     </ion-toolbar>
   </ion-header>
   <Carousel :pics="picsArray" />
-  <WishlistButton :country="marker" />
+  <div class="list-buttons">
+    <VisitedButton :country="marker" />
+    <WishlistButton :country="marker" />
+  </div>
   <ion-button @click="navigateToGallery(marker)">Visit Gallery</ion-button>
   <ion-button @click="navigateToCountry(marker)">Visit Page</ion-button>
 </template>
@@ -17,11 +20,7 @@
 export default defineComponent({
   components: {
     WishlistButton,
-    IonButton,
-    IonHeader,
-    IonToolbar,
-    IonButtons,
-    IonTitle,
+    VisitedButton,
   },
 });
 </script>
@@ -31,8 +30,8 @@ import { IonButton, modalController, IonHeader, IonToolbar, IonButtons, IonTitle
 import { useRouter } from "vue-router";
 import Carousel from "../components/Carousel.vue";
 import WishlistButton from "../components/WishlistButton.vue";
+import VisitedButton from "@/components/VisitedButton.vue";
 import { defineComponent } from "vue";
-
 
 const props = defineProps<{
   marker: any;
@@ -60,14 +59,13 @@ const close = () => modalController.dismiss(null, "close");
   margin-top: 200px;
 }
 
-	.carouselPic {
-		height: 400px;
-		width: 300px;
-	}
+.carouselPic {
+  height: 400px;
+  width: 300px;
+}
 
-	.list-buttons {
-		display: flex;
-		width: 100%;
-	}
-
+.list-buttons {
+  display: flex;
+  width: 100%;
+}
 </style>
