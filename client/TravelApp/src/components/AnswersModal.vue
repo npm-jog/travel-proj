@@ -1,6 +1,8 @@
 <template>
-  <ion-header class="reviews-header">
+  <ion-header >
+    <div class="reviews-header">
     <h1 class="reviews-heading">{{ question }}</h1>
+    </div>
   </ion-header>
   <ion-content class="ion-padding">
     <div class="dummy-reviews">
@@ -130,15 +132,15 @@ const confirm = async () => {
 // };
 </script>
 <style scoped>
-.reviews-header {
-  display: flex;
-  justify-content: center;
-}
-
-.reviews-heading {
-}
 
 .review-card {
   margin-bottom: 5%;
+}
+
+.reviews-header {
+  box-sizing: border-box;
+  padding: 1rem;
+  font-size: 0.8rem;
+ 
 }
 </style>
