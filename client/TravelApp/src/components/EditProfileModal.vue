@@ -11,7 +11,7 @@
             label-placement="stacked"
             label="Change username"
             type: any ="review"
-            :placeholder= "[[userInfo.username]]">
+            :placeholder= "userInfo.username">
             </ion-input>
         </ion-item>
         <ion-item class="item">
@@ -21,7 +21,7 @@
             label-placement="stacked"
             label="Change forename"
             type: any ="review"
-            :placeholder="[[userInfo.forename]]">
+            :placeholder="userInfo.forename">
             </ion-input>
         </ion-item>
         <ion-item class="item">
@@ -31,7 +31,7 @@
             label-placement="stacked"
             label="Change surname"
             type: any ="review"
-            :placeholder="[[userInfo.surname]]">
+            :placeholder="userInfo.surname">
             </ion-input>
         </ion-item>
         <ion-item class="item">
