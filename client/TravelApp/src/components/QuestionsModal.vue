@@ -68,8 +68,6 @@
 import {
   IonContent,
   IonHeader,
-  IonFooter,
-  IonTitle,
   IonToolbar,
   IonButtons,
   IonButton,
@@ -77,13 +75,11 @@ import {
   IonInput,
   modalController,
   IonCard,
-  IonAvatar,
-  IonImg,
   IonCardTitle,
   IonCardSubtitle,
   IonCardContent,
 } from "@ionic/vue";
-import { defineComponent, ref, defineProps, reactive, toRaw } from "vue";
+import {  ref, defineProps, reactive } from "vue";
 import AnswersModal from "./AnswersModal.vue";
 import axios from 'axios';
 
@@ -100,7 +96,6 @@ let {questionsArray, commentsArray} = defineProps(["questionsArray", "commentsAr
 async function getQuestions() {
   try {
     const { data } = await axios.get("https://travel-app-api-8nj9.onrender.com/api/questions?country=Italy");
-    console.log(data.questions) 
     data.questions.forEach((question: any) => {
       const dateString = question.created_at;
       const dateObject = new Date(dateString);
@@ -113,13 +108,12 @@ async function getQuestions() {
       question.created_at = formattedDate;
       questionsArray.push(question);
     });
-    console.log(questionsArray)
   } catch (err) {}
 }
 getQuestions();
 
 const confirm = async () => {
-  console.log("Submit button clicked");
+
   const questionData = {
     username: "David",
     title: state.title,
@@ -128,28 +122,16 @@ const confirm = async () => {
     country: "Italy",
   };
   try {
-    const questions = await axios.post("https://travel-app-api-8nj9.onrender.com/api/questions", questionData);
-    console.log(questions);
+    await axios.post("https://travel-app-api-8nj9.onrender.com/api/questions", questionData);
     getQuestions();
     await modalController.dismiss();
   } catch (err) {}
 };
 
-// Example data
-const dummyQuestions = [
-  {
-    id: 1,
-    username: "Alice1234",
-    date: "Nov 13, 2023",
-    userAvatar: "url-to-avatar-image",
-    questionText: "What are the best places to visit in summer?",
-    showReplyForm: false,
-  },
-  // Add more dummy questions as needed
-];
+
 
 const openSecondModal = async (questionId, questionTitle) => {
-  console.log('parent here', questionId, 'logged this', questionTitle)
+  
   const secondModal = await modalController.create({
     component: AnswersModal, // Replace with the component you want for the second modal
     cssClass: "second-modal-css", // Add styling if needed

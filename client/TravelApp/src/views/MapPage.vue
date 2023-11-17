@@ -85,9 +85,9 @@ export default defineComponent({
   },
   methods: {
     awaitUserInfo() {
-      //nextTick(() => {
+    
       this.createMap();
-      //});
+      
     },
     async createMap() {
       if (!this.$refs.mapRef) return;
@@ -108,7 +108,7 @@ export default defineComponent({
       });
 
       initCountry();
-      console.log("polygon length, countries length", polygons.length, countriesList.length);
+      
 
       await this.newMap.addMarkers(this.createMarkerData(toRaw(this.countriesArr)));
       await this.newMap.addPolygons(polygons);
@@ -178,9 +178,9 @@ export default defineComponent({
   mounted() {
     const mapElements = document.getElementsByClassName("mapppp")[0];
     mapElements.classList.remove("ion-page-invisible");
-    // nextTick(() => {
+  
     this.createMap();
-    // });
+    
   },
 });
 </script>

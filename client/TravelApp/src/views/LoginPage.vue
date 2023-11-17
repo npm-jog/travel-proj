@@ -36,7 +36,6 @@
 		IonToolbar,
 		IonTitle,
 		IonContent,
-		modalController,
 	} from "@ionic/vue";
 
 	import LoginButton from "../components/LoginButton.vue";

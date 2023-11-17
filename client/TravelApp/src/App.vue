@@ -73,13 +73,10 @@
 							`https://travel-app-api-8nj9.onrender.com/api/users?email=${userTemp.email}`
 						)
 						.then((res: any) => {
-							console.log("Sucessfully found user");
 							store.commit("setUserInfo", res.data.user);
 						})
 						.catch((err: any) => {
 							if (err.response.data.msg === "User does not exist") {
-								console.log("user did not exist, posting a new user...");
-								console.log(userTemp.nickname);
 								axios
 									.post("https://travel-app-api-8nj9.onrender.com/api/users", {
 										forename: userTemp.given_name,
@@ -90,18 +87,13 @@
 											`${userTemp.given_name}${userTemp.email.slice(0, 2)}`,
 									})
 									.then((res: any) => {
-										console.log("new user posted, setting new user");
-										console.log(res.data.user);
 										store.commit("setUserInfo", res.data.user);
 									})
-									.catch((err: any) => {});
-							} else {
-								console.log("get user failed with different message: " + err);
+									.catch((err: any) => {
+										console.log(err);
+									});
 							}
 						});
-				} else {
-					// User information is not available yet
-					console.log("User information is still loading...");
 				}
 			});
 

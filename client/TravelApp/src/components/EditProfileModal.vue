@@ -109,7 +109,6 @@
 </script>
 
 <script lang="ts" setup>
-import { setupConfig } from "@ionic/core";
 import {
   IonContent,
   IonHeader,
@@ -120,7 +119,7 @@ import {
   IonInput,
   modalController,
 } from "@ionic/vue";
-import { defineComponent, ref } from "vue";
+import { defineComponent } from "vue";
 import axios from "axios";
 
 //get props
@@ -128,9 +127,9 @@ import { defineProps } from "vue";
 const props = defineProps(["question"]);
 //get props
 
-const name = ref();
+
 const cancel = () => modalController.dismiss(null, "cancel");
-const confirm = () => modalController.dismiss(name.value, "confirm");
+
 
 </script>
 <style scoped>
