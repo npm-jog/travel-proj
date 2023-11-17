@@ -68,8 +68,6 @@
 import {
   IonContent,
   IonHeader,
-  IonFooter,
-  IonTitle,
   IonToolbar,
   IonButtons,
   IonButton,
@@ -77,13 +75,11 @@ import {
   IonInput,
   modalController,
   IonCard,
-  IonAvatar,
-  IonImg,
   IonCardTitle,
   IonCardSubtitle,
   IonCardContent,
 } from "@ionic/vue";
-import { defineComponent, ref, defineProps, reactive, toRaw } from "vue";
+import {  ref, defineProps, reactive } from "vue";
 import AnswersModal from "./AnswersModal.vue";
 import axios from 'axios';
 import { useStore } from "vuex";
@@ -137,7 +133,9 @@ const confirm = async () => {
   } catch (err) {}
 };
 
+
 const openSecondModal = async (questionId, questionTitle) => {
+
   const secondModal = await modalController.create({
     component: AnswersModal, // Replace with the component you want for the second modal
     cssClass: "second-modal-css", // Add styling if needed

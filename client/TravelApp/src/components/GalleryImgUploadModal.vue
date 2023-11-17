@@ -114,13 +114,11 @@
 		IonToolbar,
 		IonButtons,
 		IonButton,
-		IonInput,
 		modalController,
 	} from "@ionic/vue";
-	import { defineComponent, ref } from "vue";
+	import { defineComponent } from "vue";
 	import { IKUpload } from "imagekit-vue3";
 
-	const request = ref();
 	const cancel = () => modalController.dismiss(null, "cancel");
 </script>
 

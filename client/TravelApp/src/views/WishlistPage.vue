@@ -41,7 +41,7 @@
 <script lang="ts">
 	import router from "@/router";
 	import { mapGetters, useStore } from "vuex";
-	import { ref, onMounted, defineProps, defineComponent } from "vue";
+	import { defineComponent } from "vue";
 	import {
 		IonPage,
 		IonContent,

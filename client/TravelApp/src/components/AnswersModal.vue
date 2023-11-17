@@ -106,6 +106,7 @@ const currentUrl = window.location.href.split('/');
 const currentCountry = currentUrl[currentUrl.length - 1]
 
 const confirm = async () => {
+
   const commentData = {
     country: currentCountry,
     username: userInfo,
@@ -113,6 +114,7 @@ const confirm = async () => {
   };
   try {
     const comment = await axios.post(`https://travel-app-api-8nj9.onrender.com/api/questions/${props.questionId}/comments`, commentData);
+
     getComments();
     await modalController.dismiss();
   } catch (err) {}

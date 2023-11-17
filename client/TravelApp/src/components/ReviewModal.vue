@@ -61,8 +61,6 @@
 import {
   IonContent,
   IonHeader,
-  IonFooter,
-  IonTitle,
   IonToolbar,
   IonButtons,
   IonButton,
@@ -70,18 +68,16 @@ import {
   IonInput,
   modalController,
   IonCard,
-  IonAvatar,
-  IonImg,
   IonCardTitle,
   IonCardSubtitle,
   IonCardContent,
 } from "@ionic/vue";
-import { DefineComponent, reactive, ref, defineProps } from "vue";
+import { reactive, ref, defineProps } from "vue";
 import axios from "axios";
 import { useStore } from "vuex";
 let { reviewsArray } = defineProps(["reviewsArray"]);
 
-const name = ref();
+
 const state = reactive({
   reviewText: "",
 });
@@ -129,7 +125,7 @@ const confirm = async () => {
   };
   try {
     const reviews = await axios.post(`https://travel-app-api-8nj9.onrender.com/api/reviews/${currentCountry}`, reviewData);
-    console.log(reviews);
+
     getReviews();
     await modalController.dismiss();
   } catch (err) {}
