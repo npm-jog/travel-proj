@@ -11,7 +11,7 @@
         :key="question.id">
         <ion-card-content test="test" :questionId=question._id>
           <ion-card-title>{{ question.username }} </ion-card-title>
-          <!-- <ion-card-subtitle>{{ question.created_at }}</ion-card-subtitle> -->
+          <ion-card-subtitle>{{ question.created_at }}</ion-card-subtitle>
           <ion-card-subtitle>About {{ question.topic }}</ion-card-subtitle>
           <p>{{ question.body }}</p>
 
@@ -82,6 +82,7 @@ import {
 import {  ref, defineProps, reactive } from "vue";
 import AnswersModal from "./AnswersModal.vue";
 import axios from 'axios';
+import { useStore } from "vuex";
 
 const name = ref();
 const cancel = () => modalController.dismiss(null, "cancel");
@@ -91,21 +92,26 @@ const state = reactive({
   topic: ''
 });
 
+const currentUrl = window.location.href;
+const splitURL = currentUrl.split("/");
+const currentCountry = splitURL[splitURL.length - 1];
+const store = useStore();
+
 let {questionsArray, commentsArray} = defineProps(["questionsArray", "commentsArray"]);
 
 async function getQuestions() {
+  questionsArray.length = 0;
   try {
-    const { data } = await axios.get("https://travel-app-api-8nj9.onrender.com/api/questions?country=Italy");
+    const { data } = await axios.get(`https://travel-app-api-8nj9.onrender.com/api/questions?country=${currentCountry}`);
     data.questions.forEach((question: any) => {
       const dateString = question.created_at;
       const dateObject = new Date(dateString);
-
       const day = dateObject.getDay();
-      const month = dateObject.getMonth() + 1; // Months are zero-indexed, so add 1
+      const month = dateObject.getMonth() + 1;
         const year = dateObject.getFullYear();
-
       const formattedDate = `The ${day} / ${month} / ${year}`;
       question.created_at = formattedDate;
+
       questionsArray.push(question);
     });
   } catch (err) {}
@@ -113,25 +119,23 @@ async function getQuestions() {
 getQuestions();
 
 const confirm = async () => {
-
   const questionData = {
-    username: "David",
+    username: store.state.userInfo.username,
     title: state.title,
     body: state.body,
     topic: state.topic,
-    country: "Italy",
+    country: currentCountry,
   };
   try {
-    await axios.post("https://travel-app-api-8nj9.onrender.com/api/questions", questionData);
+    const questions = await axios.post("https://travel-app-api-8nj9.onrender.com/api/questions", questionData);
     getQuestions();
     await modalController.dismiss();
   } catch (err) {}
 };
 
 
-
 const openSecondModal = async (questionId, questionTitle) => {
-  
+
   const secondModal = await modalController.create({
     component: AnswersModal, // Replace with the component you want for the second modal
     cssClass: "second-modal-css", // Add styling if needed
@@ -146,30 +150,12 @@ const openSecondModal = async (questionId, questionTitle) => {
   await secondModal.present();
 };
 
-/*
-          <!-- Reply Form -->
-          <form v-if="question.showReplyForm" class="Reply-form">
-            <ion-item class="userReply">
-              <ion-input
-                label-placement="stacked"
-                label=""
-                type: any = "reply"
-                placeholder="Write your question here:"></ion-input>
-            </ion-item>
-            <!--<ion-button @click="submitReply(question.id)" expand="full">
-              Submit Reply
-            </ion-button>-->
-          </form>
-*/
 </script>
 
 <style scoped>
 .questions-header {
   display: flex;
   justify-content: center;
-}
-
-.questions-heading {
 }
 
 .question-card {
