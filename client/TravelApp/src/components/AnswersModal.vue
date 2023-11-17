@@ -82,7 +82,6 @@ const state = reactive({
 
 async function getComments(){
   try {
-    //6553666e2561daa8212b0fc8
     props.commentsArray.length = 0;
     const { data } = await axios.get(`https://travel-app-api-8nj9.onrender.com/api/questions/${props.questionId}/comments`);
     data.comments.forEach((comment) => {
@@ -90,8 +89,8 @@ async function getComments(){
       const dateObject = new Date(dateString);
 
       const day = dateObject.getDay();
-const month = dateObject.getMonth() + 1; // Months are zero-indexed, so add 1
-const year = dateObject.getFullYear();
+      const month = dateObject.getMonth() + 1; 
+      const year = dateObject.getFullYear();
 
 const formattedDate = `The ${day} / ${month} / ${year}`;
 comment.created_at = formattedDate;
@@ -107,7 +106,6 @@ const currentUrl = window.location.href.split('/');
 const currentCountry = currentUrl[currentUrl.length - 1]
 
 const confirm = async () => {
-  console.log("Submit button clicked");
   const commentData = {
     country: currentCountry,
     username: userInfo,
@@ -115,21 +113,11 @@ const confirm = async () => {
   };
   try {
     const comment = await axios.post(`https://travel-app-api-8nj9.onrender.com/api/questions/${props.questionId}/comments`, commentData);
-    console.log(comment);
     getComments();
     await modalController.dismiss();
   } catch (err) {}
 };
 
-// export default {
-//   props: { msg: String },
-//   setup(props, { emit }) {
-//     const message = ref(props.msg || "Test");
-//     const closeModal = () => {
-//       emit("close");
-//     };
-//   },
-// };
 </script>
 <style scoped>
 
