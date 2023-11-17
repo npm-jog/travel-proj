@@ -39,7 +39,6 @@
 		},
 		methods: {
 			addTovisited() {
-				console.log(this.country);
 				const updatedUser = { ...this.userInfo };
 
 				updatedUser.visited_locations.push(this.country);

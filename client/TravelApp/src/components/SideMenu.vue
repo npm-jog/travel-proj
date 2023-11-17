@@ -69,19 +69,6 @@ export default defineComponent({
       return this.getUserInfo;
     },
   },
-  // setup() {
-  // 	return {
-  // 		home,
-  // 		personOutline,
-  // 		personAddOutline,
-  // 		logInOutline,
-  // 		logOutOutline,
-  // 		imageOutline,
-  // 		starHalfOutline,
-  // 		chatboxEllipsesOutline,
-  // 		giftOutline,
-  // 	};
-  // },
 });
 </script>
 

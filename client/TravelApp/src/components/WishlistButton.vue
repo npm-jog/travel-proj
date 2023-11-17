@@ -47,7 +47,6 @@
 		},
 		methods: {
 			addToWishlist() {
-				console.log(this.country);
 				const updatedUser = { ...this.userInfo };
 
 				updatedUser.wishlist.push(this.country);
@@ -63,7 +62,6 @@
 				//reload the album
 			},
 			removeFromWishlist() {
-				console.log(this.country);
 				const updatedUser = { ...this.userInfo };
 				const index = updatedUser.wishlist.indexOf(this.country);
 

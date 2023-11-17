@@ -20,7 +20,6 @@
 			const { logout } = useAuth0();
 
 			const onLogout = async () => {
-				console.log("logout function activated");
 				await logout({
 					logoutParams: {
 						returnTo: "http://localhost:8100/login",

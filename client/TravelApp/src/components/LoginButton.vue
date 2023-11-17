@@ -7,7 +7,6 @@
 	import { IonButton } from "@ionic/vue";
 
 	import { useAuth0 } from "@auth0/auth0-vue";
-	import { App as CapApp } from "@capacitor/app";
 	import { Browser } from "@capacitor/browser";
 
 	export default defineComponent({

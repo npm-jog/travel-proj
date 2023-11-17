@@ -107,7 +107,7 @@ const currentUrl = window.location.href.split('/');
 const currentCountry = currentUrl[currentUrl.length - 1]
 
 const confirm = async () => {
-  console.log("Submit button clicked");
+  
   const commentData = {
     country: currentCountry,
     username: userInfo,
@@ -115,21 +115,12 @@ const confirm = async () => {
   };
   try {
     const comment = await axios.post(`https://travel-app-api-8nj9.onrender.com/api/questions/${props.questionId}/comments`, commentData);
-    console.log(comment);
+    
     getComments();
     await modalController.dismiss();
   } catch (err) {}
 };
 
-// export default {
-//   props: { msg: String },
-//   setup(props, { emit }) {
-//     const message = ref(props.msg || "Test");
-//     const closeModal = () => {
-//       emit("close");
-//     };
-//   },
-// };
 </script>
 <style scoped>
 

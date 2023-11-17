@@ -25,14 +25,7 @@
 <script lang="ts">
 	import { mapGetters } from "vuex";
 	import Carousel from "@/components/Carousel.vue";
-	import {
-		IonPage,
-		IonContent,
-		IonButton,
-		IonIcon,
-		IonHeader,
-		IonBackButton,
-	} from "@ionic/vue";
+	import { IonPage, IonContent, IonButton, IonIcon } from "@ionic/vue";
 	import { modalController } from "@ionic/vue";
 	import router from "@/router";
 	import GalleryImgUploadModal from "@/components/GalleryImgUploadModal.vue";
@@ -85,8 +78,6 @@
 </script>
 
 <script setup lang="ts">
-	import axios from "axios";
-	import { addOutline, arrowBack, trashOutline } from "ionicons/icons";
 	import { defineComponent } from "vue";
 </script>
 
