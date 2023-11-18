@@ -77,7 +77,6 @@ import axios from "axios";
 import { useStore } from "vuex";
 let { reviewsArray } = defineProps(["reviewsArray"]);
 
-
 const state = reactive({
   reviewText: "",
 });
@@ -132,11 +131,11 @@ const confirm = async () => {
 };
 
 const metrics = [
-  { name: "Safety", rating: ref(0) },
-  { name: "Food", rating: ref(0) },
-  { name: "Activities", rating: ref(0) },
-  { name: "Cost", rating: ref(0) },
-  { name: "Scenery", rating: ref(0) },
+  { name: "Safety", rating: ref(0), highlighted: false },
+  { name: "Food", rating: ref(0), highlighted: false },
+  { name: "Activities", rating: ref(0), highlighted: false },
+  { name: "Cost", rating: ref(0), highlighted: false },
+  { name: "Scenery", rating: ref(0), highlighted: false },
 ];
 
 function rateCountry(metric, stars) {
