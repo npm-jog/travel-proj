@@ -33,33 +33,32 @@ import SideMenu from "@/components/SideMenu.vue";
 import { createImageKitVue } from "imagekit-vue3";
 
 const app = createApp(App)
-	.use(IonicVue)
-	.use(router)
-	.use(store)
-	.use(
-		createImageKitVue({
-			urlEndpoint: "https://ik.imagekit.io/pinpin",
-			publicKey: "public_w3xAdF/JzWrdmQNjNT/NTcF2nlM=",
-			authenticationEndpoint:
-				"https://travel-app-api-8nj9.onrender.com/api/img_kit",
-		})
-	);
+  .use(IonicVue)
+  .use(router)
+  .use(store)
+  .use(
+    createImageKitVue({
+      urlEndpoint: "https://ik.imagekit.io/pinpin",
+      publicKey: "public_w3xAdF/JzWrdmQNjNT/NTcF2nlM=",
+      authenticationEndpoint: "https://travel-app-api-8nj9.onrender.com/api/img_kit",
+    })
+  );
 
 app.use(
-	createAuth0({
-		domain: "dev-02batacgo02k8aak.us.auth0.com",
-		clientId: "S2QeKQzU2jzfvg1lqRMve8LPQPg6pdrB",
-		useRefreshTokens: true,
-		useRefreshTokensFallback: false,
-		authorizationParams: {
-			redirect_uri: "http://localhost:8100/callback",
-		},
-	})
+  createAuth0({
+    domain: "dev-02batacgo02k8aak.us.auth0.com",
+    clientId: "S2QeKQzU2jzfvg1lqRMve8LPQPg6pdrB",
+    useRefreshTokens: true,
+    useRefreshTokensFallback: false,
+    authorizationParams: {
+      redirect_uri: "https://travel-app-npm-jog.netlify.app/callback",
+    },
+  })
 );
 
 app.component("nav-bar", NavBar);
 app.component("side-menu", SideMenu);
 
 router.isReady().then(() => {
-	app.mount("#app");
+  app.mount("#app");
 });

@@ -8,9 +8,11 @@ Target audience is people who want to travel around the ages of 18-40.
 
 When you do your research for a trip online, the information you get is often biased, with content creators often incentivised to promote certain products and activities. We have designed an app that tries to eliminate this bias by focussing on the experiences of other travelers and creating a well-informed and connected travel community. To the best of our knowledge, there isn’t an app that places such a strong emphasis on this.
 
-Tech used:
+The API is available here: [Go to the API](https://travel-app-api-8nj9.onrender.com/api)  
+The App is available here: [Go to the Travel App](https://travel-app-npm-jog.netlify.app/)
 
  <div align="center"><br/>
+ <p>Developed with: </p>
 <img alt="typescript" src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" />
 <img alt="mongodb" src="https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white" />  
 <img alt="express" src="https://img.shields.io/badge/Express.js-404D59?style=for-the-badge" />
