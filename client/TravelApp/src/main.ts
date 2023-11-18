@@ -51,7 +51,7 @@ app.use(
     useRefreshTokens: true,
     useRefreshTokensFallback: false,
     authorizationParams: {
-      redirect_uri: "https://travel-app-npm-jog.netlify.app/home",
+      redirect_uri: "https://travel-app-npm-jog.netlify.app/callback",
     },
   })
 );
