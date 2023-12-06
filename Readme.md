@@ -1,4 +1,4 @@
-# Travel-app
+# Travel Budy
 
 ## About the project
 
