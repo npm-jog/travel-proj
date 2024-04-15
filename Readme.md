@@ -1,4 +1,4 @@
-# Travel Budy
+# Travel Buddy
 
 ## About the project
 
